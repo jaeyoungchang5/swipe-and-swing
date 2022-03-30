@@ -5,6 +5,7 @@ import { FontAwesome, MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 // internal imports
 import { SwipePage, NotifsPage, ProfilePage, SearchPage } from '../../pages';
+import { primary_color, dark_grey } from '../../options.json';
 
 export function AppNav({route}: any) {
 	const Tab = createBottomTabNavigator(); 
@@ -15,8 +16,9 @@ export function AppNav({route}: any) {
                 name='Swipe' 
                 component={SwipePage}
                 options={{
-                    tabBarIcon: (({focused, color, size}) => {
-                        return <MaterialIcons name="home-filled" size={size} />
+                    tabBarIcon: (({focused, size}) => {
+                        const iconFocused = focused ? primary_color : dark_grey
+                        return <MaterialIcons name="home-filled" color={iconFocused} size={size}/>
                     })
                 }}
             />
@@ -24,8 +26,9 @@ export function AppNav({route}: any) {
                 name='Search' 
                 component={SearchPage}
                 options={{
-                    tabBarIcon: (({focused, color, size}) => {
-                        return <Ionicons name="search-sharp" size={size} />
+                    tabBarIcon: (({focused, size}) => {
+                        const iconFocused = focused ? primary_color : dark_grey
+                        return <Ionicons name="search-sharp" color={iconFocused} size={size}/>
                     })
                 }}
             />
@@ -33,8 +36,9 @@ export function AppNav({route}: any) {
                 name='Profile' 
                 component={ProfilePage}
                 options={{
-                    tabBarIcon: (({focused, color, size}) => {
-                        return <FontAwesome name="user" size={size} />
+                    tabBarIcon: (({focused, size}) => {
+                        const iconFocused = focused ? primary_color : dark_grey
+                        return <FontAwesome name="user" color={iconFocused} size={size}/>
                     })
                 }}
             />
