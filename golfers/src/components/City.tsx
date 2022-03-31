@@ -9,7 +9,7 @@ export function City() {
         <TouchableOpacity style={styles.city}>
             <Entypo name="location-pin" size={20} color="black" />
             <Text style={styles.cityText}>
-                City
+                South Bend
             </Text>
         </TouchableOpacity>
     );
@@ -27,15 +27,14 @@ const styles = StyleSheet.create({
 		paddingRight: 15,
 		paddingLeft: 15,
 		borderRadius: 20,
-		width: "25%",
 		shadowOpacity: 0.05,
 		shadowRadius: 10,
 		shadowColor: black,
-		shadowOffset: { height: 0, width: 0 }
+		shadowOffset: { height: 0, width: 0 },
 	},
 	cityText: {
 		// fontFamily: ICON_FONT,
 		color: dark_grey,
-		fontSize: 13
+		fontSize: 13,
 	},
 })

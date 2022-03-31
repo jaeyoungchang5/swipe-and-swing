@@ -16,15 +16,20 @@ import {
 } from '../options.json';
 
 export function SwipeItem({
-        actions,
-        description,
-        image,
-        matches,
-        name,
-        onPressLeft,
-        onPressRight,
-        status,
-        variant
+		image,
+		name,
+		caption,
+		match,
+		handicap,
+		transport,
+		isDrinking,
+		isBetting,
+		num_holes,
+		num_people,
+		distance,
+		isMusic,
+		onPressLeft,
+		onPressRight
     }: any) {
 
     // Custom styling
@@ -32,74 +37,96 @@ export function SwipeItem({
     const imageStyle = [
     {
         borderRadius: 8,
-        width: variant ? fullWidth / 2 - 30 : fullWidth - 80,
-        height: variant ? 170 : 350,
-        margin: variant ? 0 : 20
+        width: fullWidth -80,
+        height: 350,
+        margin: 20
     }
     ];
 
     const nameStyle = [
         {
-        paddingTop: variant ? 10 : 15,
-        paddingBottom: variant ? 5 : 7,
+        paddingTop: 15,
+        paddingBottom: 7,
         color: dark_grey,
-        fontSize: variant ? 15 : 30
+        fontSize: 30
         }
     ];
 
     return (
         <View style={styles.containerCardItem}>
         
-        {/* IMAGE */}
-        <Image source={image} style={imageStyle} />
+			{/* IMAGE */}
+			<Image source={image} style={imageStyle} />
 
-        {/* MATCHES */}
-        {matches && (
-            <View style={styles.matchesCardItem}>
-                <Text style={styles.matchesTextCardItem}>
-                    {matches}% Match!
-                </Text>
-            </View>
-        )}
+			<View style={styles.matchesCardItem}>
+				<Text style={styles.matchesTextCardItem}>
+					{match}% Match!
+				</Text>
+			</View>
 
-        {/* NAME */}
-        <Text style={nameStyle}>{name}</Text>
+			<Text style={nameStyle}>{name}</Text>
 
-        {/* DESCRIPTION */}
-        {description && (
-            <Text style={styles.descriptionCardItem}>{description}</Text>
-        )}
+			{/* {caption &&
+				<Text style={styles.descriptionCardItem}>{caption}</Text>
+			} */}
 
-        {/* STATUS */}
-        {status && (
-            <View style={styles.status}>
-                <View style={status === 'Online' ? styles.online : styles.offline} />
-                <Text style={styles.statusText}>{status}</Text>
-            </View>
-        )}
+			<View style={styles.settings}>
+				{handicap &&
+					<View style={styles.settingItem}>
+						<Text>{handicap} H'Cap</Text>
+					</View>
+				}
+				{transport &&
+					<View style={styles.settingItem}>
+						<Text>{transport}</Text>
+					</View>
+				}
+				{isDrinking && 
+					<View style={styles.settingItem}>
+						<Text>Drinking</Text>
+					</View>
+				}
+				{isBetting && 
+					<View style={styles.settingItem}>
+						<Text>Betting</Text>
+					</View>
+				}
+				{num_holes && 
+					<View style={styles.settingItem}>
+						<Text>{num_holes} Holes</Text>
+					</View>
+				}
+				{num_people && 
+					<View style={styles.settingItem}>
+						<Text>{num_people} People</Text>
+					</View>
+				}
+				{isMusic && 
+					<View style={styles.settingItem}>
+						<Text>Music</Text>
+					</View>
+				}
+			</View>
 
-        {/* ACTIONS */}
-        {actions && (
-            <View style={styles.actionsCardItem}>
+			<View style={styles.actionsCardItem}>
 
-                <TouchableOpacity style={styles.button} onPress={() => onPressLeft()}>
-                    <Text style={styles.like}>
-                        <AntDesign name="dislike1" size={24} color="red" />
-                    </Text>
-                </TouchableOpacity>
+				<TouchableOpacity style={styles.button} onPress={() => onPressLeft()}>
+					<Text style={styles.like}>
+						<AntDesign name="dislike1" size={24} color="red" />
+					</Text>
+				</TouchableOpacity>
 
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => onPressRight()}
-                >
-                    <Text style={styles.dislike}>
-                        <Ionicons name="golf" size={24} color="green" />
-                    </Text>
-                </TouchableOpacity>
+				<TouchableOpacity
+					style={styles.button}
+					onPress={() => onPressRight()}
+				>
+					<Text style={styles.dislike}>
+						<Ionicons name="golf" size={24} color="green" />
+					</Text>
+				</TouchableOpacity>
 
-            </View>
-        )}
-            </View>
+			</View>
+		</View>
         );
     };
 
@@ -201,5 +228,20 @@ const styles = StyleSheet.create({
 		// fontFamily: icon_font,
 		color: flash_actions
 	},
-
+	settingItem: {
+		borderColor: dark_grey,
+		borderWidth: 0.8,
+		borderRadius: 10,
+		paddingLeft: 10,
+		paddingRight: 10,
+		paddingTop: 5,
+		paddingBottom: 5,
+		marginRight: 5,
+		marginTop: 5
+	},
+	settings: {
+		justifyContent: "center",
+		flexDirection: "row",
+		flexWrap: "wrap"
+	}
 })
