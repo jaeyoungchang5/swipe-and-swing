@@ -216,13 +216,9 @@ const styles = StyleSheet.create({
 	},
 	like: {
 		fontSize: 25,
-		// fontFamily: icon_font,
-		color: like_actions
 	},
 	dislike: {
 		fontSize: 25,
-		// fontFamily: icon_font,
-		color: dislike_actions
 	},
 	flash: {
 		// fontFamily: icon_font,

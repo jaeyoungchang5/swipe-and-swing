@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome, MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 // internal imports
-import { SwipePage, NotifsPage, ProfilePage, SearchPage } from '../../pages';
+import { SwipePage, MatchesPage, ProfilePage, SearchPage } from '../../pages';
 import { primary_color, dark_grey } from '../../options.json';
 
 export function AppNav({route}: any) {
@@ -19,6 +19,16 @@ export function AppNav({route}: any) {
                     tabBarIcon: (({focused, size}) => {
                         const iconFocused = focused ? primary_color : dark_grey
                         return <MaterialIcons name="home-filled" color={iconFocused} size={size}/>
+                    })
+                }}
+            />
+            <Tab.Screen 
+                name='Matches' 
+                component={MatchesPage}
+                options={{
+                    tabBarIcon: (({focused, size}) => {
+                        const iconFocused = focused ? primary_color : dark_grey
+                        return <Ionicons name="golf" size={size} color={iconFocused} />
                     })
                 }}
             />
