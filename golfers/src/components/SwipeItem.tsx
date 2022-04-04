@@ -17,23 +17,23 @@ import {
 } from '../options.json';
 
 export function SwipeItem({
-		image,
-		name,
-		caption,
-		match,
-		handicap,
-		transport,
-		isDrinking,
-		isBetting,
-		num_holes,
-		num_people,
-		distance,
-		isMusic,
-		onPressLeft,
-		onPressRight,
-		actions,
-		variant
-    }: any) {
+	image,
+	name,
+	caption,
+	match,
+	handicap,
+	transport,
+	isDrinking,
+	isBetting,
+	num_holes,
+	num_people,
+	distance,
+	isMusic,
+	onPressLeft,
+	onPressRight,
+	actions,
+	variant
+}: any) {
 
     // Custom styling
     const fullWidth = Dimensions.get('window').width;
