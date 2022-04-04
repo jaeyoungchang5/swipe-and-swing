@@ -103,6 +103,8 @@ export function SwipePage() {
 					isMusic={item.isMusic}
 					onPressLeft={handleSwipeLeft}
 					onPressRight={handleSwipeRight}
+					actions={true}
+					variant={false}
 				/>
 				</Card>
 			))}

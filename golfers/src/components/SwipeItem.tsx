@@ -29,28 +29,30 @@ export function SwipeItem({
 		distance,
 		isMusic,
 		onPressLeft,
-		onPressRight
+		onPressRight,
+		actions,
+		variant
     }: any) {
 
     // Custom styling
     const fullWidth = Dimensions.get('window').width;
     const imageStyle = [
-    {
-        borderRadius: 8,
-        width: fullWidth -80,
-        height: 350,
-        margin: 20
-    }
+		{
+			borderRadius: 8,
+			width: variant ? fullWidth / 2 - 30 : fullWidth -80,
+			height: variant ? 170 : 325,
+			margin: variant ? 0 : 20
+		}
     ];
-
-    const nameStyle = [
-        {
-        paddingTop: 15,
-        paddingBottom: 7,
-        color: dark_grey,
-        fontSize: 30
-        }
-    ];
+	
+	const nameStyle = [
+		{
+			paddingTop: variant ? 5 : 0,
+			paddingBottom: variant ? 5 : 7,
+			color: '#363636',
+			fontSize: variant ? 15 : 30
+		}
+	];
 
     return (
         <View style={styles.containerCardItem}>
@@ -58,11 +60,13 @@ export function SwipeItem({
 			{/* IMAGE */}
 			<Image source={image} style={imageStyle} />
 
-			<View style={styles.matchesCardItem}>
-				<Text style={styles.matchesTextCardItem}>
-					{match}% Match!
-				</Text>
-			</View>
+			{match &&
+				<View style={styles.matchesCardItem}>
+					<Text style={styles.matchesTextCardItem}>
+						{match}% Match!
+					</Text>
+				</View>
+			}
 
 			<Text style={nameStyle}>{name}</Text>
 
@@ -108,24 +112,26 @@ export function SwipeItem({
 				}
 			</View>
 
-			<View style={styles.actionsCardItem}>
+			{actions &&
+				<View style={styles.actionsCardItem}>
 
-				<TouchableOpacity style={styles.button} onPress={() => onPressLeft()}>
-					<Text style={styles.like}>
-						<AntDesign name="dislike1" size={24} color="red" />
-					</Text>
-				</TouchableOpacity>
+					<TouchableOpacity style={styles.button} onPress={() => onPressLeft()}>
+						<Text style={styles.like}>
+							<AntDesign name="dislike1" size={24} color="red" />
+						</Text>
+					</TouchableOpacity>
 
-				<TouchableOpacity
-					style={styles.button}
-					onPress={() => onPressRight()}
-				>
-					<Text style={styles.dislike}>
-						<Ionicons name="golf" size={24} color="green" />
-					</Text>
-				</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => onPressRight()}
+					>
+						<Text style={styles.dislike}>
+							<Ionicons name="golf" size={24} color="green" />
+						</Text>
+					</TouchableOpacity>
 
-			</View>
+				</View>
+			}
 		</View>
         );
     };
@@ -146,7 +152,8 @@ const styles = StyleSheet.create({
 		backgroundColor: primary_color,
 		paddingVertical: 7,
 		paddingHorizontal: 20,
-		borderRadius: 20
+		borderRadius: 20,
+		marginBottom: 15
 	},
 	matchesTextCardItem: {
 		// fontFamily: icon_font,
