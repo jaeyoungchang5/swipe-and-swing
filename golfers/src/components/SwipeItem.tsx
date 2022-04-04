@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'rea
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 
 import { 
+	alternate_color,
     flash_actions, 
     dislike_actions, 
     like_actions, 
@@ -116,8 +117,8 @@ export function SwipeItem({
 				<View style={styles.actionsCardItem}>
 
 					<TouchableOpacity style={styles.button} onPress={() => onPressLeft()}>
-						<Text style={styles.like}>
-							<AntDesign name="dislike1" size={24} color="red" />
+						<Text style={styles.dislike}>
+							<AntDesign name="dislike1" size={24} color={dislike_actions} />
 						</Text>
 					</TouchableOpacity>
 
@@ -125,8 +126,8 @@ export function SwipeItem({
 						style={styles.button}
 						onPress={() => onPressRight()}
 					>
-						<Text style={styles.dislike}>
-							<Ionicons name="golf" size={24} color="green" />
+						<Text style={styles.like}>
+							<Ionicons name="golf" size={24} color={like_actions} />
 						</Text>
 					</TouchableOpacity>
 
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
 	},
 	matchesCardItem: {
 		marginTop: -35,
-		backgroundColor: primary_color,
+		backgroundColor: alternate_color,
 		paddingVertical: 7,
 		paddingHorizontal: 20,
 		borderRadius: 20,

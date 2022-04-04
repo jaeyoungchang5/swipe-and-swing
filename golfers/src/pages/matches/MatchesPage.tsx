@@ -1,6 +1,8 @@
 // external imports
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { FlatList, ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Text, View, RefreshControl } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { SimpleLineIcons } from '@expo/vector-icons';
 
 // internal imports
 import { SwipeItem } from '../../components';
@@ -60,16 +62,40 @@ const demoData = [
 ];
 
 export function MatchesPage() {
+    const [refreshing, setRefreshing] = useState<boolean>(false);
+    function onRefresh() {
+		setRefreshing(true);
+		setTimeout(() => {
+			// call api to laod matches
+			setRefreshing(false);
+		}, 700)
+	}
     return (
         <ImageBackground
             source={require('../../../assets/bg.png')}
             style={styles.bg}
         >
+            <SafeAreaView style={styles.container}>
             <View style={styles.containerMatches}>
+                <View style={styles.top}>
+                    <Text style={styles.title}>Matches</Text>
+                    <TouchableOpacity>
+                        <Text style={styles.icon}>
+                            <SimpleLineIcons name="options-vertical" size={15} color="black" />
+                        </Text>
+                    </TouchableOpacity>
+                </View>
                 <FlatList
                     numColumns={2}
                     data={demoData}
                     keyExtractor={(item, index) => index.toString()}
+                    refreshing={refreshing}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
                     renderItem={({ item }) => (
                         <TouchableOpacity>
                             <SwipeItem
@@ -82,6 +108,7 @@ export function MatchesPage() {
                     )}
                 />
             </View>
+            </SafeAreaView>
         </ImageBackground>
     );
 };
@@ -93,10 +120,7 @@ const styles = StyleSheet.create({
 		resizeMode: "cover"
 	},
 	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
+		flex: 1
 	},
     // CONTAINER - MATCHES
 	containerMatches: {
@@ -105,7 +129,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10
 	},
     top: {
-		paddingTop: 50,
+		paddingTop: 10,
 		marginHorizontal: 10,
 		flexDirection: "row",
 		justifyContent: "space-between",

@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // internal imports
 import { City, Filters, SwipeItem, Upload } from '../../components';
@@ -73,6 +74,7 @@ export function SwipePage() {
 			source={require('../../../assets/bg.png')}
 			style={styles.bg}
 		>
+		<SafeAreaView style={styles.container}>
         <View style={styles.containerHome}>
 			<View style={styles.top}>
 				<City />
@@ -110,11 +112,15 @@ export function SwipePage() {
 			))}
 			</CardStack>
     	</View>
+		</SafeAreaView>
 		</ImageBackground>
     );
 }
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
 	// CONTAINER - GENERAL
 	bg: {
 		flex: 1,

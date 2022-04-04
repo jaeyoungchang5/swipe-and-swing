@@ -1,5 +1,7 @@
 {
-    "primary_color": "#7444C0",
+    "primary_color": "#076652",
+    "alternate_color": "#573391",
+    
     "dark_grey": "#363636",
     "grey": "#757E90",
     "white": "#FFF",
@@ -9,7 +11,7 @@
     "offline_status": "#D04949",
 
     "star_actions": "#FFA200",
-    "like_actions": "#B644B2",
-    "dislike_actions": "#363636",
+    "like_actions": "#076652",
+    "dislike_actions": "#EF6D6D",
     "flash_actions": "#5028D7"
 }

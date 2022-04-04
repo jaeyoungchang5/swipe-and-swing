@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome, MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { Text } from 'react-native';
 
 // internal imports
 import { SwipePage, MatchesPage, ProfilePage, SearchPage } from '../../pages';
@@ -16,6 +17,10 @@ export function AppNav({route}: any) {
                 name='Swipe' 
                 component={SwipePage}
                 options={{
+                    headerShown: false,
+                    tabBarLabel: ({focused, color}) => (
+                        <Text style={{color: focused ? primary_color : color, fontSize: 10}}>Swipe</Text>
+                    ),
                     tabBarIcon: (({focused, size}) => {
                         const iconFocused = focused ? primary_color : dark_grey
                         return <MaterialIcons name="home-filled" color={iconFocused} size={size}/>
@@ -26,6 +31,10 @@ export function AppNav({route}: any) {
                 name='Matches' 
                 component={MatchesPage}
                 options={{
+                    headerShown: false,
+                    tabBarLabel: ({focused, color}) => (
+                        <Text style={{color: focused ? primary_color : color, fontSize: 10}}>Matches</Text>
+                    ),
                     tabBarIcon: (({focused, size}) => {
                         const iconFocused = focused ? primary_color : dark_grey
                         return <Ionicons name="golf" size={size} color={iconFocused} />
@@ -36,6 +45,10 @@ export function AppNav({route}: any) {
                 name='Search' 
                 component={SearchPage}
                 options={{
+                    headerShown: false,
+                    tabBarLabel: ({focused, color}) => (
+                        <Text style={{color: focused ? primary_color : color, fontSize: 10}}>Search</Text>
+                    ),
                     tabBarIcon: (({focused, size}) => {
                         const iconFocused = focused ? primary_color : dark_grey
                         return <Ionicons name="search-sharp" color={iconFocused} size={size}/>
@@ -46,6 +59,10 @@ export function AppNav({route}: any) {
                 name='Profile' 
                 component={ProfilePage}
                 options={{
+                    headerShown: false,
+                    tabBarLabel: ({focused, color}) => (
+                        <Text style={{color: focused ? primary_color : color, fontSize: 10}}>Profile</Text>
+                    ),
                     tabBarIcon: (({focused, size}) => {
                         const iconFocused = focused ? primary_color : dark_grey
                         return <FontAwesome name="user" color={iconFocused} size={size}/>

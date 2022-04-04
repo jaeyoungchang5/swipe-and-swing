@@ -1,6 +1,5 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NativeBaseProvider } from 'native-base';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,6 +11,7 @@ export default function App() {
     <SafeAreaProvider>
 		<NativeBaseProvider>
 			<NavigationContainer>
+				<StatusBar barStyle={"dark-content"} hidden={false} translucent={true} />
 				<AppNav />
 			</NavigationContainer>
 		</NativeBaseProvider>
