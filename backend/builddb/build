@@ -1,0 +1,3 @@
+sqlplus -S arocks/arocks @crt_all
+sqlldr arocks/arocks control=golfer.ctl
+sqlldr arocks/arocks control=post.ctl
