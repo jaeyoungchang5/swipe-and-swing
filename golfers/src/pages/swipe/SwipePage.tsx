@@ -9,7 +9,7 @@ import { City, Filters, SwipeItem, Upload } from '../../components';
 
 const demoData = [
 	{
-		id: 1,
+		_id: 1,
 		name: 'Andy Rocks',
 		caption: 'What is up',
 		status: 'Online',
@@ -25,7 +25,7 @@ const demoData = [
 		image: require('../../../assets/Andy.jpg')
 	},
 	{
-		id: 2,
+		_id: 2,
 		name: 'Timmy Gallagher',
 		caption: 'Frick bro',
 		status: 'Online',
@@ -41,7 +41,7 @@ const demoData = [
 		image: require('../../../assets/Timmy.jpg')
 	},
 	{
-		id: 3,
+		_id: 3,
 		name: 'JaeYoung Chang',
 		caption: 'Sup yo',
 		status: 'Online',

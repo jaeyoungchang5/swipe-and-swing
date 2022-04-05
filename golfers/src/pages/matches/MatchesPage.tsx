@@ -9,59 +9,57 @@ import { SwipeItem } from '../../components';
 import {
     dark_grey
 } from '../../options.json';
+import { NavigationContainer } from '@react-navigation/native';
 
 const demoData = [
 	{
-		id: 1,
-		name: 'Andy Rocks',
-		caption: 'What is up',
-		status: 'Online',
-		match: '78',
-		handicap: 19,
-		transport: 'Carting',
-		isDrinking: true,
-		isBetting: true,
-		num_holes: 18,
-		num_people: 4,
-		distance: 1.4,
-		isMusic: true,
-		image: require('../../../assets/Andy.jpg')
-	},
-	{
-		id: 2,
-		name: 'Timmy Gallagher',
-		caption: 'Frick bro',
-		status: 'Online',
-		match: '98',
-		handicap: 20,
-		transport: 'Walking',
-		isDrinking: false,
-		isBetting: false,
-		num_holes: 9,
-		num_people: 2,
-		distance: 3.1,
-		isMusic: false,
-		image: require('../../../assets/Timmy.jpg')
-	},
-	{
-		id: 3,
-		name: 'JaeYoung Chang',
-		caption: 'Sup yo',
-		status: 'Online',
-		match: '80',
-		handicap: 21,
-		transport: 'Walking',
-		isDrinking: true,
-		isBetting: false,
-		num_holes: 9,
-		num_people: 4,
-		distance: 3.1,
-		isMusic: false,
-		image: require('../../../assets/Jae.png')
-	}
+        _id: 1,
+        firstName: "Andy",
+        lastName: "Rocks",
+        age: 22,
+        image: require('../../../assets/Andy.jpg'),
+        handicap: 19,
+        defaultFormality: 'casual',
+        defaultCarting: true,
+        defaultDrinking: true,
+        defaultNumHoles: 18,
+        defaultNumPeople: 4,
+        status: 0,
+        match: 88
+    },
+    {
+        _id: 2,
+        firstName: "Timmy",
+        lastName: "Gallagher",
+        age: 21,
+        image: require('../../../assets/Timmy.jpg'),
+        handicap: 20,
+        defaultFormality: 'casual',
+        defaultCarting: false,
+        defaultDrinking: false,
+        defaultNumHoles: 9,
+        defaultNumPeople: 2,
+        status: 0,
+        match: 70
+    },
+    {
+        _id: 3,
+        firstName: "JaeYoung",
+        lastName: "Chang",
+        age: 21,
+        image: require('../../../assets/Jae.png'),
+        handicap: 21,
+        defaultFormality: 'casual',
+        defaultCarting: false,
+        defaultDrinking: true,
+        defaultNumHoles: 9,
+        defaultNumPeople: 4,
+        status: 0,
+        match: 90
+    },
 ];
 
-export function MatchesPage() {
+export function MatchesPage({ navigation }: any) {
     const [refreshing, setRefreshing] = useState<boolean>(false);
     function onRefresh() {
 		setRefreshing(true);
@@ -97,10 +95,12 @@ export function MatchesPage() {
                         />
                     }
                     renderItem={({ item }) => (
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => navigation.push('Profile Screen', {_id: item._id})}
+                        >
                             <SwipeItem
                                 image={item.image}
-                                name={item.name}
+                                name={item.firstName}
                                 actions={false}
                                 variant={true}
                             />

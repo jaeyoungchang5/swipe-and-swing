@@ -5,6 +5,7 @@ import { Ionicons, AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo
 import { alternate_color, dark_grey, grey, primary_color, white, black } from '../options.json';
 
 interface IProfile {
+    _id: number,
     firstName: string,
     lastName: string,
     image: any,

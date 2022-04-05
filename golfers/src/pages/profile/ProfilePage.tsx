@@ -13,22 +13,71 @@ import {
 } from '../../options.json';
 import { ProfileItem } from '../../components';
 
-const profileData = {
-	firstName: "Ramzi",
-	lastName: "Bualuan",
-	age: 35,
-	image: require('../../../assets/Ramzi.jpeg'),
-	handicap: 20,
-	defaultFormality: "casual",
-	defaultCarting: true,
-	defaultDrinking: true,
-	defaultNumHoles: 18,
-	defaultNumPeople: 4,
-	status: 0,
-	match: 99
-};
+const demoData = [
+	{
+		_id: 0,
+		firstName: "Ramzi",
+		lastName: "Bualuan",
+		age: 35,
+		image: require('../../../assets/Ramzi.jpeg'),
+		handicap: 20,
+		defaultFormality: "casual",
+		defaultCarting: true,
+		defaultDrinking: true,
+		defaultNumHoles: 18,
+		defaultNumPeople: 4,
+		status: 0,
+		match: 99
+	},
+	{
+        _id: 1,
+        firstName: "Andy",
+        lastName: "Rocks",
+        age: 22,
+        image: require('../../../assets/Andy.jpg'),
+        handicap: 19,
+        defaultFormality: 'casual',
+        defaultCarting: true,
+        defaultDrinking: true,
+        defaultNumHoles: 18,
+        defaultNumPeople: 4,
+        status: 0,
+        match: 88
+    },
+    {
+        _id: 2,
+        firstName: "Timmy",
+        lastName: "Gallagher",
+        age: 21,
+        image: require('../../../assets/Timmy.jpg'),
+        handicap: 20,
+        defaultFormality: 'casual',
+        defaultCarting: false,
+        defaultDrinking: false,
+        defaultNumHoles: 9,
+        defaultNumPeople: 2,
+        status: 0,
+        match: 70
+    },
+    {
+        _id: 3,
+        firstName: "JaeYoung",
+        lastName: "Chang",
+        age: 21,
+        image: require('../../../assets/Jae.png'),
+        handicap: 21,
+        defaultFormality: 'casual',
+        defaultCarting: false,
+        defaultDrinking: true,
+        defaultNumHoles: 9,
+        defaultNumPeople: 4,
+        status: 0,
+        match: 90
+    },
+];
 
-export function ProfilePage() {
+export function ProfilePage({route, navigation}: any) {
+	const _id: number = route.params._id;
     return (
         <ImageBackground
             source={require('../../../assets/bg.png')}
@@ -46,7 +95,7 @@ export function ProfilePage() {
 							</TouchableOpacity>
 						</View>
 						<ProfileItem
-							profile={profileData}
+							profile={demoData[_id]}
 						/>
 
 						<View style={styles.actionsProfile}>
