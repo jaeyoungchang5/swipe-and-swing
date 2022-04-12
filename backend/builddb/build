@@ -1,3 +1,8 @@
 sqlplus -S arocks/arocks @crt_all
 sqlldr arocks/arocks control=golfer.ctl
 sqlldr arocks/arocks control=post.ctl
+sqlldr arocks/arocks control=match.ctl
+sqlldr arocks/arocks control=message.ctl
+sqlldr arocks/arocks control=teetime.ctl
+sqlldr arocks/arocks control=course.ctl
+sqlldr arocks/arocks control=friendship.ctl

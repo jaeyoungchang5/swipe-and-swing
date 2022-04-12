@@ -6,7 +6,7 @@ create table teetime
   golfer3_id number(4),
   golfer4_id number(4),
   num_holes number(2),
-  time timestamp(2),
+  --time timestamp(2),
   FOREIGN KEY(course_id) REFERENCES COURSE(course_id),
   FOREIGN KEY(golfer1_id) REFERENCES GOLFER(golfer_id),
   FOREIGN KEY(golfer2_id) REFERENCES GOLFER(golfer_id),
