@@ -2,14 +2,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Text, View, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SimpleLineIcons, Entypo } from '@expo/vector-icons';
+import { SimpleLineIcons, Entypo, Ionicons } from '@expo/vector-icons';
 
 // internal imports
 import {
     dark_grey,
 	primary_color,
 	alternate_color,
-	white
+	white,
+	dislike_actions
 } from '../../options.json';
 import { ProfileItem } from '../../components';
 
@@ -78,6 +79,12 @@ const demoData = [
 
 export function ProfilePage({route, navigation}: any) {
 	const _id: number = route.params._id;
+	const appUserId: number = 0;
+
+	function handleRoutingBack() {
+		navigation.navigate('Match Screen');
+	}
+
     return (
         <ImageBackground
             source={require('../../../assets/bg.png')}
@@ -87,7 +94,16 @@ export function ProfilePage({route, navigation}: any) {
 				<ScrollView>
 					<View style={styles.containerMatches}>
 						<View style={styles.top}>
-							<Text style={styles.title}>Profile</Text>
+							{_id == appUserId ?
+								
+								<Text style={styles.title}>Profile</Text>
+							:
+								<TouchableOpacity onPress={handleRoutingBack}>
+									<Text style={styles.icon}>
+										<Ionicons name="arrow-back" size={24} color="black" />
+									</Text>
+								</TouchableOpacity>
+							}
 							<TouchableOpacity>
 								<Text style={styles.icon}>
 									<SimpleLineIcons name="options-vertical" size={15} color="black" />
@@ -98,21 +114,33 @@ export function ProfilePage({route, navigation}: any) {
 							profile={demoData[_id]}
 						/>
 
-						<View style={styles.actionsProfile}>
-							<TouchableOpacity style={styles.roundedButton}>
-								<Text style={styles.iconButton}>
-									<Entypo name="add-user" size={24} color="white" />
-								</Text>
-								<Text style={styles.textButton}>Add</Text>
-							</TouchableOpacity>
+						{_id == appUserId ?
+							<View style={styles.actionsProfile}>
+								<TouchableOpacity style={styles.logoutButton}>
+									<Text style={styles.iconButton}>
+										<Entypo name="add-user" size={24} color="white" />
+									</Text>
+									<Text style={styles.textButton}>Logout</Text>
+								</TouchableOpacity>
+							</View>
+						:
+							<View style={styles.actionsProfile}>
+								<TouchableOpacity style={styles.roundedButton}>
+									<Text style={styles.iconButton}>
+										<Entypo name="add-user" size={24} color="white" />
+									</Text>
+									<Text style={styles.textButton}>Add</Text>
+								</TouchableOpacity>
 
-							<TouchableOpacity style={styles.roundedButton}>
-								<Text style={styles.iconButton}>
-									<Entypo name="message" size={24} color="white" />
-								</Text>
-								<Text style={styles.textButton}>Message</Text>
-							</TouchableOpacity>
-						</View>
+								<TouchableOpacity style={styles.roundedButton}>
+									<Text style={styles.iconButton}>
+										<Entypo name="message" size={24} color="white" />
+									</Text>
+									<Text style={styles.textButton}>Message</Text>
+								</TouchableOpacity>
+							</View>	
+						}
+						
 					</View>
 				</ScrollView>
             </SafeAreaView>
@@ -178,5 +206,19 @@ const styles = StyleSheet.create({
 		backgroundColor: alternate_color,
 		paddingHorizontal: 20
 	},
-
+	logoutButton: {
+		justifyContent: "center",
+		flexDirection: "row",
+		alignItems: "center",
+		marginLeft: 10,
+		height: 50,
+		borderRadius: 25,
+		backgroundColor: dislike_actions,
+		paddingHorizontal: 20
+	},
+	topIconLeft: {
+		fontSize: 20,
+		paddingLeft: 20,
+		marginTop: -20
+	},
 });
