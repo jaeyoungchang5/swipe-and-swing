@@ -1,11 +1,21 @@
+# db.py
+# Functions to connect to Oracle Database
 
 import cx_Oracle
+cx_Oracle.init_oracle_client(lib_dir="/Users/andrewrocks/oracle/instantclient_19_8")
+# connect to database
+# script code for debugging, functions to be implemented later
+conn = cx_Oracle.connect('arocks/arocks@54.145.160.33/xe')
 
-connection = cx_Oracle.connect(
-    user="arocks",
-    password="arocks",
-    dsn=""
-)
+print("Successfully connected to Oracle Database")
+# print("Database version:", conn.version)
+# print(conn)
+
+cursor = conn.cursor()
+cursor.execute("SELECT * FROM Golfer")
+for row in cursor.fetchall():
+    print(row)
+
 
 # import click
 # from flask import current_app, g
