@@ -5567,6 +5567,11 @@ react-native-keyboard-aware-scroll-view@^0.9.5:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
 
+react-native-pager-view@^5.4.15:
+  version "5.4.15"
+  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.4.15.tgz#075fef5ae4ba6ecc37e49b6c4a24770131a2a3cc"
+  integrity sha512-5NssD840wFCuOL4B1ZRiRADvt+Vx2Dgify4SmAUqHXCx03yiGPnRWmFjYXyQeK6gq/8VY+gPGE4bTy9ahzBbDw==
+
 react-native-safe-area-context@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-3.4.1.tgz#c967a52903d55fe010b2428e5368b42f1debc0a7"
@@ -5588,6 +5593,11 @@ react-native-svg@^12.1.1:
   dependencies:
     css-select "^2.1.0"
     css-tree "^1.0.0-alpha.39"
+
+react-native-tab-view@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.1.1.tgz#1f8d7a835ab4f5b1b1407ec8dddc1053b53fa3c6"
+  integrity sha512-M5pRN6utQfytKWoKlKVzg5NbkYu308qNoW1khGTtEOTs1k14p2dHJ/BWOJoJYHKbPVUyZldbG9MFT7gUl4YHnw==
 
 react-native-web@0.17.1:
   version "0.17.1"

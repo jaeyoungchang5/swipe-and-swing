@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Text, View, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SimpleLineIcons, Entypo, Ionicons } from '@expo/vector-icons';
+import { MaterialIcons, SimpleLineIcons, Entypo, Ionicons } from '@expo/vector-icons';
 
 // internal imports
 import {
@@ -10,6 +10,7 @@ import {
 	primary_color,
 	alternate_color,
 	white,
+	like_actions,
 	dislike_actions
 } from '../../options.json';
 import { ProfileItem } from '../../components';
@@ -43,7 +44,8 @@ const demoData = [
         defaultNumHoles: 18,
         defaultNumPeople: 4,
         status: 0,
-        match: 88
+        match: 88,
+		matchStatus: 4
     },
     {
         _id: 2,
@@ -58,7 +60,8 @@ const demoData = [
         defaultNumHoles: 9,
         defaultNumPeople: 2,
         status: 0,
-        match: 70
+        match: 70,
+		matchStatus: 4
     },
     {
         _id: 3,
@@ -73,7 +76,8 @@ const demoData = [
         defaultNumHoles: 9,
         defaultNumPeople: 4,
         status: 0,
-        match: 90
+        match: 90,
+		matchStatus: 3
     },
 ];
 
@@ -83,6 +87,14 @@ export function ProfilePage({route, navigation}: any) {
 
 	function handleRoutingBack() {
 		navigation.navigate('Match Screen');
+	}
+
+	function onReject() {
+
+	}
+
+	function onAccept() {
+
 	}
 
     return (
@@ -118,29 +130,44 @@ export function ProfilePage({route, navigation}: any) {
 							<View style={styles.actionsProfile}>
 								<TouchableOpacity style={styles.logoutButton}>
 									<Text style={styles.iconButton}>
-										<Entypo name="add-user" size={24} color="white" />
+										<MaterialIcons name="logout" size={24} color={white} />
 									</Text>
 									<Text style={styles.textButton}>Logout</Text>
 								</TouchableOpacity>
 							</View>
 						:
 							<View style={styles.actionsProfile}>
-								<TouchableOpacity style={styles.roundedButton}>
-									<Text style={styles.iconButton}>
-										<Entypo name="add-user" size={24} color="white" />
-									</Text>
-									<Text style={styles.textButton}>Add</Text>
-								</TouchableOpacity>
+								{demoData[_id].matchStatus == 3 &&
+									<View style={styles.actionsCardItem}>
+										<TouchableOpacity
+											style={styles.like_button}
+											onPress={() => onAccept()}
+										>
+											<Text style={styles.like}>
+												<Entypo name="add-user" size={20} color={'white'} /> Accept
+											</Text>
+										</TouchableOpacity>
 
-								<TouchableOpacity style={styles.roundedButton}>
-									<Text style={styles.iconButton}>
-										<Entypo name="message" size={24} color="white" />
-									</Text>
-									<Text style={styles.textButton}>Message</Text>
-								</TouchableOpacity>
+										<TouchableOpacity style={styles.dislike_button} onPress={() => onReject()}>
+											<Text style={styles.dislike}>
+												<Entypo name="remove-user" size={20} color={'white'} /> Reject
+											</Text>
+										</TouchableOpacity>
+
+									</View>
+								}
+
+								{demoData[_id].matchStatus ==4 &&
+									<TouchableOpacity style={styles.roundedButton}>
+										<Text style={styles.iconButton}>
+											<Entypo name="message" size={24} color="white" />
+										</Text>
+										<Text style={styles.textButton}>Message</Text>
+									</TouchableOpacity>
+								}
+								
 							</View>	
-						}
-						
+						}	
 					</View>
 				</ScrollView>
             </SafeAreaView>
@@ -213,12 +240,44 @@ const styles = StyleSheet.create({
 		marginLeft: 10,
 		height: 50,
 		borderRadius: 25,
-		backgroundColor: dislike_actions,
+		backgroundColor: alternate_color,
 		paddingHorizontal: 20
 	},
 	topIconLeft: {
 		fontSize: 20,
 		paddingLeft: 20,
 		marginTop: -20
+	},
+	actionsCardItem: {
+		flexDirection: "row",
+		alignItems: "center",
+		paddingVertical: 30
+	},
+	like_button: {
+		height: 60,
+		borderRadius: 30,
+		backgroundColor: like_actions,
+		marginHorizontal: 7,
+		alignItems: "center",
+		justifyContent: "center",
+
+	},
+	dislike_button: {
+		height: 60,
+		borderRadius: 30,
+		backgroundColor: dislike_actions,
+		marginHorizontal: 7,
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	like: {
+		// fontSize: 25,
+		padding: 10,
+		color: 'white'
+	},
+	dislike: {
+		padding: 10,	
+		color: 'white'
+		// fontSize: 25,
 	},
 });

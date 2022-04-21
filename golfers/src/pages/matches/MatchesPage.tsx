@@ -1,114 +1,58 @@
 // external imports
-import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Text, View, RefreshControl } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { SimpleLineIcons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { ImageBackground, StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import { TabView, SceneMap } from 'react-native-tab-view';
+import { AntDesign } from '@expo/vector-icons';
 
 // internal imports
-import { SwipeItem } from '../../components';
+import { AcceptedMatches } from './AcceptedMatches';
+import { PendingMatches } from './PendingMatches';
 import {
-    dark_grey
+    grey
 } from '../../options.json';
-import { NavigationContainer } from '@react-navigation/native';
-
-const demoData = [
-	{
-        _id: 1,
-        firstName: "Andy",
-        lastName: "Rocks",
-        age: 22,
-        image: require('../../../assets/Andy.jpg'),
-        handicap: 19,
-        defaultFormality: 'casual',
-        defaultCarting: true,
-        defaultDrinking: true,
-        defaultNumHoles: 18,
-        defaultNumPeople: 4,
-        status: 0,
-        match: 88
-    },
-    {
-        _id: 2,
-        firstName: "Timmy",
-        lastName: "Gallagher",
-        age: 21,
-        image: require('../../../assets/Timmy.jpg'),
-        handicap: 20,
-        defaultFormality: 'casual',
-        defaultCarting: false,
-        defaultDrinking: false,
-        defaultNumHoles: 9,
-        defaultNumPeople: 2,
-        status: 0,
-        match: 70
-    },
-    {
-        _id: 3,
-        firstName: "JaeYoung",
-        lastName: "Chang",
-        age: 21,
-        image: require('../../../assets/Jae.png'),
-        handicap: 21,
-        defaultFormality: 'casual',
-        defaultCarting: false,
-        defaultDrinking: true,
-        defaultNumHoles: 9,
-        defaultNumPeople: 4,
-        status: 0,
-        match: 90
-    },
-];
 
 export function MatchesPage({ navigation }: any) {
-    const [refreshing, setRefreshing] = useState<boolean>(false);
-    function onRefresh() {
-		setRefreshing(true);
-		setTimeout(() => {
-			// call api to laod matches
-			setRefreshing(false);
-		}, 700)
-	}
+    function renderScene({ route }: any) {
+        switch(route.key) {
+            case 'accepted':
+                return <AcceptedMatches navigation={navigation} />;
+            case 'pending':
+                return <PendingMatches navigation={navigation} />;
+        }
+    }
+
+    const [index, setIndex] = useState(0);
+    const [routes] = useState([
+        { key: 'accepted', title: 'Accepted' },
+        { key: 'pending', title: 'Pending' },
+    ]);
+
     return (
         <ImageBackground
             source={require('../../../assets/bg.png')}
             style={styles.bg}
         >
-            <SafeAreaView style={styles.container}>
-            <View style={styles.containerMatches}>
-                <View style={styles.top}>
-                    <Text style={styles.title}>Matches</Text>
-                    <TouchableOpacity>
-                        <Text style={styles.icon}>
-                            <SimpleLineIcons name="options-vertical" size={15} color="black" />
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-                <FlatList
-                    numColumns={2}
-                    data={demoData}
-                    keyExtractor={(item, index) => index.toString()}
-                    refreshing={refreshing}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh}
-                        />
-                    }
-                    renderItem={({ item }) => (
-                        <TouchableOpacity
-                            onPress={() => navigation.push('Profile Screen', {_id: item._id})}
-                        >
-                            <SwipeItem
-                                image={item.image}
-                                name={item.firstName}
-                                actions={false}
-                                variant={true}
-                            />
-                        </TouchableOpacity>
-                    )}
+            <View style={styles.container}>
+                <TabView
+                    navigationState={{ index, routes }}
+                    renderScene={renderScene}
+                    onIndexChange={setIndex}
+                    tabBarPosition='bottom'
+                    renderTabBar={() => null}
                 />
+                <View style={styles.tab}>
+                    <View style={styles.tab_indicator}>
+                        <TouchableOpacity onPress={() => setIndex(0)}>
+                            <AntDesign name="check" size={25} color={index == 0 ? "white" : "black"} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setIndex(1)}>
+                            <AntDesign name="question" size={25} color={index == 1 ? "white" : "black"} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                
+        
             </View>
-            </SafeAreaView>
         </ImageBackground>
     );
 };
@@ -119,26 +63,24 @@ const styles = StyleSheet.create({
 		flex: 1,
 		resizeMode: "cover"
 	},
-	container: {
-		flex: 1
-	},
-    // CONTAINER - MATCHES
-	containerMatches: {
-		justifyContent: "space-between",
-		flex: 1,
-		paddingHorizontal: 10
-	},
-    top: {
-		paddingTop: 10,
-		marginHorizontal: 10,
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center"
-	},
-    title: { paddingBottom: 10, fontSize: 22, color: dark_grey },
-    icon: {
-		fontSize: 20,
-		color: dark_grey,
-		paddingRight: 10
-	},
+    container: {
+        flex: 1,
+    },
+    tab: {
+        backgroundColor: grey,
+        opacity: 0.4,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: 20,
+        borderRadius: 25,
+    },
+    tab_indicator: {
+        flexDirection: "row",
+        width: 60,
+        justifyContent: 'space-between',
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 3,
+        marginBottom: 3,
+    }
 });
