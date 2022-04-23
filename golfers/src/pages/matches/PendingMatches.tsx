@@ -2,36 +2,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Text, View, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SimpleLineIcons } from '@expo/vector-icons';
+import { SimpleLineIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 // internal imports
 import { SwipeItem } from '../../components';
 import {
     dark_grey
 } from '../../options.json';
-import { NavigationContainer } from '@react-navigation/native';
+import { demoPendingMatches } from '../../demoData';
+import { IMatch } from '../../interfaces';
 
-
-const demoData = [
-    {
-        _id: 3,
-        firstName: "JaeYoung",
-        lastName: "Chang",
-        age: 21,
-        image: require('../../../assets/Jae.png'),
-        handicap: 21,
-        defaultFormality: 'casual',
-        defaultCarting: false,
-        defaultDrinking: true,
-        defaultNumHoles: 9,
-        defaultNumPeople: 4,
-        status: 0,
-        match: 90
-    },
-];
-
-export function PendingMatches({ navigation }: any) {
+export function PendingMatches({ navigation, setIndex }: any) {
     const [refreshing, setRefreshing] = useState<boolean>(false);
+    const [pendingMatches, setpendingMatches] = useState<IMatch[]>();
+
+    useEffect(() => {
+        setpendingMatches(demoPendingMatches);
+    }, []);
 
     function onRefresh() {
 		setRefreshing(true);
@@ -49,15 +36,15 @@ export function PendingMatches({ navigation }: any) {
             <View style={styles.containerMatches}>
                 <View style={styles.top}>
                     <Text style={styles.title}>Pending Matches</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => setIndex(1)}>
                         <Text style={styles.icon}>
-                            <SimpleLineIcons name="options-vertical" size={15} color="black" />
+                            <MaterialCommunityIcons name="gesture-swipe-left" size={26} color="black" />
                         </Text>
                     </TouchableOpacity>
                 </View>
                 <FlatList
                     numColumns={2}
-                    data={demoData}
+                    data={pendingMatches}
                     keyExtractor={(item, index) => index.toString()}
                     refreshing={refreshing}
                     refreshControl={
@@ -68,11 +55,12 @@ export function PendingMatches({ navigation }: any) {
                     }
                     renderItem={({ item }) => (
                         <TouchableOpacity
-                            onPress={() => navigation.push('Profile Screen', {_id: item._id})}
+                            onPress={() => navigation.push('Profile Screen', {golfer_id: item.golfer_id})}
                         >
                             <SwipeItem
                                 image={item.image}
-                                name={item.firstName}
+                                firstName={item.firstName}
+                                lastName={item.lastName}
                                 actions={false}
                                 variant={true}
                             />

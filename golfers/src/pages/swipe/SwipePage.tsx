@@ -6,59 +6,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 // internal imports
 import { City, Filters, SwipeItem, Upload } from '../../components';
-
-const demoData = [
-	{
-		_id: 1,
-		name: 'Andy Rocks',
-		caption: 'What is up',
-		status: 'Online',
-		match: '78',
-		handicap: 19,
-		transport: 'Carting',
-		isDrinking: true,
-		isBetting: true,
-		num_holes: 18,
-		num_people: 4,
-		distance: 1.4,
-		isMusic: true,
-		image: require('../../../assets/Andy.jpg')
-	},
-	{
-		_id: 2,
-		name: 'Timmy Gallagher',
-		caption: 'Frick bro',
-		status: 'Online',
-		match: '98',
-		handicap: 20,
-		transport: 'Walking',
-		isDrinking: false,
-		isBetting: false,
-		num_holes: 9,
-		num_people: 2,
-		distance: 3.1,
-		isMusic: false,
-		image: require('../../../assets/Timmy.jpg')
-	},
-	{
-		_id: 3,
-		name: 'JaeYoung Chang',
-		caption: 'Sup yo',
-		status: 'Online',
-		match: '80',
-		handicap: 21,
-		transport: 'Walking',
-		isDrinking: true,
-		isBetting: false,
-		num_holes: 9,
-		num_people: 4,
-		distance: 3.1,
-		isMusic: false,
-		image: require('../../../assets/Jae.png')
-	}
-];
+import { demoMatches } from '../../demoData';
+import { IMatch } from '../../interfaces';
 
 export function SwipePage() {
+	const [matches, setMatches] = useState<IMatch[] | undefined>();
+
+	useEffect(() => {
+		setMatches(demoMatches);
+	}, []);
+
 	let swiperRef: any = null;
 
 	function handleSwipeRight() {
@@ -81,28 +38,31 @@ export function SwipePage() {
 				<Upload />
 				<Filters />
 			</View>
-
+			{matches &&
+			
 			<CardStack
 				loop={false}
 				verticalSwipe={false}
 				renderNoMoreCards={() => null}
 				ref={swiper => { swiperRef = swiper }}
 			>
-			{demoData.map((item, index) => (
+			{matches.map((item, index) => (
 				<Card key={index}>
 				<SwipeItem
-					image={item.image}
-					name={item.name}
-					caption={item.caption}
-					match={item.match}
+					match_id={item.match_id}
+					golfer_id={item.golfer_id}
+					firstName={item.firstName}
+					lastName={item.lastName}
+					age={item.age}
+					compatibility={item.compatibility}
 					handicap={item.handicap}
 					transport={item.transport}
 					isDrinking={item.isDrinking}
 					isBetting={item.isBetting}
-					num_holes={item.num_holes}
-					num_people={item.num_people}
-					distance={item.distance}
 					isMusic={item.isMusic}
+					numHoles={item.numHoles}
+					numPeople={item.numPeople}
+					image={item.image}
 					onPressLeft={handleSwipeLeft}
 					onPressRight={handleSwipeRight}
 					actions={true}
@@ -111,6 +71,7 @@ export function SwipePage() {
 				</Card>
 			))}
 			</CardStack>
+			}
     	</View>
 		</SafeAreaView>
 		</ImageBackground>

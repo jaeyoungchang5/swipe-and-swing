@@ -59,7 +59,7 @@ export function AppNav({route}: any) {
             <Tab.Screen 
                 name='Profile' 
                 component={ProfilePage}
-                initialParams={{_id: 0}}
+                initialParams={{golfer_id: 0}}
                 options={{
                     headerShown: false,
                     tabBarLabel: ({focused, color}) => (

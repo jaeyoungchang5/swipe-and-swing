@@ -14,17 +14,17 @@ import {
 export function MatchesPage({ navigation }: any) {
     function renderScene({ route }: any) {
         switch(route.key) {
-            case 'accepted':
-                return <AcceptedMatches navigation={navigation} />;
             case 'pending':
-                return <PendingMatches navigation={navigation} />;
+                return <PendingMatches navigation={navigation} setIndex={setIndex} />;
+            case 'accepted':
+                return <AcceptedMatches navigation={navigation} setIndex={setIndex} />;
         }
     }
 
     const [index, setIndex] = useState(0);
     const [routes] = useState([
-        { key: 'accepted', title: 'Accepted' },
         { key: 'pending', title: 'Pending' },
+        { key: 'accepted', title: 'Accepted' },
     ]);
 
     return (
@@ -43,10 +43,10 @@ export function MatchesPage({ navigation }: any) {
                 <View style={styles.tab}>
                     <View style={styles.tab_indicator}>
                         <TouchableOpacity onPress={() => setIndex(0)}>
-                            <AntDesign name="check" size={25} color={index == 0 ? "white" : "black"} />
+                            <AntDesign name="question" size={25} color={index == 0 ? "white" : "black"} />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => setIndex(1)}>
-                            <AntDesign name="question" size={25} color={index == 1 ? "white" : "black"} />
+                            <AntDesign name="check" size={25} color={index == 1 ? "white" : "black"} />
                         </TouchableOpacity>
                     </View>
                 </View>

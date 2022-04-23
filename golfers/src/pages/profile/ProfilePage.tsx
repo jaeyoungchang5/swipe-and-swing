@@ -14,76 +14,17 @@ import {
 	dislike_actions
 } from '../../options.json';
 import { ProfileItem } from '../../components';
-
-const demoData = [
-	{
-		_id: 0,
-		firstName: "Ramzi",
-		lastName: "Bualuan",
-		age: 35,
-		image: require('../../../assets/Ramzi.jpeg'),
-		handicap: 20,
-		defaultFormality: "casual",
-		defaultCarting: true,
-		defaultDrinking: true,
-		defaultNumHoles: 18,
-		defaultNumPeople: 4,
-		status: 0,
-		match: 99
-	},
-	{
-        _id: 1,
-        firstName: "Andy",
-        lastName: "Rocks",
-        age: 22,
-        image: require('../../../assets/Andy.jpg'),
-        handicap: 19,
-        defaultFormality: 'casual',
-        defaultCarting: true,
-        defaultDrinking: true,
-        defaultNumHoles: 18,
-        defaultNumPeople: 4,
-        status: 0,
-        match: 88,
-		matchStatus: 4
-    },
-    {
-        _id: 2,
-        firstName: "Timmy",
-        lastName: "Gallagher",
-        age: 21,
-        image: require('../../../assets/Timmy.jpg'),
-        handicap: 20,
-        defaultFormality: 'casual',
-        defaultCarting: false,
-        defaultDrinking: false,
-        defaultNumHoles: 9,
-        defaultNumPeople: 2,
-        status: 0,
-        match: 70,
-		matchStatus: 4
-    },
-    {
-        _id: 3,
-        firstName: "JaeYoung",
-        lastName: "Chang",
-        age: 21,
-        image: require('../../../assets/Jae.png'),
-        handicap: 21,
-        defaultFormality: 'casual',
-        defaultCarting: false,
-        defaultDrinking: true,
-        defaultNumHoles: 9,
-        defaultNumPeople: 4,
-        status: 0,
-        match: 90,
-		matchStatus: 3
-    },
-];
+import { IProfile } from '../../interfaces'; 
+import { demoProfiles } from '../../demoData';
 
 export function ProfilePage({route, navigation}: any) {
-	const _id: number = route.params._id;
+	const golfer_id: number = route.params.golfer_id;
 	const appUserId: number = 0;
+	const [golfer, setGolfer] = useState<IProfile>();
+
+	useEffect(() => {
+		setGolfer(demoProfiles[golfer_id]);
+	}, []);
 
 	function handleRoutingBack() {
 		navigation.navigate('Match Screen');
@@ -106,7 +47,7 @@ export function ProfilePage({route, navigation}: any) {
 				<ScrollView>
 					<View style={styles.containerMatches}>
 						<View style={styles.top}>
-							{_id == appUserId ?
+							{golfer_id == appUserId ?
 								
 								<Text style={styles.title}>Profile</Text>
 							:
@@ -122,11 +63,14 @@ export function ProfilePage({route, navigation}: any) {
 								</Text>
 							</TouchableOpacity>
 						</View>
-						<ProfileItem
-							profile={demoData[_id]}
-						/>
-
-						{_id == appUserId ?
+						{golfer &&
+							<ProfileItem
+								golfer={golfer}
+							/>
+						}
+						
+						
+						{golfer?.profileStatus == 0 &&
 							<View style={styles.actionsProfile}>
 								<TouchableOpacity style={styles.logoutButton}>
 									<Text style={styles.iconButton}>
@@ -135,9 +79,10 @@ export function ProfilePage({route, navigation}: any) {
 									<Text style={styles.textButton}>Logout</Text>
 								</TouchableOpacity>
 							</View>
-						:
+						}
+						{golfer?.matchStatus &&
 							<View style={styles.actionsProfile}>
-								{demoData[_id].matchStatus == 3 &&
+								{golfer.matchStatus == 3 &&
 									<View style={styles.actionsCardItem}>
 										<TouchableOpacity
 											style={styles.like_button}
@@ -157,7 +102,7 @@ export function ProfilePage({route, navigation}: any) {
 									</View>
 								}
 
-								{demoData[_id].matchStatus ==4 &&
+								{golfer.matchStatus ==4 &&
 									<TouchableOpacity style={styles.roundedButton}>
 										<Text style={styles.iconButton}>
 											<Entypo name="message" size={24} color="white" />
@@ -167,7 +112,8 @@ export function ProfilePage({route, navigation}: any) {
 								}
 								
 							</View>	
-						}	
+						}
+						
 					</View>
 				</ScrollView>
             </SafeAreaView>

@@ -17,18 +17,20 @@ import {
 } from '../options.json';
 
 export function SwipeItem({
-	image,
-	name,
-	caption,
-	match,
+	match_id,
+	golfer_id,
+	firstName,
+	lastName,
+	age,
+	compatibility,
 	handicap,
 	transport,
 	isDrinking,
 	isBetting,
-	num_holes,
-	num_people,
-	distance,
 	isMusic,
+	numHoles,
+	numPeople,
+	image,
 	onPressLeft,
 	onPressRight,
 	actions,
@@ -61,15 +63,15 @@ export function SwipeItem({
 			{/* IMAGE */}
 			<Image source={image} style={imageStyle} />
 
-			{match &&
+			{compatibility &&
 				<View style={styles.matchesCardItem}>
 					<Text style={styles.matchesTextCardItem}>
-						{match}% Match!
+						{compatibility}% Match!
 					</Text>
 				</View>
 			}
 
-			<Text style={nameStyle}>{name}</Text>
+			<Text style={nameStyle}>{firstName} {lastName}</Text>
 
 			{/* {caption &&
 				<Text style={styles.descriptionCardItem}>{caption}</Text>
@@ -96,19 +98,19 @@ export function SwipeItem({
 						<Text>Betting</Text>
 					</View>
 				}
-				{num_holes && 
-					<View style={styles.settingItem}>
-						<Text>{num_holes} Holes</Text>
-					</View>
-				}
-				{num_people && 
-					<View style={styles.settingItem}>
-						<Text>{num_people} People</Text>
-					</View>
-				}
 				{isMusic && 
 					<View style={styles.settingItem}>
 						<Text>Music</Text>
+					</View>
+				}
+				{numHoles && 
+					<View style={styles.settingItem}>
+						<Text>{numHoles} Holes</Text>
+					</View>
+				}
+				{numPeople && 
+					<View style={styles.settingItem}>
+						<Text>{numPeople} People</Text>
 					</View>
 				}
 			</View>

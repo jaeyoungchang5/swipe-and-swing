@@ -2,51 +2,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Text, View, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SimpleLineIcons } from '@expo/vector-icons';
+import { SimpleLineIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 // internal imports
 import { SwipeItem } from '../../components';
 import {
     dark_grey
 } from '../../options.json';
-import { NavigationContainer } from '@react-navigation/native';
+import { demoAcceptedMatches } from '../../demoData';
+import { IMatch } from '../../interfaces';
 
-
-const demoData = [
-	{
-        _id: 1,
-        firstName: "Andy",
-        lastName: "Rocks",
-        age: 22,
-        image: require('../../../assets/Andy.jpg'),
-        handicap: 19,
-        defaultFormality: 'casual',
-        defaultCarting: true,
-        defaultDrinking: true,
-        defaultNumHoles: 18,
-        defaultNumPeople: 4,
-        status: 0,
-        match: 88
-    },
-    {
-        _id: 2,
-        firstName: "Timmy",
-        lastName: "Gallagher",
-        age: 21,
-        image: require('../../../assets/Timmy.jpg'),
-        handicap: 20,
-        defaultFormality: 'casual',
-        defaultCarting: false,
-        defaultDrinking: false,
-        defaultNumHoles: 9,
-        defaultNumPeople: 2,
-        status: 0,
-        match: 70
-    },
-];
-
-export function AcceptedMatches({ navigation }: any) {
+export function AcceptedMatches({ navigation, setIndex }: any) {
     const [refreshing, setRefreshing] = useState<boolean>(false);
+    const [acceptedMatches, setAcceptedMatches] = useState<IMatch[]>();
+
+    useEffect(() => {
+        setAcceptedMatches(demoAcceptedMatches);
+    }, []);
 
     function onRefresh() {
 		setRefreshing(true);
@@ -63,16 +35,16 @@ export function AcceptedMatches({ navigation }: any) {
             <SafeAreaView style={styles.container}>
             <View style={styles.containerMatches}>
                 <View style={styles.top}>
-                    <Text style={styles.title}>Accepted Matches</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => setIndex(0)}>
                         <Text style={styles.icon}>
-                            <SimpleLineIcons name="options-vertical" size={15} color="black" />
+                            <MaterialCommunityIcons name="gesture-swipe-right" size={26} color="black" />
                         </Text>
                     </TouchableOpacity>
+                    <Text style={styles.title}>Accepted Matches</Text>
                 </View>
                 <FlatList
                     numColumns={2}
-                    data={demoData}
+                    data={acceptedMatches}
                     keyExtractor={(item, index) => index.toString()}
                     refreshing={refreshing}
                     refreshControl={
@@ -83,11 +55,12 @@ export function AcceptedMatches({ navigation }: any) {
                     }
                     renderItem={({ item }) => (
                         <TouchableOpacity
-                            onPress={() => navigation.push('Profile Screen', {_id: item._id})}
+                            onPress={() => navigation.push('Profile Screen', {golfer_id: item.golfer_id})}
                         >
                             <SwipeItem
                                 image={item.image}
-                                name={item.firstName}
+                                firstName={item.firstName}
+                                lastName={item.lastName}
                                 actions={false}
                                 variant={true}
                             />

@@ -3,36 +3,21 @@ import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'rea
 import { Ionicons, AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 import { alternate_color, dark_grey, grey, primary_color, white, black } from '../options.json';
-
-interface IProfile {
-    _id: number,
-    firstName: string,
-    lastName: string,
-    image: any,
-    age: number,
-    handicap: number,
-    defaultFormality: string,
-    defaultCarting: boolean,
-    defaultDrinking: boolean,
-    defaultNumHoles: number,
-    defaultNumPeople: number,
-    status: number, // 0 - app user, 1 - potential match, 2 - random find
-    match?: number
-}
+import { IProfile } from '../interfaces';
 
 interface ProfilePageProps {
-    profile: IProfile
+    golfer: IProfile
 }
 
-export function ProfileItem({ profile }: ProfilePageProps ) {
+export function ProfileItem({ golfer }: ProfilePageProps ) {
     return (
         <View style={styles.containerProfileItem}>
-            <Image source={profile.image} style={styles.imageStyle} />
+            <Image source={golfer.image} style={styles.imageStyle} />
             
-            {(profile.status == 1 || profile.status == 2) &&
+            {(golfer.profileStatus != 0) &&
                 <View style={styles.matchesProfileItem}>
                     <Text style={styles.matchesTextProfileItem}>
-                        {profile.match}% Match!
+                        {golfer.compatibility}% Match!
                     </Text>
                 </View>
             }
@@ -40,39 +25,39 @@ export function ProfileItem({ profile }: ProfilePageProps ) {
                 <Text style={styles.iconProfile}>
                     <AntDesign name="user" size={25} color="black" />
                 </Text>
-                <Text style={styles.name}>{profile.firstName} {profile.lastName}, {profile.age}</Text>
+                <Text style={styles.name}>{golfer.firstName} {golfer.lastName}, {golfer.age}</Text>
             </View>
 
             <View style={styles.info}>
                 <Text style={styles.iconProfile}>
                     <FontAwesome5 name="golf-ball" size={15} color="black" />
                 </Text>
-                <Text style={styles.infoContent}>{profile.handicap} Handicap</Text>
+                <Text style={styles.infoContent}>{golfer.handicap} Handicap</Text>
             </View>
 
             <View style={styles.info}>
                 <Text style={styles.iconProfile}>
                     <FontAwesome5 name="beer" size={15} color="black" />
                 </Text>
-                <Text style={styles.infoContent}>{profile.defaultDrinking ? "Drinking" : "No drinking"}</Text>
+                <Text style={styles.infoContent}>{golfer.isDrinking ? "Drinking" : "No drinking"}</Text>
             </View>
 
             <View style={styles.info}>
                 <Text style={styles.iconProfile}>
-                    {profile.defaultCarting ?
+                    {golfer.transport == 'Carting' ?
                         <MaterialCommunityIcons name="golf-cart" size={15} color="black" />
                     :
                         <FontAwesome5 name="walking" size={15} color="black" />
                     }
                 </Text>
-                <Text style={styles.infoContent}>{profile.defaultCarting ? "Carting" : "Walking"}</Text>
+                <Text style={styles.infoContent}>{golfer.transport}</Text>
             </View>
 
             <View style={styles.info}>
                 <Text style={styles.iconProfile}>
                     <Ionicons name="people-sharp" size={15} color="black" />
                 </Text>
-                <Text style={styles.infoContent}>{profile.defaultNumPeople} People</Text>
+                <Text style={styles.infoContent}>{golfer.numPeople} People</Text>
             </View>
 
         </View>
