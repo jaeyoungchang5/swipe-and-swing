@@ -32,9 +32,9 @@ export function SearchPage() {
 			<KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyboardAvoid}>
 				<View style={styles.top}>
 					<Input 
-						placeholder="Search" 
-						width="100%" py="3" px="1" fontSize="14" // backgroundColor={white}
-						borderColor={grey} borderWidth={2} borderRadius="4"
+						placeholder="Search" placeholderTextColor={'black'}
+						width="100%" py="3" px="1" fontSize="14" backgroundColor={'transparent'}
+						borderColor={'black'} borderWidth={0.5} borderRadius="4"
 						autoCorrect={false}
 						returnKeyType='search'
 						onFocus={() => setFocused(true)}

@@ -44,3 +44,14 @@ export interface IPostDefault {
     numPeople: number,
     numHoles: number
 }
+
+export interface ICourse {
+    course_id: number,
+    courseName: string,
+    courseDescription: string,
+    website: string,
+    phone_num: string,
+    longitude: number,
+    latitude: number,
+    difficulty: number,
+}

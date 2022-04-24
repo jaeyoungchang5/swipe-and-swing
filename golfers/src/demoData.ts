@@ -1,4 +1,4 @@
-import { IMatch, IPostDefault, IProfile } from './interfaces'
+import { IMatch, IPostDefault, IProfile, ICourse } from './interfaces'
 
 export const demoMatches: IMatch[] = [
 	{
@@ -181,3 +181,26 @@ export const demoPostDefaults: IPostDefault = {
     numPeople: 4,
     numHoles: 18
 }
+
+export const demoCourses: ICourse[] = [
+    {
+        course_id: 0,
+        courseName: 'Burke Golf Course',
+        courseDescription: 'Designed as a regulation 18-hole course in 1929, the Burke Golf Course today consists of 9 holes in the picturesque setting of Notre Dame.',
+        website: 'https://burkegolfcourse.nd.edu/',
+        phone_num: '(574) 631-6425',
+        latitude: 41.6992406021,
+        longitude: -86.2442565867,
+        difficulty: 3,
+    },
+    {
+        course_id: 1,
+        courseName: 'Warren Golf Course',
+        courseDescription: 'The Warren Golf Course at Notre Dame is one of the best public golf courses in Indiana and the Midwest.',
+        website: 'https://warrengolfcourse.com/',
+        phone_num: '(574) 631-4653',
+        latitude: 41.7094940875, 
+        longitude: -86.2224572846,
+        difficulty: 5,
+    }
+]
