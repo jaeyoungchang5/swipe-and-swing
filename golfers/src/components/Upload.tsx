@@ -3,9 +3,9 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { white, black, dark_grey } from '../options.json';
 
-export function Upload() {
+export function Upload({ navigation }: any) {
     return (
-        <TouchableOpacity style={styles.upload}>
+        <TouchableOpacity onPress={() => navigation.push('Upload Screen')} style={styles.upload}>
             <AntDesign name="pluscircle" size={20} color="black" />
 			<Text style={styles.uploadText}>
 				Post

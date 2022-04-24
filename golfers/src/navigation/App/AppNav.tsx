@@ -7,7 +7,7 @@ import { Text } from 'react-native';
 // internal imports
 import { SwipePage, MatchesPage, ProfilePage, SearchPage } from '../../pages';
 import { primary_color, dark_grey } from '../../options.json';
-import { MatchNav } from '../Pages';
+import { SwipeNav, MatchNav } from '../Pages';
 
 export function AppNav({route}: any) {
 	const Tab = createBottomTabNavigator(); 
@@ -16,7 +16,7 @@ export function AppNav({route}: any) {
         <Tab.Navigator initialRouteName='Swipe'>
             <Tab.Screen 
                 name='Swipe' 
-                component={SwipePage}
+                component={SwipeNav}
                 options={{
                     headerShown: false,
                     tabBarLabel: ({focused, color}) => (

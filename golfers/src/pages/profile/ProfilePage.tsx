@@ -44,77 +44,75 @@ export function ProfilePage({route, navigation}: any) {
             style={styles.bg}
         >
             <SafeAreaView style={styles.container}>
+				<View style={styles.top}>
+					{golfer_id == appUserId ?
+						
+						<Text style={styles.title}>Profile</Text>
+					:
+						<TouchableOpacity onPress={handleRoutingBack}>
+							<Text style={styles.icon}>
+								<Ionicons name="arrow-back" size={24} color="black" />
+							</Text>
+						</TouchableOpacity>
+					}
+					<TouchableOpacity>
+						<Text style={styles.icon}>
+							<SimpleLineIcons name="options-vertical" size={15} color="black" />
+						</Text>
+					</TouchableOpacity>
+				</View>
+
 				<ScrollView>
-					<View style={styles.containerMatches}>
-						<View style={styles.top}>
-							{golfer_id == appUserId ?
-								
-								<Text style={styles.title}>Profile</Text>
-							:
-								<TouchableOpacity onPress={handleRoutingBack}>
-									<Text style={styles.icon}>
-										<Ionicons name="arrow-back" size={24} color="black" />
-									</Text>
-								</TouchableOpacity>
-							}
-							<TouchableOpacity>
-								<Text style={styles.icon}>
-									<SimpleLineIcons name="options-vertical" size={15} color="black" />
+					{golfer &&
+						<ProfileItem
+							golfer={golfer}
+						/>
+					}
+					
+					
+					{/* {golfer?.profileStatus == 0 &&
+						<View style={styles.actionsProfile}>
+							<TouchableOpacity style={styles.logoutButton}>
+								<Text style={styles.iconButton}>
+									<MaterialIcons name="logout" size={20} color={white} />
 								</Text>
+								<Text style={styles.textButton}>Logout</Text>
 							</TouchableOpacity>
 						</View>
-						{golfer &&
-							<ProfileItem
-								golfer={golfer}
-							/>
-						}
-						
-						
-						{golfer?.profileStatus == 0 &&
-							<View style={styles.actionsProfile}>
-								<TouchableOpacity style={styles.logoutButton}>
-									<Text style={styles.iconButton}>
-										<MaterialIcons name="logout" size={24} color={white} />
-									</Text>
-									<Text style={styles.textButton}>Logout</Text>
-								</TouchableOpacity>
-							</View>
-						}
-						{golfer?.matchStatus &&
-							<View style={styles.actionsProfile}>
-								{golfer.matchStatus == 3 &&
-									<View style={styles.actionsCardItem}>
-										<TouchableOpacity
-											style={styles.like_button}
-											onPress={() => onAccept()}
-										>
-											<Text style={styles.like}>
-												<Entypo name="add-user" size={20} color={'white'} /> Accept
-											</Text>
-										</TouchableOpacity>
-
-										<TouchableOpacity style={styles.dislike_button} onPress={() => onReject()}>
-											<Text style={styles.dislike}>
-												<Entypo name="remove-user" size={20} color={'white'} /> Reject
-											</Text>
-										</TouchableOpacity>
-
-									</View>
-								}
-
-								{golfer.matchStatus ==4 &&
-									<TouchableOpacity style={styles.roundedButton}>
-										<Text style={styles.iconButton}>
-											<Entypo name="message" size={24} color="white" />
+					} */}
+					{golfer?.matchStatus &&
+						<View style={styles.actionsProfile}>
+							{golfer.matchStatus == 3 &&
+								<View style={styles.actionsCardItem}>
+									<TouchableOpacity
+										style={styles.like_button}
+										onPress={() => onAccept()}
+									>
+										<Text style={styles.like}>
+											<Entypo name="add-user" size={20} color={'white'} /> Accept
 										</Text>
-										<Text style={styles.textButton}>Message</Text>
 									</TouchableOpacity>
-								}
-								
-							</View>	
-						}
-						
-					</View>
+
+									<TouchableOpacity style={styles.dislike_button} onPress={() => onReject()}>
+										<Text style={styles.dislike}>
+											<Entypo name="remove-user" size={20} color={'white'} /> Reject
+										</Text>
+									</TouchableOpacity>
+
+								</View>
+							}
+
+							{golfer.matchStatus ==4 &&
+								<TouchableOpacity style={styles.roundedButton}>
+									<Text style={styles.iconButton}>
+										<Entypo name="message" size={24} color="white" />
+									</Text>
+									<Text style={styles.textButton}>Message</Text>
+								</TouchableOpacity>
+							}
+							
+						</View>	
+					}
 				</ScrollView>
             </SafeAreaView>
         </ImageBackground>
@@ -128,13 +126,10 @@ const styles = StyleSheet.create({
 		resizeMode: "cover"
 	},
 	container: {
-		flex: 1
-	},
-    // CONTAINER - MATCHES
-	containerMatches: {
-		justifyContent: "space-between",
 		flex: 1,
-		paddingHorizontal: 10
+		justifyContent: "space-between",
+		paddingHorizontal: 10,
+		height: '100%'
 	},
     top: {
 		paddingTop: 10,

@@ -9,7 +9,7 @@ import { City, Filters, SwipeItem, Upload } from '../../components';
 import { demoMatches } from '../../demoData';
 import { IMatch } from '../../interfaces';
 
-export function SwipePage() {
+export function SwipePage({ navigation }: any) {
 	const [matches, setMatches] = useState<IMatch[] | undefined>();
 
 	useEffect(() => {
@@ -27,15 +27,11 @@ export function SwipePage() {
 	}
 
     return (
-		<ImageBackground
-			source={require('../../../assets/bg.png')}
-			style={styles.bg}
-		>
 		<SafeAreaView style={styles.container}>
         <View style={styles.containerHome}>
 			<View style={styles.top}>
 				<City />
-				<Upload />
+				<Upload navigation={navigation} />
 				<Filters />
 			</View>
 			{matches &&
@@ -74,7 +70,6 @@ export function SwipePage() {
 			}
     	</View>
 		</SafeAreaView>
-		</ImageBackground>
     );
 }
 
