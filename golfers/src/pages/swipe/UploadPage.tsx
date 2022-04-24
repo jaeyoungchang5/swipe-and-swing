@@ -14,6 +14,7 @@ import {
 	like_actions,
 	dislike_actions
 } from '../../options.json';
+import { demoPostDefaults } from '../../demoData';
 
 export function UploadPage({navigation}: any) {
     
@@ -31,14 +32,21 @@ export function UploadPage({navigation}: any) {
 		navigation.navigate('Swipe Screen');
 	}
 
+    function configureDefaults() {
+        // get request
+        let data = demoPostDefaults;
+        setHandicap(data.handicap.toString());
+        if (data.transport == 'Carting') setCarting(true);
+        if (data.transport == 'Walking') setWalking(true);
+        setIsDrinking(data.isDrinking);
+        setIsBetting(data.isBetting);
+        setIsMusic(data.isMusic);
+        setNumPeople(data.numPeople.toString());
+        setNumHoles(data.numHoles.toString());
+    }
+
     useEffect(() => {
-        setHandicap('20');
-        setCarting(true);
-        setIsDrinking(true);
-        setIsBetting(false);
-        setIsMusic(false);
-        setNumPeople('4');
-        setNumHoles('18');
+        configureDefaults();
     }, []);
 
     function handleUpload() {
@@ -62,10 +70,10 @@ export function UploadPage({navigation}: any) {
                         <Ionicons name="arrow-back" size={24} color="black" />
                     </Text>
                 </TouchableOpacity>
-                <Text style={styles.title}>Upload</Text>
-                <TouchableOpacity>
+                <Text style={styles.title}>New Post</Text>
+                <TouchableOpacity onPress={configureDefaults}>
                     <Text style={styles.icon}>
-                        <SimpleLineIcons name="options-vertical" size={15} color="black" />
+                        <Ionicons name="md-refresh" size={24} color="black" />
                     </Text>
                 </TouchableOpacity>
             </View>

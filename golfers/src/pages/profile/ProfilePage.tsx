@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Text, View, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons, SimpleLineIcons, Entypo, Ionicons } from '@expo/vector-icons';
+import { Select } from 'native-base';
 
 // internal imports
 import {
@@ -21,8 +22,12 @@ export function ProfilePage({route, navigation}: any) {
 	const golfer_id: number = route.params.golfer_id;
 	const appUserId: number = 0;
 	const [golfer, setGolfer] = useState<IProfile>();
+	const [service, setService] = useState<string>();
 
 	useEffect(() => {
+		if (service == 'logout') {
+			console.log('logging out');
+		}
 		setGolfer(demoProfiles[golfer_id]);
 	}, []);
 
@@ -35,6 +40,10 @@ export function ProfilePage({route, navigation}: any) {
 	}
 
 	function onAccept() {
+
+	}
+
+	function onRemove() {
 
 	}
 
@@ -55,11 +64,24 @@ export function ProfilePage({route, navigation}: any) {
 							</Text>
 						</TouchableOpacity>
 					}
-					<TouchableOpacity>
+					{/* <TouchableOpacity>
 						<Text style={styles.icon}>
 							<SimpleLineIcons name="options-vertical" size={15} color="black" />
 						</Text>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
+					
+					{golfer_id == appUserId ?
+						<Select onValueChange={(value) => setService(value)} borderWidth={0} dropdownIcon={<Ionicons name="ios-settings" size={24} color="black" />}>
+							<Select.Item label='Edit profile' value='editProfile' />
+							<Select.Item label='Change password' value='changePassword' />
+							<Select.Item label='Log out' value='logout' />
+							<Select.Item label='Delete account' value='deleteAccount' />
+						</Select>
+					:
+						<Select onValueChange={(value) => setService(value)} borderWidth={0} dropdownIcon={<SimpleLineIcons name="options-vertical" size={15} color="black" />}>
+							<Select.Item label='Report' value='report' />
+						</Select>
+					}
 				</View>
 
 				<ScrollView>
@@ -69,17 +91,6 @@ export function ProfilePage({route, navigation}: any) {
 						/>
 					}
 					
-					
-					{/* {golfer?.profileStatus == 0 &&
-						<View style={styles.actionsProfile}>
-							<TouchableOpacity style={styles.logoutButton}>
-								<Text style={styles.iconButton}>
-									<MaterialIcons name="logout" size={20} color={white} />
-								</Text>
-								<Text style={styles.textButton}>Logout</Text>
-							</TouchableOpacity>
-						</View>
-					} */}
 					{golfer?.matchStatus &&
 						<View style={styles.actionsProfile}>
 							{golfer.matchStatus == 3 &&
@@ -88,27 +99,44 @@ export function ProfilePage({route, navigation}: any) {
 										style={styles.like_button}
 										onPress={() => onAccept()}
 									>
-										<Text style={styles.like}>
-											<Entypo name="add-user" size={20} color={'white'} /> Accept
+										<Text style={styles.iconButton}>
+											<Entypo name="add-user" size={20} color={'white'} />
 										</Text>
+										<Text style={styles.textButton}>Accept</Text>
 									</TouchableOpacity>
 
-									<TouchableOpacity style={styles.dislike_button} onPress={() => onReject()}>
-										<Text style={styles.dislike}>
-											<Entypo name="remove-user" size={20} color={'white'} /> Reject
+									<TouchableOpacity
+										style={styles.dislike_button}
+										onPress={() => onReject()}
+									>
+										<Text style={styles.iconButton}>
+											<Entypo name="remove-user" size={20} color={'white'} />
 										</Text>
+										<Text style={styles.textButton}>Reject</Text>
 									</TouchableOpacity>
 
 								</View>
 							}
 
 							{golfer.matchStatus ==4 &&
-								<TouchableOpacity style={styles.roundedButton}>
-									<Text style={styles.iconButton}>
-										<Entypo name="message" size={24} color="white" />
-									</Text>
-									<Text style={styles.textButton}>Message</Text>
-								</TouchableOpacity>
+								<View style={styles.actionsCardItem}>
+									<TouchableOpacity style={styles.roundedButton}>
+										<Text style={styles.iconButton}>
+											<Entypo name="message" size={24} color="white" />
+										</Text>
+										<Text style={styles.textButton}>Message</Text>
+									</TouchableOpacity>
+									<TouchableOpacity
+										style={styles.dislike_button}
+										onPress={() => onRemove()}
+									>
+										<Text style={styles.iconButton}>
+											<Entypo name="remove-user" size={20} color={'white'} />
+										</Text>
+										<Text style={styles.textButton}>Remove</Text>
+									</TouchableOpacity>
+								</View>
+								
 							}
 							
 						</View>	
@@ -195,30 +223,33 @@ const styles = StyleSheet.create({
 		paddingVertical: 30
 	},
 	like_button: {
-		height: 60,
-		borderRadius: 30,
-		backgroundColor: like_actions,
-		marginHorizontal: 7,
-		alignItems: "center",
 		justifyContent: "center",
-
+		flexDirection: "row",
+		alignItems: "center",
+		marginLeft: 10,
+		height: 50,
+		borderRadius: 25,
+		backgroundColor: like_actions,
+		paddingHorizontal: 20
 	},
 	dislike_button: {
-		height: 60,
-		borderRadius: 30,
-		backgroundColor: dislike_actions,
-		marginHorizontal: 7,
-		alignItems: "center",
 		justifyContent: "center",
+		flexDirection: "row",
+		alignItems: "center",
+		marginLeft: 10,
+		height: 50,
+		borderRadius: 25,
+		backgroundColor: dislike_actions,
+		paddingHorizontal: 20
 	},
 	like: {
-		// fontSize: 25,
+		// fontSize: 2,
 		padding: 10,
 		color: 'white'
 	},
 	dislike: {
 		padding: 10,	
-		color: 'white'
+		color: 'white',
 		// fontSize: 25,
 	},
 });

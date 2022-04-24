@@ -1,4 +1,4 @@
-import { IMatch, IProfile } from './interfaces'
+import { IMatch, IPostDefault, IProfile } from './interfaces'
 
 export const demoMatches: IMatch[] = [
 	{
@@ -170,4 +170,14 @@ export const demoProfiles: IProfile[] = [
         profileStatus: 1,
         image: require('../assets/Jae.png'),
     },
-]
+];
+
+export const demoPostDefaults: IPostDefault = {
+    handicap: 20,
+    transport: 'Carting',
+    isDrinking: true,
+    isBetting: false,
+    isMusic: false,
+    numPeople: 4,
+    numHoles: 18
+}

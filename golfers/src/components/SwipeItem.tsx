@@ -41,7 +41,9 @@ export function SwipeItem({
     const fullWidth = Dimensions.get('window').width;
     const imageStyle = [
 		{
-			borderRadius: 8,
+			borderRadius: variant ? 0 : 8,
+			borderTopLeftRadius: 8,
+			borderTopRightRadius: 8,
 			width: variant ? fullWidth / 2 - 30 : fullWidth -80,
 			height: variant ? 170 : 325,
 			margin: variant ? 0 : 20

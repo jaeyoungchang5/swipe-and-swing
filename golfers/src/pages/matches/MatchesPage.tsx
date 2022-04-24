@@ -1,5 +1,5 @@
 // external imports
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ImageBackground, StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import { AntDesign } from '@expo/vector-icons';

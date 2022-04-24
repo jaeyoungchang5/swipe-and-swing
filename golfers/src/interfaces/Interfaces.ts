@@ -34,3 +34,13 @@ export interface IMatch {
     numPeople: number,
     image: any,
 }
+
+export interface IPostDefault {
+    handicap: number,
+    transport: string,
+    isDrinking: boolean,
+    isBetting: boolean,
+    isMusic: boolean,
+    numPeople: number,
+    numHoles: number
+}
