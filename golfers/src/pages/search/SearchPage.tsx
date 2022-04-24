@@ -16,7 +16,7 @@ import {
 	like_actions,
 	dislike_actions
 } from '../../options.json';
-import { SwipeItem } from '../../components';
+import { SearchAll, SearchCourses, SearchGolfers, SearchTeeTimes } from '../../components';
 
 export function SearchPage() {
 	const [focused, setFocused] = useState<boolean>(false);
@@ -66,10 +66,10 @@ export function SearchPage() {
 							}}
 							
 						>
-							<SearchOptionTab.Screen name="All" component={SwipeItem} />
-							<SearchOptionTab.Screen name="Golfers" component={SwipeItem} />
-							<SearchOptionTab.Screen name="Courses" component={SwipeItem} />
-							<SearchOptionTab.Screen name="Tee Times" component={SwipeItem} />
+							<SearchOptionTab.Screen name="All" component={SearchAll} />
+							<SearchOptionTab.Screen name="Golfers" component={SearchGolfers} />
+							<SearchOptionTab.Screen name="Courses" component={SearchCourses} />
+							<SearchOptionTab.Screen name="Tee Times" component={SearchTeeTimes} />
 						</SearchOptionTab.Navigator>
 					</View>
 				</TouchableWithoutFeedback>
@@ -106,10 +106,11 @@ const styles = StyleSheet.create({
 	optionBarStyle: {
 		marginTop: 5,
 		borderRadius: 4,
+		borderWidth: 0.5,
 	},
 	optionIndicatorStyle: {
 		backgroundColor: 'powderblue', 
 		height: '100%', 
-		borderRadius: 4
+		borderRadius: 4,
 	}
 });
