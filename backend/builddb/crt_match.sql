@@ -7,3 +7,16 @@ create table match
   FOREIGN KEY(post_id) REFERENCES POST(post_id),
   FOREIGN KEY(swiper_id) REFERENCES GOLFER(golfer_id)
  );
+
+drop sequence match_sequence;
+create sequence match_sequence;
+
+create or replace trigger match_on_insert
+  before insert on match
+  for each row
+  begin
+    select match_sequence.nextval
+    into :new.match_id
+    from dual;
+  end;
+/

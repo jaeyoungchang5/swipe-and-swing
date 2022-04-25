@@ -16,3 +16,16 @@ create table golfer
   --default_num_people number(1),
   --is_deleted number(2) DEFAULT 0
  );
+
+drop sequence golfer_sequence;
+create sequence golfer_sequence;
+
+create or replace trigger golfer_on_insert
+  before insert on golfer
+  for each row
+  begin
+    select golfer_sequence.nextval
+    into :new.golfer_id
+    from dual;
+  end;
+/

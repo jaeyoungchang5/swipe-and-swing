@@ -14,3 +14,16 @@ create table post
   --lifespan varchar(10),
   FOREIGN KEY(poster_id) REFERENCES GOLFER(golfer_id)
  );
+
+drop sequence post_sequence;
+create sequence post_sequence;
+
+create or replace trigger post_on_insert
+  before insert on post
+  for each row
+  begin
+    select post_sequence.nextval
+    into :new.post_id
+    from dual;
+  end;
+/

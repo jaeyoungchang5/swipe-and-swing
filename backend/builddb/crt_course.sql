@@ -7,3 +7,16 @@ create table course
   location varchar(20),
   difficulty varchar(10)
  );
+
+drop sequence course_sequence;
+create sequence course_sequence;
+
+create or replace trigger course_on_insert
+  before insert on course
+  for each row
+  begin
+    select course_sequence.nextval
+    into :new.course_id
+    from dual;
+  end;
+/

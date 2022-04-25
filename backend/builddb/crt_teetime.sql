@@ -1,5 +1,5 @@
 create table teetime
- (teetime_id number(4), 
+ (teetime_id number(4) PRIMARY KEY, 
   course_id number(4),
   golfer1_id number(4),
   golfer2_id number(4),
@@ -13,3 +13,16 @@ create table teetime
   FOREIGN KEY(golfer3_id) REFERENCES GOLFER(golfer_id),
   FOREIGN KEY(golfer4_id) REFERENCES GOLFER(golfer_id)
 );
+
+drop sequence teetime_sequence;
+create sequence teetime_sequence;
+
+create or replace trigger teetime_on_insert
+  before insert on teetime
+  for each row
+  begin
+    select teetime_sequence.nextval
+    into :new.teetime_id
+    from dual;
+  end;
+/
