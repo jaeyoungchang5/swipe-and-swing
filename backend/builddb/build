@@ -6,3 +6,4 @@ sqlldr arocks/arocks control=message.ctl
 sqlldr arocks/arocks control=teetime.ctl
 sqlldr arocks/arocks control=course.ctl
 sqlldr arocks/arocks control=friendship.ctl
+sqlldr arocks/arocks control=courseadmin.ctl
