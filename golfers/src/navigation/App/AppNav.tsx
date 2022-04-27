@@ -10,6 +10,8 @@ import { primary_color, dark_grey } from '../../options.json';
 import { SwipeNav, MatchNav } from '../Pages';
 
 export function AppNav({route}: any) {
+    const appUserId: string = route.params.appUserId;
+    
 	const Tab = createBottomTabNavigator(); 
     
     return (

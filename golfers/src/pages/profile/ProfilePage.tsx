@@ -27,9 +27,10 @@ export function ProfilePage({route, navigation}: any) {
 	useEffect(() => {
 		if (service == 'logout') {
 			console.log('logging out');
+			navigation.navigate('Auth');
 		}
 		setGolfer(demoProfiles[golfer_id]);
-	}, []);
+	}, [service]);
 
 	function handleRoutingBack() {
 		navigation.navigate('Match Screen');

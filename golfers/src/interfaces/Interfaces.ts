@@ -55,3 +55,15 @@ export interface ICourse {
     latitude: number,
     difficulty: number,
 }
+
+export interface ILoginCredentials {
+    username: string,
+    password: string,
+}
+
+export interface ISignupCredentials {
+    firstName: string,
+    lastName: string,
+    username: string,
+    password: string,
+}
