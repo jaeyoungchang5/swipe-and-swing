@@ -12,6 +12,16 @@ import json
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+
+@bp.route('/registerGolfer', methods=('GET', 'POST'))
+def registerGolfer():
+    if request.method == 'POST':
+        # store data from 
+        username = request.form['username']
+        password = request.form['password']
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+
 @bp.route('/registerCourse', methods=('GET', 'POST'))
 def registerCourse():
     if request.method == 'POST':
@@ -29,29 +39,49 @@ def registerCourse():
         elif not course_id:
             error = 'Course_id is required.'
         
-        query = 'INSERT INTO course (username, password) VALUES (?, ?)' + (username, generate_password_hash(password))
-        query = f"INSERT INTO courseadmin (course_id,username,password) VALUES"
+        # check that the username is not already registered
+        query = """SELECT * FROM courseadmin WHERE username = :usr"""
+        print(query)
+        data = dict(usr=username)
+        res = cursor.execute(
+            query,
+            data
+        ).fetchone()
+        # check if result exists
+        print(res)
+        if res is not None:
+            print("Username already taken")
+            insert = False
+            return json.dumps({'success':False, 'message':'Username already taken'}), 200, {'ContentType':'application/json'}
+        else:
+            print("Username available")
+            insert = True
 
-        if error is None:
+        #query = 'INSERT INTO course (username, password) VALUES (?, ?)' + (username, generate_password_hash(password))
+        query = """INSERT INTO courseadmin (course_id,username,password) VALUES (:cid,:usr,:pwd)"""
+        data = dict(cid=course_id, usr=username, pwd=password)
+        
+        if error is None and insert is True:
             try:
                 cursor.execute(
-                    query
+                    query,
+                    data
                 )
-                # db.execute(
-                #     "INSERT INTO user (username, password) VALUES (?, ?)",
-                #     (username, generate_password_hash(password)),
-                # )
-                res = cursor.fetchall()
-                for row in res:
-                    print(row)
-            except db.IntegrityError:
-                error = f"User {username} is already registered."
-            # else:
-                # return redirect(url_for("auth.login"))
+
+                db.commit()
+                print("Committed")
+                
+            # except db.IntegrityError:
+            #     error = f"User {username} is already registered."
+            except Exception as e:
+                print("Failed to insert")
+                print(str(e))
+                return 'invalid'
 
         flash(error)
 
-    return 'valid'
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
 
 @bp.route('/loginCourse', methods=('GET', 'POST'))
 def loginCourse():
@@ -62,30 +92,26 @@ def loginCourse():
         cursor = db.cursor()
         error = None
 
-        if not username:
-            error = 'Username is required.'
-        elif not password:
-            error = 'Password is required.'
+        # new
+        query = f"SELECT password FROM courseadmin WHERE username = :usr"
+        data = dict(usr=username)
+        user = cursor.execute(
+            query,
+            data
+        ).fetchone()
+
+        if user is None:
+            error = 'Incorrect username.'
+        elif user[0] != password:
+            error = 'Incorrect password.'
+            print("passwords don't match, unsuccessful login")
+            return json.dumps({'success':False}), 200, {'ContentType':'application/json'}
+        else:
+            print("passwords match, successful login")
+            return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
+
         
-        query = f"SELECT password FROM courseadmin WHERE username = '{username}'"
-
-        if error is None:
-            try:
-                cursor.execute(
-                    query)
-                res = cursor.fetchall()
-                print('password from request =',password)
-                print('password from DB =', res[0][0])
-                pwd = (res[0][0])
-                if password == pwd:
-                    print("passwords match, successful login")
-                    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
-                else:
-                    print("passwords don't match, unsuccessful login")
-                    return json.dumps({'success':False}), 200, {'ContentType':'application/json'}
-            except db.IntegrityError:
-                error = f"User {username} is already registered."
-
         flash(error)
 
     

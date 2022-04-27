@@ -23,7 +23,10 @@ from flask import current_app, g
 
 def get_db():
     if 'db' not in g:
-        cx_Oracle.init_oracle_client(lib_dir="/Users/andrewrocks/oracle/instantclient_19_8")
+        try:
+            cx_Oracle.init_oracle_client(lib_dir="/Users/andrewrocks/oracle/instantclient_19_8")
+        except:
+            print("Already initialized")
         g.db = cx_Oracle.connect('arocks/arocks@54.145.160.33/xe')
         
         # g.db.row_factory = sqlite3.Row
