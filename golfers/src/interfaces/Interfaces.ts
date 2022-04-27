@@ -50,7 +50,7 @@ export interface ICourse {
     courseName: string,
     courseDescription: string,
     website: string,
-    phone_num: string,
+    phoneNum: string,
     longitude: number,
     latitude: number,
     difficulty: number,
