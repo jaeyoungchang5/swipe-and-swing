@@ -3,9 +3,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import LottieView from 'lottie-react-native';
 
 // internal imports
-import { City, Filters, SwipeItem, UploadButton } from '../../components';
+import { AsyncLoad, City, Filters, SwipeItem, UploadButton } from '../../components';
 import { demoMatches } from '../../demoData';
 import { IMatch } from '../../interfaces';
 
@@ -39,7 +40,16 @@ export function SwipePage({ navigation }: any) {
 			<CardStack
 				loop={false}
 				verticalSwipe={false}
-				renderNoMoreCards={() => null}
+				renderNoMoreCards={() => { 
+					return (
+						<View style={styles.loading}>
+							<AsyncLoad />
+						</View> 
+					)
+				}}
+				// onSwipedAll={async () => {
+				// 	return null
+				// }}
 				ref={swiper => { swiperRef = swiper }}
 			>
 			{matches.map((item, index) => (
@@ -81,6 +91,13 @@ const styles = StyleSheet.create({
 	bg: {
 		flex: 1,
 		resizeMode: "cover"
+	},
+	loading: {
+		// flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+		// backgroundColor: 'red',
+		height: '100%'
 	},
 	containerHome: { 
 		marginHorizontal: 10,

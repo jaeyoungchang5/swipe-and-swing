@@ -20,11 +20,17 @@ import { SearchAll, SearchCourses, SearchGolfers, SearchTeeTimes } from '../../c
 
 export function SearchPage() {
 	const [focused, setFocused] = useState<boolean>(false);
+	const [searchText, setSearchText] = useState<string>('');
 	const SearchOptionTab = createMaterialTopTabNavigator();
 
 	function unfocusSearch() {
+		setSearchText('');
 		Keyboard.dismiss();
 		setFocused(false);
+	}
+
+	function search() {
+		// console.log(searchText);
 	}
 
     return (
@@ -38,6 +44,9 @@ export function SearchPage() {
 						autoCorrect={false}
 						returnKeyType='search'
 						onFocus={() => setFocused(true)}
+						onChangeText={(text) => setSearchText(text)}
+						value={searchText}
+						onSubmitEditing={search}
 						InputLeftElement={
 							<TouchableOpacity>
 								<MaterialIcons style={{paddingLeft: 10,}} size={20} name="search" />

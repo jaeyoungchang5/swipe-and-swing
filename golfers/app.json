@@ -17,7 +17,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        },
+        "NSLocationWhenInUseUsageDescription": "The application Swipe & Swing needs user location in order to find other nearby golfers in close proximity.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "The application Swipe & Swing needs user location in order to find other nearby golfers in close proximity.",
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ]
+      },
+      "bundleIdentifier": "com.swipeandswing.client"
     },
     "android": {
       "adaptiveIcon": {
