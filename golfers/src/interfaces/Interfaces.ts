@@ -64,6 +64,8 @@ export interface ILoginCredentials {
 export interface ISignupCredentials {
     firstName: string,
     lastName: string,
+    age: number,
+    phoneNum: string,
     username: string,
     password: string,
 }

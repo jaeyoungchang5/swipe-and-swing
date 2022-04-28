@@ -23,7 +23,7 @@ export default function App() {
 			<NativeBaseProvider>
 				<NavigationContainer>
 					<StatusBar barStyle={"dark-content"} hidden={false} translucent={true} />
-					<Stack.Navigator initialRouteName='AppLoading'>
+					<Stack.Navigator initialRouteName='AppLoading' screenOptions={{gestureEnabled: false}}>
 						<Stack.Screen
 							name='AppLoading'
 							component={AppLoadingPage}

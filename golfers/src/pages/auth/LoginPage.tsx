@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
-import { SafeAreaView, Platform, View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { AntDesign, MaterialIcons, SimpleLineIcons, Entypo, Ionicons } from '@expo/vector-icons';
-import { Input, Select, Switch, useToast } from 'native-base';
+import { Platform, View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { useToast } from 'native-base';
 
 // internal imports
 import {
-    dark_grey,
 	primary_color,
-	alternate_color,
 	white,
-	like_actions,
-	dislike_actions
 } from '../../options.json';
-import { AsyncLoad } from '../../components';
 import { ILoginCredentials } from '../../interfaces';
 
 export function LoginPage({navigation}: any) {
@@ -49,50 +43,48 @@ export function LoginPage({navigation}: any) {
         // })
     }
     return (
-        <SafeAreaView style={styles.container}>
-            <KeyboardAvoidingView 
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                style={styles.keyboardAvoid}
-                keyboardVerticalOffset={0}
-            >
-                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.container}>
-                        <View style={styles.inputView}>
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder="Username"
-                                maxLength={20}
-                                placeholderTextColor="#003f5c"
-                                autoCapitalize="none"
-                                onChangeText={(username) => setLoginUser(prev => {return {...prev, 'username': username}})}
-                            />
-                        </View>
-
-                        <View style={styles.inputView}>
-                            <TextInput
-                                style={styles.TextInput}
-                                placeholder="Password"
-                                maxLength={16}
-                                placeholderTextColor="#003f5c"
-                                secureTextEntry={true}
-                                onChangeText={(password) => setLoginUser(prev => {return {...prev, 'password': password}})}
-                            />
-                        </View>
-
-                        <TouchableOpacity style={styles.loginBtn} onPress={handleLoginButton}>
-                            <Text style={styles.loginText}>Log In</Text>
-                        </TouchableOpacity>
-
-                        <View style={styles.row}>
-                            <Text>Don’t have an account? </Text>
-                            <TouchableOpacity onPress={() => navigation.replace('Signup Page')}>
-                            <Text style={styles.link}>Sign up</Text>
-                            </TouchableOpacity>
-                        </View>
+        <KeyboardAvoidingView 
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.keyboardAvoid}
+            keyboardVerticalOffset={0}
+        >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.container}>
+                    <View style={styles.inputView}>
+                        <TextInput
+                            style={styles.TextInput}
+                            placeholder="Username"
+                            maxLength={20}
+                            placeholderTextColor={white}
+                            autoCapitalize="none"
+                            onChangeText={(username) => setLoginUser(prev => {return {...prev, 'username': username}})}
+                        />
                     </View>
-                </TouchableWithoutFeedback>  
-            </KeyboardAvoidingView>
-        </SafeAreaView>
+
+                    <View style={styles.inputView}>
+                        <TextInput
+                            style={styles.TextInput}
+                            placeholder="Password"
+                            maxLength={16}
+                            placeholderTextColor={white}
+                            secureTextEntry={true}
+                            onChangeText={(password) => setLoginUser(prev => {return {...prev, 'password': password}})}
+                        />
+                    </View>
+
+                    <TouchableOpacity style={styles.loginBtn} onPress={handleLoginButton}>
+                        <Text style={styles.loginText}>Log In</Text>
+                    </TouchableOpacity>
+
+                    <View style={styles.row}>
+                        <Text>Don’t have an account? </Text>
+                        <TouchableOpacity onPress={() => navigation.replace('Signup Page')}>
+                        <Text style={styles.link}>Sign up</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </TouchableWithoutFeedback>  
+        </KeyboardAvoidingView>
     )
 }
 
@@ -109,7 +101,7 @@ const styles = StyleSheet.create({
     },
 
     inputView: {
-        backgroundColor: "#FFC0CB",
+        backgroundColor: primary_color,
         borderRadius: 30,
         width: "70%",
         height: 45,
@@ -127,7 +119,8 @@ const styles = StyleSheet.create({
     },
 
     loginText: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: white
     },
     loginBtn: {
         width: "40%",
@@ -136,7 +129,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginTop: 40,
-        backgroundColor: "#FF1493",
+        backgroundColor: primary_color,
     },
     row: {
         flexDirection: 'row',

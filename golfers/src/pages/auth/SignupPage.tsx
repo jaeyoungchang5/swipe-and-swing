@@ -6,12 +6,18 @@ import { useToast } from 'native-base';
 // internal imports
 // import { signup } from '../../middleware';
 // import { getUser } from '../../utils';
+import {
+	primary_color,
+	white,
+} from '../../options.json';
 import { ISignupCredentials } from '../../interfaces';
 
 export function SignupPage({navigation}: any) {
     const [signupUser, setSignupUser] = useState<ISignupCredentials>({
         firstName: '',
         lastName: '',
+        age: 0,
+        phoneNum: '',
         username: '',
         password: ''
     });
@@ -22,7 +28,8 @@ export function SignupPage({navigation}: any) {
         event.preventDefault();
 
         if (signupUser.firstName.length == 0 || signupUser.lastName.length == 0 ||
-            signupUser.username.length == 0 || signupUser.password.length == 0) {
+            signupUser.username.length == 0 || signupUser.password.length == 0 ||
+            signupUser.phoneNum.length == 0 || signupUser.age == 0) {
             return toast.show({
                 title: 'Please fill out required fields',
                 placement: 'top'
@@ -59,7 +66,7 @@ export function SignupPage({navigation}: any) {
                             style={styles.TextInput}
                             placeholder="First name"
                             maxLength={20}
-                            placeholderTextColor="#003f5c"
+                            placeholderTextColor={white}
                             autoCapitalize='words'
                             onChangeText={(firstName) => setSignupUser(prev => {return {...prev, 'firstName': firstName}})}
                         />
@@ -69,7 +76,7 @@ export function SignupPage({navigation}: any) {
                             style={styles.TextInput}
                             placeholder="Last name"
                             maxLength={20}
-                            placeholderTextColor="#003f5c"
+                            placeholderTextColor={white}
                             autoCapitalize='words'
                             onChangeText={(lastName) => setSignupUser(prev => {return {...prev, 'lastName': lastName}})}
                         />
@@ -77,9 +84,31 @@ export function SignupPage({navigation}: any) {
                     <View style={styles.inputView}>
                         <TextInput
                             style={styles.TextInput}
+                            keyboardType='number-pad'
+                            placeholder="Age"
+                            maxLength={3}
+                            placeholderTextColor={white}
+                            onChangeText={(age) => setSignupUser(prev => {return {...prev, 'age': Number(age)}})}
+                        />
+                    </View>
+                    <View style={styles.inputView}>
+                        <TextInput
+                            style={styles.TextInput}
+                            placeholder="Phone number"
+                            dataDetectorTypes={'phoneNumber'}
+                            maxLength={15}
+                            keyboardType='number-pad'
+                            placeholderTextColor={white}
+                            onChangeText={(phoneNum) => setSignupUser(prev => {return {...prev, 'phoneNum': phoneNum}})}
+                        />
+                    </View>
+                    
+                    <View style={styles.inputView}>
+                        <TextInput
+                            style={styles.TextInput}
                             placeholder="Username"
                             maxLength={20}
-                            placeholderTextColor="#003f5c"
+                            placeholderTextColor={white}
                             autoCapitalize="none"
                             onChangeText={(username) => setSignupUser(prev => {return {...prev, 'username': username}})}
                         />
@@ -90,7 +119,7 @@ export function SignupPage({navigation}: any) {
                             style={styles.TextInput}
                             placeholder="Password"
                             maxLength={16}
-                            placeholderTextColor="#003f5c"
+                            placeholderTextColor={white}
                             secureTextEntry={true}
                             onChangeText={(password) => setSignupUser(prev => {return {...prev, 'password': password}})}
                         />
@@ -125,7 +154,7 @@ const styles = StyleSheet.create({
     },
 
     inputView: {
-        backgroundColor: "#FFC0CB",
+        backgroundColor: primary_color,
         borderRadius: 30,
         width: "70%",
         height: 45,
@@ -140,10 +169,12 @@ const styles = StyleSheet.create({
         width: "100%",
         marginLeft: 20,
         padding: 10,
+        color: white
     },
 
     loginText: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: white
     },
     loginBtn: {
         width: "40%",
@@ -152,7 +183,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         marginTop: 40,
-        backgroundColor: "#FF1493",
+        backgroundColor: primary_color,
     },
     row: {
         flexDirection: 'row',
