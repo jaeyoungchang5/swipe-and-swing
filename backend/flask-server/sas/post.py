@@ -27,15 +27,14 @@ def uploadPost():
         # validate body   
         data = {}
         try:
-            data = dict(pid=info["poster_id"],id=info["is_drinking"],ib=info["is_betting"],im=info["is_music"],tp=info["transport"],nh=info["num_holes"],np=info["num_people"],dur=info["duration"])
+            data = dict(du=info["duration"],pid=info["poster_id"],id=info["is_drinking"],ib=info["is_betting"],im=info["is_music"],tp=info["transport"],nh=info["num_holes"],np=info["num_people"])
             print(data)
         except Exception as e:
             print("Failed to create dict")
             print(str(e))
             return json.dumps({'success':False, 'message':'Missing user field', 'missing':str(e)}), 400, {'ContentType':'application/json'}
-
-        query = """INSERT INTO golfer (poster_id,is_drinking,is_betting,is_music,transport,num_holes,num_people,duration) VALUES (:pid,:id,:ib,:im,:tp,:nh,:np,:dur)"""
-
+        query = """INSERT INTO golfer (poster_id,is_drinking,is_betting,is_music,transport,num_holes,num_people,duration) VALUES (:pid,:id,:ib,:im,:tp,:nh,:np,:du)"""
+        
         # attempt query
         print(query)
         try:
@@ -45,6 +44,7 @@ def uploadPost():
             )
             db.commit()
             print("Committed")
+            return json.dumps({'success':True}), 400, {'ContentType':'application/json'}
 
         except Exception as e:
             print("Failed to insert")
