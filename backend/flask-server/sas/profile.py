@@ -51,15 +51,26 @@ def editInfo():
         user = request.form
         info = {}
         info.update(user)
-        print(info)
+        # print(info)
+
+        db = get_db()
+        cursor = db.cursor()
 
         # execute update statement for sql
-        query = """UPDATE golfer (course_id,username,password) 
-        VALUES (:cid,:usr,:pwd)
-        where golfer_id = :gid
+        
+        data = {}
+        try:
+            data = dict(gid=info["golfer_id"],fn=info["first_name"],ln=info["last_name"],ag=info["age"],rat=info["rating"],pn=info["phone_num"],hc=info["handicap"],lat=info["latitude"],lon=info["longitude"])
+        except Exception as e:
+            print("Failed to create dict")
+            print(str(e))
+            return json.dumps({'success':False, 'message':'Missing user field', 'missing':str(e)}), 400, {'ContentType':'application/json'}
+        
+        # print(data)
+        query = """UPDATE golfer
+        SET first_name = :fn, last_name = :ln, age = :ag, rating = :rat, phone_num = :pn, handicap = :hc, latitude = :lat, longitude = :lon
+        wHERE golfer_id = :gid
         """
-        data = dict(gid=info["golfer_id"])
-        print(data)
 
         try:
             cursor.execute(
@@ -69,12 +80,11 @@ def editInfo():
 
             db.commit()
             print("Committed")
+            return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
             
         # except db.IntegrityError:
         #     error = f"User {username} is already registered."
         except Exception as e:
-            print("Failed to insert")
-            print(str(e))
-            return 'invalid'
-
-    return 'valid'
+            #print("Failed to insert")
+            #print(str(e))
+            return json.dumps({'success':False, 'message':'Insert Failed'}), 400, {'ContentType':'application/json'}
