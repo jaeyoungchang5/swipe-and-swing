@@ -167,7 +167,7 @@ def loginCourse():
         cursor = db.cursor()
         error = None
 
-        query = f"SELECT password FROM courseadmin WHERE username = :usr"
+        query = """SELECT password FROM courseadmin WHERE username = :usr"""
         data = dict(usr=username)
         user = cursor.execute(
             query,
