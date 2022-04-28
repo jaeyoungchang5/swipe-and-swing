@@ -1,4 +1,4 @@
-import { IMatch, IPostDefault, IProfile, ICourse } from './interfaces'
+import { IMatch, IPostDefault, IProfile, ICourse, INewPostDefault, IDefaults } from './interfaces'
 
 export const demoMatches: IMatch[] = [
 	{
@@ -173,13 +173,13 @@ export const demoProfiles: IProfile[] = [
 ];
 
 export const demoPostDefaults: IPostDefault = {
-    handicap: 20,
-    transport: 'Carting',
-    isDrinking: true,
+    handicap: 21,
+    transport: 'Walking',
+    isDrinking: false,
     isBetting: false,
-    isMusic: false,
+    isMusic: true,
     numPeople: 4,
-    numHoles: 18
+    numHoles: 18,
 }
 
 export const demoCourses: ICourse[] = [

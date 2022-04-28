@@ -5,3 +5,4 @@ export * from './notifs';
 export * from './matches';
 export * from './app-loading';
 export * from './auth';
+export * from './upload';

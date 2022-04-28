@@ -45,6 +45,18 @@ export interface IPostDefault {
     numHoles: number
 }
 
+export interface INewPostDefault {
+    handicap: string,
+    carting: boolean,
+    walking: boolean,
+    isDrinking: boolean,
+    isBetting: boolean,
+    isMusic: boolean,
+    numPeople: string,
+    numHoles: string,
+    duration: string,
+}
+
 export interface ICourse {
     course_id: number,
     courseName: string,
@@ -68,4 +80,17 @@ export interface ISignupCredentials {
     phoneNum: string,
     username: string,
     password: string,
+}
+
+export interface IDefaults {
+    handicap: string,
+    carting: boolean,
+    walking: boolean,
+    isDrinking: boolean,
+    isBetting: boolean,
+    isMusic: boolean,
+    numPeople: string,
+    numHoles: string,
+    date?: Date,
+    
 }

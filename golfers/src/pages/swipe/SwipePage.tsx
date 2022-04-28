@@ -5,7 +5,7 @@ import CardStack, { Card } from 'react-native-card-stack-swiper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 // internal imports
-import { City, Filters, SwipeItem, Upload } from '../../components';
+import { City, Filters, SwipeItem, UploadButton } from '../../components';
 import { demoMatches } from '../../demoData';
 import { IMatch } from '../../interfaces';
 
@@ -31,7 +31,7 @@ export function SwipePage({ navigation }: any) {
         <View style={styles.containerHome}>
 			<View style={styles.top}>
 				<City />
-				<Upload navigation={navigation} />
+				<UploadButton navigation={navigation} />
 				<Filters />
 			</View>
 			{matches &&
