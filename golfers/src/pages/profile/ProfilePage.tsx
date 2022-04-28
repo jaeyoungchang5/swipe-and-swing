@@ -4,6 +4,7 @@ import { FlatList, ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Te
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons, SimpleLineIcons, Entypo, Ionicons } from '@expo/vector-icons';
 import { Select } from 'native-base';
+import * as Linking from 'expo-linking';
 
 // internal imports
 import {
@@ -121,7 +122,12 @@ export function ProfilePage({route, navigation}: any) {
 
 							{golfer.matchStatus ==4 &&
 								<View style={styles.actionsCardItem}>
-									<TouchableOpacity style={styles.roundedButton}>
+									<TouchableOpacity 
+										onPress={() => {
+											Linking.openURL(`sms:+1${golfer.phoneNum}`)
+										}}
+										style={styles.roundedButton}
+									>
 										<Text style={styles.iconButton}>
 											<Entypo name="message" size={24} color="white" />
 										</Text>
