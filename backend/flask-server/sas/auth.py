@@ -76,7 +76,7 @@ def loginGolfer():
         cursor = db.cursor()
 
         # 
-        query = f"SELECT password FROM golfer WHERE username = :usr"
+        query = """SELECT password FROM golfer WHERE username = :usr"""
         data = dict(usr=username)
         user = cursor.execute(
             query,
