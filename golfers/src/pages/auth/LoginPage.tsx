@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
         width: "100%",
         marginLeft: 20,
         padding: 10,
+        color: white
     },
 
     loginText: {

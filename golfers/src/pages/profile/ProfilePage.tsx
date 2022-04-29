@@ -28,7 +28,7 @@ export function ProfilePage({route, navigation}: any) {
 	useEffect(() => {
 		if (service == 'logout') {
 			console.log('logging out');
-			navigation.navigate('Auth');
+			navigation.replace('Auth');
 		}
 		setGolfer(demoProfiles[golfer_id]);
 	}, [service]);

@@ -5,104 +5,88 @@ import MapView, { Marker, Callout } from 'react-native-maps';
 import { Modal } from 'native-base';
 import * as Location from 'expo-location';
 import * as Linking from 'expo-linking';
+import { useIsFocused } from '@react-navigation/native';
 
 // internal imports
 import { demoCourses } from '../../demoData';
-import { ICourse } from '../../interfaces';
-import { AsyncLoad } from '../AsyncLoad';
+import { ICourse, IInitialCoordinates, ICoordinates } from '../../interfaces';
+import { AsyncLoad } from '../AsyncLoad/';
+import { getCurrentLocation } from '../../utils';
 
-export function SearchCourses() {
-    /* initial coordinates that map will be centered on */
-    // const initialCoordinates = {
-    //     latitude: 41.7030,
-    //     longitude: -86.2390,
-    //     latitudeDelta: 0.06,
-    //     longitudeDelta: 0.06
-    // }
-    
+export function SearchCourses({searchText, searchTrig, updateSearchTrig, initialCoordinates} : any) {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [course, setCourse] = useState<ICourse>();
-    const [initialCoordinates, setInitialCoordinates] = useState<any>();
-    const [userlocation, setUserLocation] = useState<any>(initialCoordinates);
+    const [userlocation, setUserLocation] = useState<ICoordinates>();
     const [courses, setCourses] = useState<ICourse[]>();
 	const [errorMsg, setErrorMsg] = useState<string>();
+    
+    const isFocused = useIsFocused();
 
-    async function getCurrentLocation() {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            setErrorMsg('Permission to access location was denied');
-            // console.log('not granted')
-            return;
-        } else {
-            // console.log('granted')
-        }
-
-        let location = await Location.getCurrentPositionAsync({});
-        setUserLocation({
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude
-        });
-        setInitialCoordinates({
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-            latitudeDelta: 0.06,
-            longitudeDelta: 0.06
-        })
-    }
-
-    function seeMore(website: string) {
-        Linking.openURL(website);
-    }
+    
 
     useEffect(() => {
+        let mounted = true;
+        if (isFocused) {
+            if (searchTrig) {
+                console.log(`searching courses for: ${searchText}`)
+                updateSearchTrig(false);
+            }
+        }
+        // get users prev location=
+
         // get all courses
         setCourses(demoCourses);
-        getCurrentLocation();
+        getCurrentLocation()
+        .then(res => {
+            if (mounted) {
+                setUserLocation(res);
+            }
+        })
+        
+
+        return function cleanup() {
+            mounted = false;
+        };
     }, []);
 
     return (
         <View style={styles.container}>
-            {initialCoordinates ?
-                <MapView
-                    style={styles.map}
-                    initialRegion={initialCoordinates}
-                    showsBuildings={true}
-                    loadingEnabled={true}
-                    showsUserLocation={true}
-                >
-                    {courses && courses.map((marker, index) => {
-                        return (
-                            <Marker
-                                key={index}
-                                coordinate={{
-                                    latitude: marker.latitude,
-                                    longitude: marker.longitude,
-                                }}
-                                // pinColor={alternate_color}
-                            >
-                                <Callout>
-                                    <View>
-                                        <Text>{marker.courseName}</Text>
-                                        <Text></Text>
-                                        
-                                        <TouchableOpacity 
-                                            onPress={() => {
-                                                setShowModal(true);
-                                                setCourse(marker);
-                                            }} 
-                                            style={styles.button}
-                                        >
-                                            <Text style={styles.buttonText}>See more</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </Callout>
-                            </Marker>
-                        )
-                    })}
-                </MapView>
-            :
-                <AsyncLoad />
-            }
+            <MapView
+                style={styles.map}
+                initialRegion={initialCoordinates}
+                showsBuildings={true}
+                loadingEnabled={true}
+                showsUserLocation={true}
+            >
+                {courses && courses.map((marker, index) => {
+                    return (
+                        <Marker
+                            key={index}
+                            coordinate={{
+                                latitude: marker.latitude,
+                                longitude: marker.longitude,
+                            }}
+                        >
+                            <Callout>
+                                <View>
+                                    <Text>{marker.courseName}</Text>
+                                    <Text></Text>
+                                    
+                                    <TouchableOpacity 
+                                        onPress={() => {
+                                            setShowModal(true);
+                                            setCourse(marker);
+                                        }} 
+                                        style={styles.button}
+                                    >
+                                        <Text style={styles.buttonText}>See more</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </Callout>
+                        </Marker>
+                    )
+                })}
+            </MapView>
 
             {course &&
                 <Modal isOpen={showModal} onClose={() => setShowModal(false)}>

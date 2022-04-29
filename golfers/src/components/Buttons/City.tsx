@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 
-import { white, black, dark_grey } from '../options.json';
+import { white, black, dark_grey } from '../../options.json';
 
 export function City() {
     return (

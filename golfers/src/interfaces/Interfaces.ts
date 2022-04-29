@@ -96,3 +96,15 @@ export interface IDefaults {
     date?: Date,
     
 }
+
+export interface IInitialCoordinates {
+    latitude: number,
+    longitude: number,
+    latitudeDelta: number,
+    longitudeDelta: number
+}
+
+export interface ICoordinates {
+    latitude: number,
+    longitude: number
+}

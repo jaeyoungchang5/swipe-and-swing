@@ -26,9 +26,7 @@ export function AppLoadingPage ({navigation}: any) {
     
     return (
         <SafeAreaProvider>
-            <View style={styles.app_loading}>
-                <AsyncLoad />
-            </View>
+            <AsyncLoad />
         </SafeAreaProvider>
     )
 }

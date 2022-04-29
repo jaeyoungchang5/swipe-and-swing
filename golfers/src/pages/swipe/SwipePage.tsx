@@ -42,9 +42,7 @@ export function SwipePage({ navigation }: any) {
 				verticalSwipe={false}
 				renderNoMoreCards={() => { 
 					return (
-						<View style={styles.loading}>
-							<AsyncLoad />
-						</View> 
+						<AsyncLoad />
 					)
 				}}
 				// onSwipedAll={async () => {
