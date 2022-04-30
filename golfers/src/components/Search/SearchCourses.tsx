@@ -1,52 +1,21 @@
 // external imports
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { Modal } from 'native-base';
-import * as Location from 'expo-location';
 import * as Linking from 'expo-linking';
-import { useIsFocused } from '@react-navigation/native';
 
 // internal imports
-import { demoCourses } from '../../demoData';
-import { ICourse, IInitialCoordinates, ICoordinates } from '../../interfaces';
-import { AsyncLoad } from '../AsyncLoad/';
-import { getCurrentLocation } from '../../utils';
+import { ICourse } from '../../interfaces';
+import { CourseResult } from './CourseResult';
+import { primary_color } from '../../options.json';
 
-export function SearchCourses({searchText, searchTrig, updateSearchTrig, initialCoordinates} : any) {
+export function SearchCourses({courseResults, initialCoordinates} : any) {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [course, setCourse] = useState<ICourse>();
-    const [userlocation, setUserLocation] = useState<ICoordinates>();
-    const [courses, setCourses] = useState<ICourse[]>();
-	const [errorMsg, setErrorMsg] = useState<string>();
-    
-    const isFocused = useIsFocused();
-
-    
 
     useEffect(() => {
-        let mounted = true;
-        if (isFocused) {
-            if (searchTrig) {
-                console.log(`searching courses for: ${searchText}`)
-                updateSearchTrig(false);
-            }
-        }
-        // get users prev location=
 
-        // get all courses
-        setCourses(demoCourses);
-        getCurrentLocation()
-        .then(res => {
-            if (mounted) {
-                setUserLocation(res);
-            }
-        })
-        
-
-        return function cleanup() {
-            mounted = false;
-        };
     }, []);
 
     return (
@@ -58,7 +27,7 @@ export function SearchCourses({searchText, searchTrig, updateSearchTrig, initial
                 loadingEnabled={true}
                 showsUserLocation={true}
             >
-                {courses && courses.map((marker, index) => {
+                {courseResults && courseResults.map((marker: ICourse, index: number) => {
                     return (
                         <Marker
                             key={index}
@@ -87,6 +56,17 @@ export function SearchCourses({searchText, searchTrig, updateSearchTrig, initial
                     )
                 })}
             </MapView>
+            <View style={styles.list}>
+                <FlatList
+                    data={courseResults}
+                    style={styles.results}
+                    scrollEnabled={true}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({ item }) => (
+                        <CourseResult courseResult={item} setShowModal={setShowModal} setCourse={setCourse} />
+                    )}
+                />
+            </View>
 
             {course &&
                 <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
@@ -103,7 +83,7 @@ export function SearchCourses({searchText, searchTrig, updateSearchTrig, initial
                                 }} 
                                 style={styles.courseButton}
                             >
-                                <Text style={styles.buttonText}>Call</Text>
+                                <Text style={styles.buttonText}>Call course</Text>
                             </TouchableOpacity>
                             
                             <TouchableOpacity 
@@ -129,12 +109,12 @@ const styles = StyleSheet.create({
         marginTop: 10,
 	},
     map: {
-        flex: 1,
+        flex: 2,
         borderRadius: 4,
         borderWidth: 0.5
     },
     button: {
-        backgroundColor: 'blue',
+        backgroundColor: primary_color,
         padding: 10,
         borderRadius: 10,
     },
@@ -144,9 +124,19 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
     courseButton: {
-        backgroundColor: 'blue',
+        backgroundColor: primary_color,
         padding: 10,
         borderRadius: 10,
         marginLeft: 10,
-    }
+    },
+    list: {
+        flex: 1,
+        backgroundColor: 'white',
+        borderRadius: 4,
+        marginTop: 10,
+        borderWidth: 0.5,
+    },
+    results: {
+        flex: 1,
+    },
 });

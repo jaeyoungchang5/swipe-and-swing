@@ -8,9 +8,9 @@ import ButtonToggleGroup from 'react-native-button-toggle-group';
 
 // internal imports
 import { SearchAll, SearchCourses, SearchGolfers, SearchTeeTimes } from '../../components';
-import { IInitialCoordinates, IProfile } from '../../interfaces';
+import { ICourse, IInitialCoordinates, IProfile } from '../../interfaces';
 import { primary_color, white } from '../../options.json';
-import { demoProfiles } from '../../demoData';
+import { demoCourses, demoProfiles } from '../../demoData';
 import { fakeAPICall } from '../../middleware';
 
 export function SearchPage({route, navigation} : any) {
@@ -19,11 +19,12 @@ export function SearchPage({route, navigation} : any) {
 	const [focused, setFocused] = useState<boolean>(false);
 	const [searchText, setSearchText] = useState<string>('');
 	const [searchTrig, setSearchTrig] = useState<boolean>(false);
-	const [searchFilter, setSearchFilter] = useState<string>('All');
+	const [searchFilter, setSearchFilter] = useState<string>('Golfers');
     const [initialCoordinates, setInitialCoordinates] = useState<IInitialCoordinates>();
 
 	// search result states
 	const [golferResults, setGolferResults] = useState<IProfile[]>();
+	const [courseResults, setCourseResults] = useState<ICourse[]>();
 
 
 	useEffect(() => {
@@ -65,7 +66,12 @@ export function SearchPage({route, navigation} : any) {
 			.then(() => {
 				setGolferResults(demoProfiles);
 			})
-
+		} else if (searchFilter == 'Courses') {
+			console.log('search courses for ' + searchText);
+			fakeAPICall()
+			.then(() => {
+				setCourseResults(demoCourses);
+			})
 		}
 
 	}
@@ -86,13 +92,15 @@ export function SearchPage({route, navigation} : any) {
 						style={styles.input}
 						autoCorrect={false}
 						returnKeyType='search'
-						onFocus={() => setFocused(true)}
+						onFocus={() => {
+							setFocused(true);
+						}}
 						onChangeText={(text) => setSearchText(text)}
 						value={searchText}
 						onSubmitEditing={search}
 						InputLeftElement={
-							<TouchableOpacity>
-								<MaterialIcons style={{paddingLeft: 10,}} size={20} name="search" />
+							<TouchableOpacity onPress={search}>
+								<MaterialIcons style={{paddingLeft: 10,}} size={24} name="search" />
 							</TouchableOpacity>
 							// <TouchableOpacity style={styles.toggleView}>
 							// 	<Entypo name="list" size={24} color="black" />
@@ -119,7 +127,7 @@ export function SearchPage({route, navigation} : any) {
 							highlightTextColor={white}
 							inactiveBackgroundColor={'transparent'}
 							inactiveTextColor={'grey'}
-							values={['All', 'Golfers', 'Courses', 'Tee Times']}
+							values={['Golfers', 'Courses', 'Tee Times']}
 							value={searchFilter}
 							onSelect={val => setSearchFilter(val)}
 							style={styles.optionBar}
@@ -135,7 +143,7 @@ export function SearchPage({route, navigation} : any) {
 						}
 						{
 							searchFilter == 'Courses' &&
-							<SearchCourses searchText={searchText} searchTrig={searchTrig} updateSearchTrig={updateSearchTrig} initialCoordinates={initialCoordinates} />
+							<SearchCourses courseResults={courseResults} initialCoordinates={initialCoordinates} />
 						}
 						{
 							searchFilter == 'Tee Times' &&
@@ -185,27 +193,16 @@ const styles = StyleSheet.create({
 		paddingRight: 10,
 	},
 	cancelText: {
-		color: 'blue'
+		color: '#3ea4c4'
 	},
-	// optionBarStyle: {
-	// 	marginTop: 5,
-	// 	borderRadius: 4,
-	// 	borderWidth: 0.5,
-	// },
-	// optionIndicatorStyle: {
-	// 	backgroundColor: 'powderblue', 
-	// 	height: '100%', 
-	// 	borderRadius: 4,
-	// },
 	optionBar: {
 		marginTop: 10,
 		backgroundColor: white,
 		borderRadius: 4,
-		alignItems: 'center',
-		justifyContent: 'center'
+		borderWidth: 0.5
 	},
 	optionText: {
-		fontSize: 11
+		fontSize: 13,
 	},
 	input: {
 		// width: 
