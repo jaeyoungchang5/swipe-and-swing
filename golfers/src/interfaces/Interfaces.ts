@@ -3,7 +3,7 @@ export interface IProfile {
     firstName: string,
     lastName: string,
     age: number,
-    // username: string,
+    username?: string,
     phoneNum: string,
     handicap: number,
     // location: string,

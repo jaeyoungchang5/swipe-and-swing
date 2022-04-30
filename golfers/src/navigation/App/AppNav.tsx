@@ -5,9 +5,9 @@ import { AntDesign, FontAwesome, MaterialIcons, Ionicons } from '@expo/vector-ic
 import { Text } from 'react-native';
 
 // internal imports
-import { SwipePage, MatchesPage, ProfilePage, SearchPage, UploadPage } from '../../pages';
+import { ProfilePage, UploadPage } from '../../pages';
 import { primary_color, dark_grey } from '../../options.json';
-import { SwipeNav, MatchNav } from '../Pages';
+import { SwipeNav, MatchNav, SearchNav } from '../Pages';
 
 export function AppNav({route}: any) {
     const appUserId: string = route.params.appUserId;
@@ -63,7 +63,7 @@ export function AppNav({route}: any) {
             />
             <Tab.Screen 
                 name='Search' 
-                component={SearchPage}
+                component={SearchNav}
                 options={{
                     headerShown: false,
                     tabBarLabel: ({focused, color}) => (

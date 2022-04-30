@@ -43,7 +43,7 @@ export function ProfilePage({route, navigation}: any) {
 	}
 
 	function handleRoutingBack() {
-		navigation.navigate('Match Screen');
+		navigation.pop(1);
 	}
 
 	function onReject() {

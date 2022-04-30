@@ -1,20 +1,16 @@
 // external imports
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
 
-export function SearchAll({searchText, searchTrig, updateSearchTrig} : any) {
-    const isFocused = useIsFocused();
-
-    
+export function SearchAll({searchText, searchTrig, updateSearchTrig, searchFilter} : any) {
 
     useEffect(() => {
-        if (isFocused) {
-            if (searchTrig) {
-                console.log(`searching all for: ${searchText}`)
-                updateSearchTrig(false);
-            }
-        }
+        // if (searchFilter == 'All') {
+        //     if (searchTrig) {
+        //         console.log(`searching all for: ${searchText}`)
+        //         updateSearchTrig(false);
+        //     }
+        // }
     }, []);
 
     return (

@@ -4,23 +4,27 @@ import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOp
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Input } from 'native-base';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import ButtonToggleGroup from 'react-native-button-toggle-group';
 
 // internal imports
 import { SearchAll, SearchCourses, SearchGolfers, SearchTeeTimes } from '../../components';
-import { getCurrentLocation } from '../../utils';
-import { ICourse, IInitialCoordinates, ICoordinates } from '../../interfaces';
+import { IInitialCoordinates, IProfile } from '../../interfaces';
 import { primary_color, white } from '../../options.json';
+import { demoProfiles } from '../../demoData';
+import { fakeAPICall } from '../../middleware';
 
-export function SearchPage() {
+export function SearchPage({route, navigation} : any) {
+	const appUserId: number = route.params.appUserId;
+
 	const [focused, setFocused] = useState<boolean>(false);
 	const [searchText, setSearchText] = useState<string>('');
 	const [searchTrig, setSearchTrig] = useState<boolean>(false);
 	const [searchFilter, setSearchFilter] = useState<string>('All');
     const [initialCoordinates, setInitialCoordinates] = useState<IInitialCoordinates>();
 
-	const SearchOptionTab = createMaterialTopTabNavigator();
+	// search result states
+	const [golferResults, setGolferResults] = useState<IProfile[]>();
+
 
 	useEffect(() => {
 		getLastLocation();
@@ -41,42 +45,34 @@ export function SearchPage() {
     }
 
 	function unfocusSearch() {
-		setSearchText('');
 		Keyboard.dismiss();
 		setFocused(false);
 	}
 
+	function cancelSearch() {
+		setSearchText('');
+		unfocusSearch();
+	}
+
 	function search() {
 		setSearchTrig(true);
+
+		if (searchFilter == 'All') {
+			console.log('searching all for ' + searchText);
+		} else if (searchFilter == 'Golfers') {
+			console.log('searching golfers for ' + searchText);
+			fakeAPICall()
+			.then(() => {
+				setGolferResults(demoProfiles);
+			})
+
+		}
+
 	}
 
 	function updateSearchTrig(val: boolean) {
 		// console.log('upading search trig to ' + val);
 		setSearchTrig(val);
-	}
-
-	function AllTab() {
-		return (
-			<SearchAll searchText={searchText} searchTrig={searchTrig} updateSearchTrig={updateSearchTrig} />
-		)
-	}
-
-	function GolfersTab() {
-		return (
-			<SearchGolfers searchText={searchText} searchTrig={searchTrig} updateSearchTrig={updateSearchTrig} />
-		)
-	}
-
-	function CoursesTab() {
-		return (
-			<SearchCourses searchText={searchText} searchTrig={searchTrig} updateSearchTrig={updateSearchTrig} initialCoordinates={initialCoordinates} />
-		)
-	}
-
-	function TeeTimesTab() {
-		return (
-			<SearchTeeTimes searchText={searchText} searchTrig={searchTrig} updateSearchTrig={updateSearchTrig} />
-		)
 	}
 
     return (
@@ -87,6 +83,7 @@ export function SearchPage() {
 						placeholder="Search" placeholderTextColor={'black'}
 						width="100%" py="3" px="1" fontSize="14" backgroundColor={'transparent'}
 						borderColor={'black'} borderWidth={0.5} borderRadius="4"
+						style={styles.input}
 						autoCorrect={false}
 						returnKeyType='search'
 						onFocus={() => setFocused(true)}
@@ -97,17 +94,22 @@ export function SearchPage() {
 							<TouchableOpacity>
 								<MaterialIcons style={{paddingLeft: 10,}} size={20} name="search" />
 							</TouchableOpacity>
+							// <TouchableOpacity style={styles.toggleView}>
+							// 	<Entypo name="list" size={24} color="black" />
+							// 	<Entypo name="map" size={18} color="black" />
+							// </TouchableOpacity>
 						} 
 						InputRightElement={
 							<View>
 								{focused &&
-									<TouchableOpacity onPress={unfocusSearch} style={styles.cancelButton}>
+									<TouchableOpacity onPress={cancelSearch} style={styles.cancelButton}>
 										<Text style={styles.cancelText}>Cancel</Text>
 									</TouchableOpacity>
 								}
 							</View>
 						} 
 					/>
+					
 
 				</View>
 				<TouchableWithoutFeedback onPress={unfocusSearch}>
@@ -123,6 +125,22 @@ export function SearchPage() {
 							style={styles.optionBar}
 							textStyle={styles.optionText}
 						/>
+						{
+							searchFilter == 'All' &&
+							<SearchAll searchText={searchText} searchTrig={searchTrig} updateSearchTrig={updateSearchTrig} searchFilter={searchFilter} />
+						}
+						{
+							searchFilter == 'Golfers' &&
+							<SearchGolfers appUserId={appUserId} golferResults={golferResults} navigation={navigation} />
+						}
+						{
+							searchFilter == 'Courses' &&
+							<SearchCourses searchText={searchText} searchTrig={searchTrig} updateSearchTrig={updateSearchTrig} initialCoordinates={initialCoordinates} />
+						}
+						{
+							searchFilter == 'Tee Times' &&
+							<SearchTeeTimes searchText={searchText} searchTrig={searchTrig} updateSearchTrig={updateSearchTrig} />
+						}
 						{/* <SearchOptionTab.Navigator
 							screenOptions={{
 								tabBarLabelStyle: {fontSize: 12, textTransform: 'none'},
@@ -169,16 +187,16 @@ const styles = StyleSheet.create({
 	cancelText: {
 		color: 'blue'
 	},
-	optionBarStyle: {
-		marginTop: 5,
-		borderRadius: 4,
-		borderWidth: 0.5,
-	},
-	optionIndicatorStyle: {
-		backgroundColor: 'powderblue', 
-		height: '100%', 
-		borderRadius: 4,
-	},
+	// optionBarStyle: {
+	// 	marginTop: 5,
+	// 	borderRadius: 4,
+	// 	borderWidth: 0.5,
+	// },
+	// optionIndicatorStyle: {
+	// 	backgroundColor: 'powderblue', 
+	// 	height: '100%', 
+	// 	borderRadius: 4,
+	// },
 	optionBar: {
 		marginTop: 10,
 		backgroundColor: white,
@@ -188,5 +206,12 @@ const styles = StyleSheet.create({
 	},
 	optionText: {
 		fontSize: 11
+	},
+	input: {
+		// width: 
+	}, 
+	toggleView: {
+		// flex: 1,
+		paddingLeft: 10,
 	}
 });
