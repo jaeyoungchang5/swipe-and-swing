@@ -24,7 +24,8 @@ from flask import current_app, g
 def get_db():
     if 'db' not in g:
         try:
-            cx_Oracle.init_oracle_client(lib_dir="/Users/andrewrocks/oracle/instantclient_19_8")
+            #cx_Oracle.init_oracle_client(lib_dir="/Users/andrewrocks/oracle/instantclient_19_8")
+            cx_Oracle.init_oracle_client(lib_dir="/home/ec2-user/oreclient_install_dir/instantclient_21_6")
         except:
             print("Already initialized")
         g.db = cx_Oracle.connect('arocks/arocks@54.145.160.33/xe')
