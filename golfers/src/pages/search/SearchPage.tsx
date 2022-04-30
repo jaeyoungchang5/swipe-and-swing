@@ -30,6 +30,10 @@ export function SearchPage({route, navigation} : any) {
 
 	useEffect(() => {
 		getLastLocation();
+		fakeAPICall()
+		.then(() => {
+			setCourseResults(demoCourses);
+		})
 	}, []);
 
 	function getLastLocation() {
