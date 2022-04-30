@@ -89,7 +89,7 @@ export function AppNav({route}: any) {
                         return <FontAwesome name="user" color={iconFocused} size={size}/>
                     })
                 }}
-                initialParams={{appUserId: appUserId, golfer_id: appUserId}}
+                initialParams={{appUserId: appUserId, golfer_id: appUserId, profileStatus: 0}}
             />
         </Tab.Navigator>
     )

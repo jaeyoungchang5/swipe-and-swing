@@ -8,9 +8,9 @@ import ButtonToggleGroup from 'react-native-button-toggle-group';
 
 // internal imports
 import { SearchAll, SearchCourses, SearchGolfers, SearchTeeTimes } from '../../components';
-import { ICourse, IInitialCoordinates, IProfile } from '../../interfaces';
+import { ITeeTime, ICourse, IInitialCoordinates, IProfile } from '../../interfaces';
 import { primary_color, white } from '../../options.json';
-import { demoCourses, demoProfiles } from '../../demoData';
+import { demoCourses, demoGolferSearchResults, demoTeeTimeSearchResults } from '../../demoData';
 import { fakeAPICall } from '../../middleware';
 
 export function SearchPage({route, navigation} : any) {
@@ -25,6 +25,7 @@ export function SearchPage({route, navigation} : any) {
 	// search result states
 	const [golferResults, setGolferResults] = useState<IProfile[]>();
 	const [courseResults, setCourseResults] = useState<ICourse[]>();
+	const [teeTimeResults, setTeeTimeResults] = useState<ITeeTime[]>();
 
 
 	useEffect(() => {
@@ -64,13 +65,19 @@ export function SearchPage({route, navigation} : any) {
 			console.log('searching golfers for ' + searchText);
 			fakeAPICall()
 			.then(() => {
-				setGolferResults(demoProfiles);
+				setGolferResults(demoGolferSearchResults);
 			})
 		} else if (searchFilter == 'Courses') {
 			console.log('search courses for ' + searchText);
 			fakeAPICall()
 			.then(() => {
 				setCourseResults(demoCourses);
+			})
+		} else if (searchFilter == 'Tee Times') {
+			console.log('search tee times for ' + searchText);
+			fakeAPICall()
+			.then(() => {
+				setTeeTimeResults(demoTeeTimeSearchResults);
 			})
 		}
 
@@ -102,10 +109,6 @@ export function SearchPage({route, navigation} : any) {
 							<TouchableOpacity onPress={search}>
 								<MaterialIcons style={{paddingLeft: 10,}} size={24} name="search" />
 							</TouchableOpacity>
-							// <TouchableOpacity style={styles.toggleView}>
-							// 	<Entypo name="list" size={24} color="black" />
-							// 	<Entypo name="map" size={18} color="black" />
-							// </TouchableOpacity>
 						} 
 						InputRightElement={
 							<View>
@@ -147,7 +150,7 @@ export function SearchPage({route, navigation} : any) {
 						}
 						{
 							searchFilter == 'Tee Times' &&
-							<SearchTeeTimes searchText={searchText} searchTrig={searchTrig} updateSearchTrig={updateSearchTrig} />
+							<SearchTeeTimes teeTimeResults={teeTimeResults} />
 						}
 						{/* <SearchOptionTab.Navigator
 							screenOptions={{

@@ -1,4 +1,4 @@
-import { IMatch, IPostDefault, IProfile, ICourse, INewPostDefault, IDefaults } from './interfaces'
+import { IMatch, IPostDefault, IProfile, ICourse, ITeeTime } from './interfaces'
 
 export const demoMatches: IMatch[] = [
 	{
@@ -258,3 +258,102 @@ export const demoCourses: ICourse[] = [
         difficulty: 4,
     }
 ]
+
+export const demoGolferSearchResults: IProfile[] = [
+	{
+		golfer_id: 0,
+		firstName: "Ramzi",
+		lastName: "Bualuan",
+        username: 'ramzib',
+		age: 35,
+        phoneNum: '574-631-7388',
+		handicap: 20,
+		transport: "Carting",
+		isDrinking: true,
+		numHoles: 18,
+		numPeople: 4,
+		profileStatus: 2,
+		image: require('../assets/Ramzi.jpeg'),
+	},
+    {
+        golfer_id: 1,
+        firstName: "Andy",
+        lastName: "Rocks",
+        username: 'andyrocks',
+        matchStatus: 4,
+        age: 22,
+        phoneNum: '4125528397',
+        compatibility: 78,
+        handicap: 19,
+        transport: 'Carting',
+        isDrinking: true,
+        numHoles: 18,
+        numPeople: 4,
+        profileStatus: 2,
+        image: require('../assets/Andy.jpg'),
+    },
+	{
+        golfer_id: 2,
+        firstName: "Timmy",
+        lastName: "Gallagher",
+        username: 'timmyg',
+        matchStatus: 4,
+        age: 22,
+        phoneNum: '2158079609',
+        compatibility: 98,
+        handicap: 20,
+        transport: 'Walking',
+        isDrinking: false,
+        numHoles: 9,
+        numPeople: 2,
+        profileStatus: 2,
+        image: require('../assets/Timmy.jpg'),
+    },
+	{
+        golfer_id: 3,
+        firstName: "Jae",
+        lastName: "Chang",
+        username: 'jaechang',
+        matchStatus: 3, 
+        age: 22,
+        phoneNum: '2489248556',
+        compatibility: 80,
+        handicap: 21,
+        transport: 'Walking',
+        isDrinking: true,
+        numHoles: 9,
+        numPeople: 4,
+        profileStatus: 2,
+        image: require('../assets/Jae.png'),
+    },
+];
+
+export const demoTeeTimeSearchResults: ITeeTime[] = [
+    {
+        teetime_id: 0,
+        courseName: 'Burke Golf Course',
+        courseDescription: 'Designed as a regulation 18-hole course in 1929, the Burke Golf Course today consists of 9 holes in the picturesque setting of Notre Dame.',
+        courseWebsite: 'https://burkegolfcourse.nd.edu/',
+        coursePhoneNum: '(574) 631-6425',
+        numGolfers: 4,
+        time: 'May 1, 2022 13:24:00'
+    },
+    {
+        teetime_id: 1,
+        courseName: 'Warren Golf Course',
+        courseDescription: 'The Warren Golf Course at Notre Dame features 18 holes and is one of the best public golf courses in Indiana and the Midwest.',
+        courseWebsite: 'https://warrengolfcourse.com/',
+        coursePhoneNum: '(574) 631-4653',
+        numGolfers: 4,
+        time: 'May 2, 2022 13:24:00'
+    },
+    {
+        teetime_id: 2,
+        courseName: 'Morris Park Country Club Golf Course',
+        courseDescription: 'Morris Park Country Club is a private country club located in South Bend, Indiana.',
+        courseWebsite: 'https://www.morrisparkcc.com/index.php',
+        coursePhoneNum: '(574) 233-9474',
+        numGolfers: 4,
+        time: 'May 3, 2022 13:24:00'
+    },
+];

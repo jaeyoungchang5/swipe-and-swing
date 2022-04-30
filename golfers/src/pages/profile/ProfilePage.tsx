@@ -23,6 +23,7 @@ import { fakeAPICall } from '../../middleware';
 export function ProfilePage({route, navigation}: any) {
 	const golfer_id: number = route.params.golfer_id;
 	const appUserId: number = route.params.appUserId;
+	const profileStatus: number = route.params.profileStatus;
 
 	const [golfer, setGolfer] = useState<IProfile>();
 	const [service, setService] = useState<string>();
@@ -65,7 +66,7 @@ export function ProfilePage({route, navigation}: any) {
         >
             <SafeAreaView style={styles.container}>
 				<View style={styles.top}>
-					{golfer_id == appUserId ?
+					{golfer_id == appUserId && profileStatus == 0 ?
 						
 						<Text style={styles.title}>Profile</Text>
 					:
@@ -97,7 +98,7 @@ export function ProfilePage({route, navigation}: any) {
 						/>
 					}
 					
-					{golfer?.matchStatus &&
+					{profileStatus != 2 && golfer?.matchStatus &&
 						<View style={styles.actionsProfile}>
 							{golfer.matchStatus == 3 &&
 								<View style={styles.actionsCardItem}>

@@ -7,7 +7,7 @@ import { primary_color, white } from '../../options.json';
 
 export function GolferResult( { appUserId, golferResult, navigation } : any) {
     function handleRedirect() {
-        navigation.push('Profile Search Screen', {golfer_id: golferResult.golfer_id})
+        navigation.push('Profile Search Screen', {golfer_id: golferResult.golfer_id, profileStatus: 2})
     }
 
     return (

@@ -108,3 +108,13 @@ export interface ICoordinates {
     latitude: number,
     longitude: number
 }
+
+export interface ITeeTime {
+    teetime_id: number,
+    courseName: string,
+    courseDescription: string,
+    courseWebsite: string,
+    coursePhoneNum: string,
+    numGolfers: number,
+    time: string,
+}
