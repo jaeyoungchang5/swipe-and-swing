@@ -1,8 +1,8 @@
 // external imports
-import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Text, View, RefreshControl } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { MaterialIcons, SimpleLineIcons, Entypo, Ionicons } from '@expo/vector-icons';
+import { SimpleLineIcons, Entypo, Ionicons } from '@expo/vector-icons';
 import { Select } from 'native-base';
 import * as Linking from 'expo-linking';
 
@@ -18,10 +18,12 @@ import {
 import { ProfileItem } from '../../components';
 import { IProfile } from '../../interfaces'; 
 import { demoProfiles } from '../../demoData';
+import { fakeAPICall } from '../../middleware';
 
 export function ProfilePage({route, navigation}: any) {
 	const golfer_id: number = route.params.golfer_id;
-	const appUserId: number = 0;
+	const appUserId: number = route.params.appUserId;
+
 	const [golfer, setGolfer] = useState<IProfile>();
 	const [service, setService] = useState<string>();
 
@@ -30,8 +32,15 @@ export function ProfilePage({route, navigation}: any) {
 			console.log('logging out');
 			navigation.replace('Auth');
 		}
-		setGolfer(demoProfiles[golfer_id]);
+		loadProfile();
 	}, [service]);
+
+	function loadProfile() {
+		fakeAPICall()
+		.then(() => {
+			setGolfer(demoProfiles[golfer_id]);
+		})
+	}
 
 	function handleRoutingBack() {
 		navigation.navigate('Match Screen');
@@ -66,11 +75,6 @@ export function ProfilePage({route, navigation}: any) {
 							</Text>
 						</TouchableOpacity>
 					}
-					{/* <TouchableOpacity>
-						<Text style={styles.icon}>
-							<SimpleLineIcons name="options-vertical" size={15} color="black" />
-						</Text>
-					</TouchableOpacity> */}
 					
 					{golfer_id == appUserId ?
 						<Select onValueChange={(value) => setService(value)} borderWidth={0} dropdownIcon={<Ionicons name="ios-settings" size={24} color="black" />}>

@@ -29,6 +29,7 @@ export function AppNav({route}: any) {
                         return <MaterialIcons name="home-filled" color={iconFocused} size={size}/>
                     })
                 }}
+                initialParams={{appUserId: appUserId}}
             />
             <Tab.Screen 
                 name='Matches' 
@@ -43,6 +44,7 @@ export function AppNav({route}: any) {
                         return <Ionicons name="golf" size={size} color={iconFocused} />
                     })
                 }}
+                initialParams={{appUserId: appUserId}}
             />
             <Tab.Screen 
                 name='Upload' 
@@ -57,6 +59,7 @@ export function AppNav({route}: any) {
                         return <AntDesign name="pluscircle" size={size} color={iconFocused} />
                     })
                 }}
+                initialParams={{appUserId: appUserId}}
             />
             <Tab.Screen 
                 name='Search' 
@@ -71,11 +74,11 @@ export function AppNav({route}: any) {
                         return <Ionicons name="search-sharp" color={iconFocused} size={size}/>
                     })
                 }}
+                initialParams={{appUserId: appUserId}}
             />
             <Tab.Screen 
                 name='Profile' 
                 component={ProfilePage}
-                initialParams={{golfer_id: 0}}
                 options={{
                     headerShown: false,
                     tabBarLabel: ({focused, color}) => (
@@ -86,6 +89,7 @@ export function AppNav({route}: any) {
                         return <FontAwesome name="user" color={iconFocused} size={size}/>
                     })
                 }}
+                initialParams={{appUserId: appUserId, golfer_id: appUserId}}
             />
         </Tab.Navigator>
     )

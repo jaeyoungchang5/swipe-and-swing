@@ -5,7 +5,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // internal import
 import { MatchesPage, ProfilePage } from '../../pages';
 
-export function MatchNav() {
+export function MatchNav({route}: any) {
+    const appUserId: number = route.params.appUserId;
+
     const Stack = createNativeStackNavigator();
 
     return (
@@ -13,13 +15,13 @@ export function MatchNav() {
             <Stack.Screen
                 name='Match Screen'
                 component={MatchesPage}
-                initialParams={{}}
+                initialParams={{appUserId: appUserId}}
                 options={{headerShown: false}}
             />
             <Stack.Screen
                 name='Profile Screen'
                 component={ProfilePage}
-                initialParams={{}}
+                initialParams={{appUserId: appUserId}}
                 options={{headerShown: false}}
             />
         </Stack.Navigator>

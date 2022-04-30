@@ -9,6 +9,7 @@ export function AsyncLoad() {
     useEffect(() => {
         
     }, []);
+    
     return (
         <View style={styles.loading}>
             <LottieView

@@ -1,25 +1,20 @@
 // external imports
-import React, { useEffect, useRef, useState } from 'react';
-import { ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { AntDesign, MaterialIcons, SimpleLineIcons, Entypo, Ionicons } from '@expo/vector-icons';
-import { Input, Select, Switch } from 'native-base';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { Select } from 'native-base';
 import { useRoute } from '@react-navigation/native';
 
 // internal imports
 import { Upload } from '../../components';
-import {
-    dark_grey,
-	primary_color,
-	alternate_color,
-	white,
-	like_actions,
-	dislike_actions
-} from '../../options.json';
+import { dark_grey, primary_color, white } from '../../options.json';
 import { demoPostDefaults } from '../../demoData';
-import { IDefaults, INewPostDefault } from '../../interfaces';
+import { INewPostDefault } from '../../interfaces';
 
-export function UploadPage({navigation}: any) {
+export function UploadPage({route, navigation}: any) {
+    const appUserId: number = route.params.appUserId;
+
+	const [service, setService] = useState<string>();
     const [options, setOptions] = useState<INewPostDefault>({
         handicap: '',
         carting: false,
@@ -32,8 +27,11 @@ export function UploadPage({navigation}: any) {
         duration: '',
     });
 
-    const route = useRoute();
-	const [service, setService] = useState<string>();
+    const navRoute = useRoute();
+
+    useEffect(() => {   
+        configureDefaults();
+    }, []);
 
     function handleRoutingBack() {
 		navigation.navigate('Swipe Screen');
@@ -56,10 +54,6 @@ export function UploadPage({navigation}: any) {
         }});
     }
 
-    useEffect(() => {
-        configureDefaults();
-    }, []);
-
     function handleUpload() {
         console.log(options);
     }
@@ -67,7 +61,7 @@ export function UploadPage({navigation}: any) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.top}>
-                {route.name == 'Upload' ? 
+                {navRoute.name == 'Upload' ? 
                     <TouchableOpacity onPress={configureDefaults}>
                         <Text style={styles.icon}>
                             <Ionicons name="md-refresh" size={24} color="black" />
@@ -83,7 +77,7 @@ export function UploadPage({navigation}: any) {
                 
                 <Text style={styles.title}>New Post</Text>
 
-                {route.name == 'Upload' ? 
+                {navRoute.name == 'Upload' ? 
                     
                     <Select onValueChange={(value) => setService(value)} borderWidth={0} dropdownIcon={<Ionicons name="ios-settings" size={24} color="black" />}>
                         <Select.Item label='Reset to defaults' value='reset' />

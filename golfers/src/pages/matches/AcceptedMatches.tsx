@@ -1,24 +1,30 @@
 // external imports
-import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Text, View, RefreshControl } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, TouchableOpacity, ImageBackground, StyleSheet, Text, View, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SimpleLineIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import {  MaterialCommunityIcons } from '@expo/vector-icons';
 
 // internal imports
 import { SwipeItem } from '../../components';
-import {
-    dark_grey
-} from '../../options.json';
+import { dark_grey } from '../../options.json';
 import { demoAcceptedMatches } from '../../demoData';
 import { IMatch } from '../../interfaces';
+import { fakeAPICall } from '../../middleware';
 
-export function AcceptedMatches({ navigation, setIndex }: any) {
+export function AcceptedMatches({ appUserId, navigation, setIndex }: any) {
     const [refreshing, setRefreshing] = useState<boolean>(false);
     const [acceptedMatches, setAcceptedMatches] = useState<IMatch[]>();
 
     useEffect(() => {
-        setAcceptedMatches(demoAcceptedMatches);
+        loadAcceptedMatches();
     }, []);
+
+    function loadAcceptedMatches() {
+        fakeAPICall()
+        .then(() => {
+            setAcceptedMatches(demoAcceptedMatches);
+        })
+    }
 
     function onRefresh() {
 		setRefreshing(true);
@@ -27,6 +33,7 @@ export function AcceptedMatches({ navigation, setIndex }: any) {
 			setRefreshing(false);
 		}, 700)
 	}
+
     return (
         <ImageBackground
             source={require('../../../assets/bg.png')}
@@ -101,11 +108,4 @@ const styles = StyleSheet.create({
 		color: dark_grey,
 		paddingRight: 10
 	},
-    pageHeader: {
-        marginLeft: 20
-    },
-    pageHeaderText: {
-        fontSize: 14,
-        fontStyle: 'italic'
-    }
 });

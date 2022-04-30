@@ -48,7 +48,7 @@ export function SearchPage() {
 	}
 
 	function updateSearchTrig(val: boolean) {
-		console.log('upading search trig to ' + val);
+		// console.log('upading search trig to ' + val);
 		setSearchTrig(val);
 	}
 

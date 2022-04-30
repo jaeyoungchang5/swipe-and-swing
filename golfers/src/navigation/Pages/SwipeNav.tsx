@@ -5,7 +5,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // internal import
 import { UploadPage, SwipePage } from '../../pages';
 
-export function SwipeNav() {
+export function SwipeNav({ route }: any) {
+    const appUserId: number = route.params.appUserId;
+
     const Stack = createNativeStackNavigator();
 
     return (
@@ -13,13 +15,13 @@ export function SwipeNav() {
             <Stack.Screen
                 name='Swipe Screen'
                 component={SwipePage}
-                initialParams={{}}
+                initialParams={{appUserId: appUserId}}
                 options={{headerShown: false}}
             />
             <Stack.Screen
                 name='Upload Screen'
                 component={UploadPage}
-                initialParams={{}}
+                initialParams={{appUserId: appUserId}}
                 options={{headerShown: false}}
             />
         </Stack.Navigator>

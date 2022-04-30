@@ -2,19 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 
-import { 
-	alternate_color,
-    flash_actions, 
-    dislike_actions, 
-    like_actions, 
-    star_actions,
-    online_status, 
-    offline_status, 
-    grey, 
-    white, 
-    primary_color, 
-    dark_grey 
-} from '../options.json';
+import { alternate_color, like_actions, dislike_actions, white, dark_grey } from '../options.json';
 
 export function SwipeItem({
 	match_id,
@@ -73,7 +61,7 @@ export function SwipeItem({
 				</View>
 			}
 
-			<Text style={nameStyle}>{firstName} {lastName}</Text>
+			<Text style={nameStyle}>{firstName} {lastName}{age && `, ${age}`}</Text>
 
 			{/* {caption &&
 				<Text style={styles.descriptionCardItem}>{caption}</Text>
@@ -164,33 +152,6 @@ const styles = StyleSheet.create({
 		// fontFamily: icon_font,
 		color: white
 	},
-	descriptionCardItem: {
-		color: grey,
-		textAlign: "center"
-	},
-	status: {
-		paddingBottom: 10,
-		flexDirection: "row",
-		alignItems: "center"
-	},
-	statusText: {
-		color: grey,
-		fontSize: 12
-	},
-	online: {
-		width: 6,
-		height: 6,
-		backgroundColor: online_status,
-		borderRadius: 3,
-		marginRight: 4
-	},
-	offline: {
-		width: 6,
-		height: 6,
-		backgroundColor: offline_status,
-		borderRadius: 3,
-		marginRight: 4
-	},
 	actionsCardItem: {
 		flexDirection: "row",
 		alignItems: "center",
@@ -209,32 +170,11 @@ const styles = StyleSheet.create({
 		shadowColor: dark_grey,
 		shadowOffset: { height: 10, width: 0 }
 	},
-    miniButton: {
-		width: 40,
-		height: 40,
-		borderRadius: 30,
-		backgroundColor: white,
-		marginHorizontal: 7,
-		alignItems: "center",
-		justifyContent: "center",
-		shadowOpacity: 0.15,
-		shadowRadius: 20,
-		shadowColor: dark_grey,
-		shadowOffset: { height: 10, width: 0 }
-	},
-	star: {
-		// fontFamily: icon_font,
-		color: star_actions
-	},
 	like: {
 		fontSize: 25,
 	},
 	dislike: {
 		fontSize: 25,
-	},
-	flash: {
-		// fontFamily: icon_font,
-		color: flash_actions
 	},
 	settingItem: {
 		borderColor: dark_grey,

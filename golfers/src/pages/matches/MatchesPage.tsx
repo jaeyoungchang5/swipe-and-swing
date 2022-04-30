@@ -1,31 +1,31 @@
 // external imports
-import React, { useEffect, useState } from 'react';
-import { ImageBackground, StyleSheet, Text, View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import { TabView, SceneMap } from 'react-native-tab-view';
+import React, { useState } from 'react';
+import { ImageBackground, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { TabView } from 'react-native-tab-view';
 import { AntDesign } from '@expo/vector-icons';
 
 // internal imports
 import { AcceptedMatches } from './AcceptedMatches';
 import { PendingMatches } from './PendingMatches';
-import {
-    grey
-} from '../../options.json';
+import { grey } from '../../options.json';
 
-export function MatchesPage({ navigation }: any) {
-    function renderScene({ route }: any) {
-        switch(route.key) {
-            case 'pending':
-                return <PendingMatches navigation={navigation} setIndex={setIndex} />;
-            case 'accepted':
-                return <AcceptedMatches navigation={navigation} setIndex={setIndex} />;
-        }
-    }
+export function MatchesPage({ route, navigation }: any) {
+    const appUserId: number = route.params.appUserId;
 
     const [index, setIndex] = useState(0);
     const [routes] = useState([
         { key: 'pending', title: 'Pending' },
         { key: 'accepted', title: 'Accepted' },
     ]);
+
+    function renderScene({ route }: any) {
+        switch(route.key) {
+            case 'pending':
+                return <PendingMatches appUserId={appUserId} navigation={navigation} setIndex={setIndex} />;
+            case 'accepted':
+                return <AcceptedMatches appUserId={appUserId} navigation={navigation} setIndex={setIndex} />;
+        }
+    }
 
     return (
         <ImageBackground
