@@ -18,18 +18,37 @@ def getMatches():
         db = get_db()
         cursor = db.cursor()
 
+        data = dict(sid=request.form["golfer_id"])
         query = """
             SELECT * 
             FROM match
             WHERE status = 0
+            and swiper_id = :sid
         """
 
+
         res = cursor.execute(
-            query
+            query,
+            data
         ).fetchall()
 
+        if res is None:
+            print("no matches")
+            return json.dumps({'success':False, 'message':'No matches for user'}), 200, {'ContentType':'application/json'}
+
+        # convert response to 
+        jsonfile = {}
+
+        # iterate over the matches
+        for row in res:
+            print(row)
+            match_id = row[0]
+            post_id = row[1]
+            swiper_id = row[2]
+            status = row[3]
+
         if res is not None:
-            print(res)
-            return 'Valid'
+            #print(res)
+            return 'valid'
         else:
             return 'Invalid'
