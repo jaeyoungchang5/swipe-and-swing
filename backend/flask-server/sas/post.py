@@ -33,7 +33,7 @@ def uploadPost():
             print("Failed to create dict")
             print(str(e))
             return json.dumps({'success':False, 'message':'Missing user field', 'missing':str(e)}), 400, {'ContentType':'application/json'}
-        query = """INSERT INTO golfer (poster_id,is_drinking,is_betting,is_music,transport,num_holes,num_people,duration) VALUES (:pid,:id,:ib,:im,:tp,:nh,:np,:du)"""
+        query = """INSERT INTO post (poster_id,is_drinking,is_betting,is_music,transport,num_holes,num_people,duration) VALUES (:pid,:id,:ib,:im,:tp,:nh,:np,:du)"""
         
         # attempt query
         print(query)
