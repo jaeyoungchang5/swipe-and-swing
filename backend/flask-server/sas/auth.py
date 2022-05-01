@@ -83,6 +83,8 @@ def loginGolfer():
             data
         ).fetchone()
 
+        # TODO: return golfer_id if signin
+
         if user is None:
             print('Username does not exist')
             return json.dumps({'success':False, 'message':'Username is incorrect'}), 200, {'ContentType':'application/json'}
