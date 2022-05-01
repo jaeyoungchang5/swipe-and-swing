@@ -26,7 +26,6 @@ def getMatches():
             and swiper_id = :sid
         """
 
-
         res = cursor.execute(
             query,
             data
@@ -46,6 +45,8 @@ def getMatches():
             post_id = row[1]
             swiper_id = row[2]
             status = row[3]
+            jsonfile
+
 
         if res is not None:
             #print(res)

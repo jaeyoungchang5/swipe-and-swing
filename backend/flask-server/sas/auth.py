@@ -184,8 +184,7 @@ def loginCourse():
             print("passwords match, successful login")
             return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
-
+    return 'error'
         
-        flash(error)
 
     

@@ -50,3 +50,6 @@ def uploadPost():
             print("Failed to insert")
             print(str(e))
             return json.dumps({'success':False, 'message':'Failed to Insert'}), 200, {'ContentType':'application/json'}
+
+        # TODO: create match rows for all users in system
+        
