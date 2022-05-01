@@ -19,7 +19,7 @@ export function SearchPage({route, navigation} : any) {
 	const [focused, setFocused] = useState<boolean>(false);
 	const [searchText, setSearchText] = useState<string>('');
 	const [searchTrig, setSearchTrig] = useState<boolean>(false);
-	const [searchFilter, setSearchFilter] = useState<string>('Golfers');
+	const [searchFilter, setSearchFilter] = useState<string>('Courses');
     const [initialCoordinates, setInitialCoordinates] = useState<IInitialCoordinates>();
 
 	// search result states
@@ -61,6 +61,7 @@ export function SearchPage({route, navigation} : any) {
 	}
 
 	function search() {
+		unfocusSearch();
 		setSearchTrig(true);
 
 		if (searchFilter == 'All') {

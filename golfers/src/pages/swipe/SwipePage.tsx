@@ -3,17 +3,21 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import LottieView from 'lottie-react-native';
 
 // internal imports
 import { AsyncLoad, City, Filters, SwipeItem, UploadButton } from '../../components';
 import { demoMatches } from '../../demoData';
 import { IMatch } from '../../interfaces';
 import { fakeAPICall } from '../../middleware';
+import { white } from '../../options.json';
 
 export function SwipePage({ route, navigation }: any) {
 	const appUserId: number = route.params.appUserId;
 
 	const [matches, setMatches] = useState<IMatch[]>();
+	const [showAsync, setShowAsync] = useState<boolean>(false);
+	let matchCounter = 0;
 
 	useEffect(() => {
 		loadSwipes();
@@ -23,6 +27,7 @@ export function SwipePage({ route, navigation }: any) {
 		fakeAPICall()
 		.then(() => {
 			setMatches(demoMatches);
+			setShowAsync(false);
 		})
 	}
 
@@ -40,6 +45,28 @@ export function SwipePage({ route, navigation }: any) {
 		swiperRef.swipeLeft();
 	}
 
+	function incrementCounter() {
+		matchCounter += 1;
+	}
+
+	function swipedLeft() {
+		incrementCounter();
+		if (matches && matchCounter >= matches.length) {
+			setShowAsync(true);
+			loadSwipes();
+		}
+	}
+
+	function swipedRight() {
+		incrementCounter();
+		if (matches && matchCounter >= matches.length) {
+			setShowAsync(true);
+			loadSwipes();
+		}
+	}
+
+	
+
     return (
 		<SafeAreaView style={styles.container}>
 			<View style={styles.containerHome}>
@@ -48,22 +75,22 @@ export function SwipePage({ route, navigation }: any) {
 					<UploadButton appUserId={appUserId} navigation={navigation} />
 					<Filters />
 				</View>
-				{matches ?
+				{(matches && !showAsync) ?
 					<CardStack
 						loop={false}
 						verticalSwipe={false}
-						renderNoMoreCards={() => { 
-							return (
-								<AsyncLoad />
-							)
-						}}
+						renderNoMoreCards={() => null}
 						// onSwipedAll={async () => {
 						// 	return null
 						// }}
 						ref={swiper => { swiperRef = swiper }}
 					>
 					{matches.map((item, index) => (
-						<Card key={index}>
+						<Card 
+							onSwipedLeft={swipedLeft}
+							onSwipedRight={swipedRight}
+							key={index}
+						>
 							<SwipeItem
 								match_id={item.match_id}
 								golfer_id={item.golfer_id}
@@ -98,8 +125,10 @@ export function SwipePage({ route, navigation }: any) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: white
 	},
 	containerHome: { 
+		flex: 1,
 		marginHorizontal: 10,
 	},
 	top: {

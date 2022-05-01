@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { white, black, dark_grey } from '../../options.json';
+import { white, alternate_color, black, dark_grey } from '../../options.json';
 
 export function UploadButton({ appUserId, navigation }: any) {
 
     return (
         <TouchableOpacity onPress={() => navigation.push('Upload Screen', {appUserId: appUserId})} style={styles.upload}>
-            <AntDesign name="pluscircle" size={20} color="black" />
+            <AntDesign name="pluscircle" size={20} color={white} />
 			<Text style={styles.uploadText}>
 				Post
 			</Text>
@@ -17,7 +17,7 @@ export function UploadButton({ appUserId, navigation }: any) {
 
 const styles = StyleSheet.create({
     upload: {
-        backgroundColor: white,
+        backgroundColor: alternate_color,
 		alignItems: "center",
 		justifyContent: "space-between",
 		flexDirection: "row",
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 		shadowOffset: { height: 0, width: 0 }
     },
     uploadText: {
-        color: dark_grey,
+        color: white,
 		fontSize: 13
     }
 })

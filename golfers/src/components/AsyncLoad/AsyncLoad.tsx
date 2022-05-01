@@ -1,34 +1,41 @@
 // external imports
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View} from 'react-native';
+import { Dimensions, Image, StyleSheet, View} from 'react-native';
 import LottieView from 'lottie-react-native';
 
 // internal imports
 
 export function AsyncLoad() {
-    useEffect(() => {
-        
-    }, []);
     
+    const fullWidth = Dimensions.get('window').width;
+    const imageStyle = [
+        {
+            borderRadius: 8,
+            width: fullWidth/2,
+            height: 325,
+            margin: 20
+        }
+    ]
+
     return (
         <View style={styles.loading}>
-            <LottieView
-                source={require('./golfer-swing.json')}
+            {/* <LottieView
+                source={require('../../../assets/golf-swing.json')}
                 style={styles.lottie}
-                autoPlay 
-                loop
-            />
+                autoPlay={true} 
+                loop={true}
+            /> */}
+            <Image style={imageStyle} source={require('../../../assets/thegolfer.gif')} />
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     loading: {
-        // flex: 1,
+        flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
 		// backgroundColor: 'red',
-		height: '100%'
     },
     lottie: {
         flex: 1

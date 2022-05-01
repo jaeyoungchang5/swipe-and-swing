@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 
-import { white, black, dark_grey } from '../../options.json';
+import { alternate_color, white, black, dark_grey } from '../../options.json';
 import { getCurrentLocation } from '../../utils';
 
 export function City({appUserId}: any) {
@@ -16,7 +16,7 @@ export function City({appUserId}: any) {
 
     return (
         <TouchableOpacity style={styles.city}>
-            <Entypo name="location-pin" size={20} color="black" />
+            <Entypo name="location-pin" size={20} color={white} />
             <Text style={styles.cityText}>
                 South Bend
             </Text>
@@ -27,7 +27,7 @@ export function City({appUserId}: any) {
 const styles = StyleSheet.create({
     // COMPONENT - CITY
 	city: {
-		backgroundColor: white,
+		backgroundColor: alternate_color,
 		alignItems: "center",
 		justifyContent: "space-between",
 		flexDirection: "row",
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 	},
 	cityText: {
 		// fontFamily: ICON_FONT,
-		color: dark_grey,
+		color: white,
 		fontSize: 13,
 	},
 })

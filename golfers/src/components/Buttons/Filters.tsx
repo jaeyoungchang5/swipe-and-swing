@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { white, black, dark_grey } from '../../options.json';
+import { white, alternate_color, black, dark_grey } from '../../options.json';
 
 export function Filters() {
 	return (
 		<TouchableOpacity style={styles.filters}>
-			<FontAwesome name="filter" size={20} color="black" />
+			<FontAwesome name="filter" size={20} color={white} />
 			<Text style={styles.filtersText}>
 				Filters
 			</Text>
@@ -17,7 +17,7 @@ export function Filters() {
 const styles = StyleSheet.create({
     // COMPONENT - FILTERS
 	filters: {
-		backgroundColor: white,
+		backgroundColor: alternate_color,
 		alignItems: "center",
 		justifyContent: "space-between",
 		flexDirection: "row",
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 	},
 	filtersText: {
 		// fontFamily: icon_font,
-		color: dark_grey,
+		color: white,
 		fontSize: 13
 	},
 })

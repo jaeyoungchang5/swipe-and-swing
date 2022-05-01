@@ -55,6 +55,45 @@ export const demoMatches: IMatch[] = [
         numPeople: 4,
         image: require('../assets/Jae.png'),
     },
+];
+
+export const demoMatches2: IMatch[] = [
+	{
+        match_id: 3,
+		matchStatus: 4,
+        golfer_id: 1,
+        firstName: "Jimbo",
+        lastName: "Bimbo",
+        age: 22,
+        phoneNum: '4125528397',
+        compatibility: 78,
+        handicap: 19,
+        transport: 'Carting',
+        isDrinking: true,
+        isBetting: true,
+        isMusic: true,
+        numHoles: 18,
+        numPeople: 4,
+        image: require('../assets/Andy.jpg'),
+    },
+	{
+        match_id: 4,
+		matchStatus: 4,
+        golfer_id: 2,
+        firstName: "Rox",
+        lastName: "Man",
+        age: 22,
+        phoneNum: '2158079609',
+        compatibility: 98,
+        handicap: 20,
+        transport: 'Walking',
+        isDrinking: false,
+        isBetting: false,
+        isMusic: false,
+        numHoles: 9,
+        numPeople: 2,
+        image: require('../assets/Timmy.jpg'),
+    }
 ]
 
 export const demoAcceptedMatches: IMatch[] = [

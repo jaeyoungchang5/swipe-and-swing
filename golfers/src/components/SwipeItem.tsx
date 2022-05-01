@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, ImageBackground } from 'react-native';
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 
 import { alternate_color, like_actions, dislike_actions, white, dark_grey } from '../options.json';
@@ -48,7 +48,8 @@ export function SwipeItem({
 	];
 
     return (
-        <View style={styles.containerCardItem}>
+		<ImageBackground imageStyle={styles.image} resizeMode='repeat' style={styles.containerCardItem} source={require('../../assets/background_dot.png')}>
+        {/* <View style={styles.containerCardItem}> */}
         
 			{/* IMAGE */}
 			<Image source={image} style={imageStyle} />
@@ -125,13 +126,17 @@ export function SwipeItem({
 
 				</View>
 			}
-		</View>
+		</ImageBackground>
         );
     };
 
 const styles = StyleSheet.create({
+	image: {
+		flex: 1,
+		borderRadius: 8
+	},
     containerCardItem: {
-		backgroundColor: "#FFF",
+		backgroundColor: 'white',
 		borderRadius: 8,
 		alignItems: "center",
 		margin: 10,
@@ -178,6 +183,7 @@ const styles = StyleSheet.create({
 	},
 	settingItem: {
 		borderColor: dark_grey,
+		backgroundColor: white,
 		borderWidth: 0.8,
 		borderRadius: 10,
 		paddingLeft: 10,

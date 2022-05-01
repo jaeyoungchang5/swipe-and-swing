@@ -15,7 +15,7 @@ import {
 	like_actions,
 	dislike_actions
 } from '../../options.json';
-import { ProfileItem } from '../../components';
+import { AsyncLoad, ProfileItem } from '../../components';
 import { IProfile } from '../../interfaces'; 
 import { demoProfiles } from '../../demoData';
 import { fakeAPICall } from '../../middleware';
@@ -125,7 +125,7 @@ export function ProfilePage({route, navigation}: any) {
 								</View>
 							}
 
-							{golfer.matchStatus ==4 &&
+							{golfer.matchStatus == 4 &&
 								<View style={styles.actionsCardItem}>
 									<TouchableOpacity 
 										onPress={() => {
@@ -152,6 +152,21 @@ export function ProfilePage({route, navigation}: any) {
 							}
 							
 						</View>	
+					}
+					{golfer && profileStatus == 2 &&
+						<View style={styles.actionsCardItem}>
+							<TouchableOpacity 
+								onPress={() => {
+									Linking.openURL(`sms:+1${golfer.phoneNum}`)
+								}}
+								style={styles.roundedButton}
+							>
+								<Text style={styles.iconButton}>
+									<Entypo name="message" size={24} color="white" />
+								</Text>
+								<Text style={styles.textButton}>Message</Text>
+							</TouchableOpacity>
+						</View>
 					}
 				</ScrollView>
             </SafeAreaView>
@@ -232,7 +247,8 @@ const styles = StyleSheet.create({
 	actionsCardItem: {
 		flexDirection: "row",
 		alignItems: "center",
-		paddingVertical: 30
+		paddingVertical: 30,
+		justifyContent: 'center'
 	},
 	like_button: {
 		justifyContent: "center",
