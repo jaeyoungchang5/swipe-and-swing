@@ -32,3 +32,27 @@ def getTeetimes():
             return res
         else:
             return 'Invalid'
+
+
+@bp.route('/uploadTeetime', methods=('GET', 'POST'))
+def uploadTeetime():
+    if request.method == 'POST':
+        course_id = request.form["course_id"]
+        teetime = request.form["date"]
+        db = get_db()
+        cursor = db.cursor()
+
+        query = """
+            INSERT INTO teetime
+
+        """
+
+        res = cursor.execute(
+            query
+        ).fetchall()
+
+        if res is not None:
+            print(res)
+            return res
+        else:
+            return 'Invalid'
