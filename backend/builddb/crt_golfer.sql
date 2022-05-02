@@ -29,4 +29,16 @@ create or replace trigger golfer_on_insert
     into :new.golfer_id
     from dual;
   end;
+
+
+create or replace trigger create_new_matches_on_post
+  after insert on post
+  for each row
+  begin
+
+    --IF golfer_id != post.new:poster_id
+      insert into match (post_id, swiper_id, status)
+      values (post.new:post_id,golfer.golfer_id,0)
+    --END IF;
+  end;
 /
