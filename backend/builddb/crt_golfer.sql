@@ -38,7 +38,8 @@ create or replace trigger create_new_matches_on_post
 
     --IF golfer_id != post.new:poster_id
       insert into match (post_id, swiper_id, status)
-      values (post.new:post_id,golfer.golfer_id,0)
+      values(1,2,0)
+      --values (post.new:post_id,golfer.golfer_id,0)
     --END IF;
   end;
 /
