@@ -7,9 +7,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 // internal imports
 import { SwipeItem } from '../../components';
 import { dark_grey } from '../../options.json';
-import { demoPendingMatches } from '../../demoData';
 import { IMatch } from '../../interfaces';
-import { fakeAPICall } from '../../middleware';
+import { getPotentialMatches } from '../../middleware';
 
 export function PendingMatches({ appUserId, navigation, setIndex }: any) {
     const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -20,9 +19,9 @@ export function PendingMatches({ appUserId, navigation, setIndex }: any) {
     }, []);
 
     function loadPendingMatches() {
-        fakeAPICall()
-        .then(() => {
-            setpendingMatches(demoPendingMatches);
+        getPotentialMatches(appUserId)
+        .then(res => {
+            if (res) setpendingMatches(res);
         })
     }
 
@@ -30,6 +29,7 @@ export function PendingMatches({ appUserId, navigation, setIndex }: any) {
 		setRefreshing(true);
 		setTimeout(() => {
 			// call api to laod matches
+            loadPendingMatches();
 			setRefreshing(false);
 		}, 700)
 	}

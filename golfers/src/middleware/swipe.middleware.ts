@@ -36,6 +36,43 @@ export function getMatches(appUserId: number) {
             }
             matchInfo.push(match);
         }
+        if (matchInfo.length == 0) return null;
         return matchInfo;
+    })
+}
+
+export function swipeLeft(match_id: number) {
+    let formData = new FormData();
+    formData.append('match_id', match_id.toString());
+    console.log(formData);
+    return fetch(server + '/swipe/left', {
+        method: 'POST',
+        headers: {'Content-Type': 'multipart/form-data'},
+        body: formData
+    })
+    .then(res => {
+        return res.json();
+    })
+    .then(res => {
+        if (res.success == true) return;
+        throw new Error('swipe failed');
+    })
+}
+
+export function swipeRight(match_id: number) {
+    let formData = new FormData();
+    formData.append('match_id', match_id.toString());
+    console.log(formData);
+    return fetch(server + '/swipe/right', {
+        method: 'POST',
+        headers: {'Content-Type': 'multipart/form-data'},
+        body: formData
+    })
+    .then(res => {
+        return res.json();
+    })
+    .then(res => {
+        if (res.success == true) return;
+        throw new Error('swipe failed');
     })
 }

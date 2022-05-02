@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SimpleLineIcons, Entypo, Ionicons } from '@expo/vector-icons';
-import { Select } from 'native-base';
+import { Entypo, Ionicons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 
 // internal imports
@@ -15,10 +14,8 @@ import {
 	like_actions,
 	dislike_actions
 } from '../../options.json';
-import { AsyncLoad, ProfileItem, SwipeItem } from '../../components';
+import { SwipeItem } from '../../components';
 import { IMatch, IProfile } from '../../interfaces'; 
-import { demoProfiles } from '../../demoData';
-import { fakeAPICall, getGolferInfo } from '../../middleware';
 
 export function MatchProfile({route, navigation}: any) {
 

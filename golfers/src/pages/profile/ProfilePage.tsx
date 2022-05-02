@@ -15,10 +15,9 @@ import {
 	like_actions,
 	dislike_actions
 } from '../../options.json';
-import { AsyncLoad, ProfileItem, SwipeItem } from '../../components';
+import { ProfileItem } from '../../components';
 import { IProfile } from '../../interfaces'; 
-import { demoProfiles } from '../../demoData';
-import { fakeAPICall, getGolferInfo } from '../../middleware';
+import { getGolferInfo } from '../../middleware';
 
 export function ProfilePage({route, navigation}: any) {
 	const golfer_id: number = route.params.golfer_id;

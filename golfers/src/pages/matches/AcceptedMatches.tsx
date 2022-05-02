@@ -7,9 +7,8 @@ import {  MaterialCommunityIcons } from '@expo/vector-icons';
 // internal imports
 import { SwipeItem } from '../../components';
 import { dark_grey } from '../../options.json';
-import { demoAcceptedMatches } from '../../demoData';
 import { IMatch } from '../../interfaces';
-import { fakeAPICall } from '../../middleware';
+import { getAcceptedMatches } from '../../middleware';
 
 export function AcceptedMatches({ appUserId, navigation, setIndex }: any) {
     const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -20,9 +19,9 @@ export function AcceptedMatches({ appUserId, navigation, setIndex }: any) {
     }, []);
 
     function loadAcceptedMatches() {
-        fakeAPICall()
-        .then(() => {
-            setAcceptedMatches(demoAcceptedMatches);
+        getAcceptedMatches(appUserId)
+        .then(res => {
+            if (res) setAcceptedMatches(res);
         })
     }
 
@@ -30,6 +29,7 @@ export function AcceptedMatches({ appUserId, navigation, setIndex }: any) {
 		setRefreshing(true);
 		setTimeout(() => {
 			// call api to laod matches
+            loadAcceptedMatches();
 			setRefreshing(false);
 		}, 700)
 	}

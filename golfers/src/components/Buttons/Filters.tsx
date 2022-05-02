@@ -3,12 +3,12 @@ import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { white, alternate_color, black, dark_grey } from '../../options.json';
 
-export function Filters() {
+export function Filters({refresh} : any) {
 	return (
-		<TouchableOpacity style={styles.filters}>
-			<FontAwesome name="filter" size={20} color={white} />
+		<TouchableOpacity style={styles.filters} onPress={() => refresh(true)}>
+			<FontAwesome name="refresh" size={20} color={white} />
 			<Text style={styles.filtersText}>
-				Filters
+				Refresh
 			</Text>
 		</TouchableOpacity>
 	);
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 		paddingRight: 15,
 		paddingLeft: 15,
 		borderRadius: 20,
-		width: "25%",
+		width: "30%",
 		shadowOpacity: 0.05,
 		shadowRadius: 10,
 		shadowColor: black,

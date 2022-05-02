@@ -3,13 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import LottieView from 'lottie-react-native';
 
 // internal imports
 import { AsyncLoad, City, Filters, SwipeItem, UploadButton } from '../../components';
-import { demoMatches } from '../../demoData';
 import { IMatch } from '../../interfaces';
-import { fakeAPICall, getMatches } from '../../middleware';
+import { getMatches, swipeLeft, swipeRight } from '../../middleware';
 import { white } from '../../options.json';
 
 export function SwipePage({ route, navigation }: any) {
@@ -17,17 +15,26 @@ export function SwipePage({ route, navigation }: any) {
 
 	const [matches, setMatches] = useState<IMatch[]>();
 	const [showAsync, setShowAsync] = useState<boolean>(false);
+	const [refresh, setRefresh] = useState<boolean>(false);
+
 	let matchCounter = 0;
 
 	useEffect(() => {
 		loadSwipes();
 	}, []);
 
+	if (refresh) {
+		loadSwipes();
+		setRefresh(false);
+	}
+
 	function loadSwipes() {
 		getMatches(appUserId)
 		.then(res => {
-			setMatches(res);
-			setShowAsync(false);
+			if (res) {
+				setMatches(res);
+				setShowAsync(false);
+			}
 		})
 	}
 
@@ -49,23 +56,24 @@ export function SwipePage({ route, navigation }: any) {
 		matchCounter += 1;
 	}
 
-	function swipedLeft() {
+	function swipedLeft(match_id: number) {
 		incrementCounter();
+
+		swipeLeft(match_id);
 		if (matches && matchCounter >= matches.length) {
 			setShowAsync(true);
 			loadSwipes();
 		}
 	}
 
-	function swipedRight() {
+	function swipedRight(match_id: number) {
 		incrementCounter();
+		swipeRight(match_id);
 		if (matches && matchCounter >= matches.length) {
 			setShowAsync(true);
 			loadSwipes();
 		}
 	}
-
-	
 
     return (
 		<SafeAreaView style={styles.container}>
@@ -73,7 +81,7 @@ export function SwipePage({ route, navigation }: any) {
 				<View style={styles.top}>
 					<City appUserId={appUserId} />
 					<UploadButton appUserId={appUserId} navigation={navigation} />
-					<Filters />
+					<Filters refresh={setRefresh} />
 				</View>
 				{(matches && !showAsync) ?
 					<CardStack
@@ -84,8 +92,12 @@ export function SwipePage({ route, navigation }: any) {
 					>
 					{matches.map((item, index) => (
 						<Card 
-							onSwipedLeft={swipedLeft}
-							onSwipedRight={swipedRight}
+							onSwipedLeft={() => {
+								swipedLeft(item.match_id)
+							}}
+							onSwipedRight={() => {
+								swipedRight(item.match_id)
+							}}
 							key={index}
 						>
 							<SwipeItem
