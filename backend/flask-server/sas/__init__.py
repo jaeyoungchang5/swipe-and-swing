@@ -52,4 +52,7 @@ def create_app(test_config=None):
     from . import teetime
     app.register_blueprint(teetime.bp)
 
+    from . import search
+    app.register_blueprint(search.bp)
+
     return app

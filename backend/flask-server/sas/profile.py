@@ -69,7 +69,7 @@ def editInfo():
         # print(data)
         query = """UPDATE golfer
         SET first_name = :fn, last_name = :ln, age = :ag, rating = :rat, phone_num = :pn, handicap = :hc, latitude = :lat, longitude = :lon
-        wHERE golfer_id = :gid
+        WHERE golfer_id = :gid
         """
 
         try:
@@ -88,3 +88,33 @@ def editInfo():
             #print("Failed to insert")
             #print(str(e))
             return json.dumps({'success':False, 'message':'Insert Failed'}), 400, {'ContentType':'application/json'}
+
+
+@bp.route('/editLocation', methods=('GET', 'POST'))
+def editLocation():
+    if request.method == 'POST':
+        # move request body into mutable python dict
+        golfer_id = request.form["golfer_id"]
+        latitude = request.form["latitude"]
+        longitude = request.form["longitude"]
+        db = get_db()
+        cursor = db.cursor()
+
+        # execute update statement for sql
+     
+        query = """UPDATE golfer
+        SET latitude = :lat, longitude = :lon
+        wHERE golfer_id = :gid
+        """
+        data = dict(gid=golfer_id,lat=latitude,lon=longitude)
+        #print(data)
+        try:
+            cursor.execute(query, data)
+            db.commit()
+            print("Committed")
+            return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+        
+        except Exception as e:
+            print("Failed to insert")
+            print(str(e))
+            return json.dumps({'success':False, 'message':'Location update failed'}), 400, {'ContentType':'application/json'}

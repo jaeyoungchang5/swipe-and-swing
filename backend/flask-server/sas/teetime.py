@@ -82,3 +82,32 @@ def uploadTeetime():
             print("Failed to insert")
             print(str(e))
             return json.dumps({'success':False, 'message':'Failed to insert teetime'}), 400, {'ContentType':'application/json'}
+
+
+@bp.route('/deleteTeetime', methods=('GET', 'POST'))
+def deleteTeetime():
+    if request.method == 'POST':
+        db = get_db()
+        cursor = db.cursor()
+        teetime_id = request.form["teetime_id"]
+        
+        query = """
+        DELETE FROM teetime
+        where teetime_id = :ttid
+        """
+        data = dict(ttid=teetime_id)
+
+        try:
+            cursor.execute(
+                query,
+                data
+            )
+            db.commit()
+            print("Committed")
+            return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
+        except Exception as e:
+            print("Failed to insert")
+            print(str(e))
+            return json.dumps({'success':False, 'message':'Failed to delete teetime'}), 400, {'ContentType':'application/json'}
+
