@@ -8,8 +8,8 @@ create table golfer
   rating number(2),
   phone_num varchar(10),
   handicap number(2),
-  latitude varchar(20),
-  longitude varchar(20)
+  latitude varchar(30),
+  longitude varchar(30)
   --default_formality varchar(15),
   --default_drinking number(1),
   --default_num_holes number(2),
