@@ -51,7 +51,7 @@ def getPotentialMatches():
         # find golfers who have swiped right on the post and return their info
         data = dict(pid=post_id)
         query = """
-        SELECT swiper_id 
+        SELECT m.match_id, m.swiper_id
         FROM match m, post p 
         WHERE m.post_id = p.post_id and p.post_id = :pid and m.status = 3
         """
@@ -61,13 +61,15 @@ def getPotentialMatches():
             data
         ).fetchall()
 
-        #print(res)
+        print(res)
 
         # iterate over the rows
         rowdata = []
         for row in res:
             # query the golfer data 
-            swiper_id = row[0]
+            match_id = row[0]
+            swiper_id = row[1]
+    
             data = dict(gid=swiper_id)
             query = """
             SELECT *
@@ -84,7 +86,9 @@ def getPotentialMatches():
 
             for i in range(len(column_names)):
                 data.update({str(column_names[i]) : res[i]})
+            data.update({'MATCH_ID' : match_id, 'SWIPER_ID' : swiper_id})
             rowdata.append(data)
+            
 
         returnjson.update({'potentialMatchGolferInfo' : rowdata})
 

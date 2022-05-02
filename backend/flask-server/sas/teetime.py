@@ -20,8 +20,7 @@ def getTeetimes():
 
         query = """
             SELECT * 
-            FROM match
-            WHERE status = 0
+            FROM teetime
         """
 
         res = cursor.execute(
@@ -30,6 +29,6 @@ def getTeetimes():
 
         if res is not None:
             print(res)
-            return 'Valid'
+            return res
         else:
             return 'Invalid'

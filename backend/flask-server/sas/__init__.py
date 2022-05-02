@@ -49,5 +49,7 @@ def create_app(test_config=None):
     from . import match
     app.register_blueprint(match.bp)
     
+    from . import teetime
+    app.register_blueprint(teetime.bp)
 
     return app
