@@ -167,22 +167,22 @@ def loginCourse():
         cursor = db.cursor()
         error = None
 
-        query = """SELECT password, courseadmin_id FROM courseadmin WHERE username = :usr"""
+        query = """SELECT password, courseadmin_id, course_id FROM courseadmin WHERE username = :usr"""
         data = dict(usr=username)
-        user = cursor.execute(
+        res = cursor.execute(
             query,
             data
         ).fetchone()
 
-        if user is None:
+        if res is None:
             error = 'Incorrect username.'
-        elif user[0] != password:
+        elif res[0] != password:
             error = 'Incorrect password.'
             print("passwords don't match, unsuccessful login")
             return json.dumps({'success':False}), 200, {'ContentType':'application/json'}
         else:
             print("passwords match, successful login")
-            return json.dumps({'success':True, 'courseadmin_id' : user[1]}), 200, {'ContentType':'application/json'}
+            return json.dumps({'success':True, 'courseadmin_id' : res[1], 'course_id' : res[2]}), 200, {'ContentType':'application/json'}
 
     return 'error'
         
