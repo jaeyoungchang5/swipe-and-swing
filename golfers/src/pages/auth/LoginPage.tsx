@@ -3,11 +3,9 @@ import { Platform, View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard
 import { useToast } from 'native-base';
 
 // internal imports
-import {
-	primary_color,
-	white,
-} from '../../options.json';
+import { primary_color,	white } from '../../options.json';
 import { ILoginCredentials } from '../../interfaces';
+import { login } from '../../middleware';
 
 export function LoginPage({navigation}: any) {
     const [loginUser, setLoginUser] = useState<ILoginCredentials>({
@@ -27,21 +25,19 @@ export function LoginPage({navigation}: any) {
             })
         }
 
-        navigation.navigate('App', {appUserId: 0});
+        // navigation.navigate('App', {appUserId: 3});
 
-        // login(loginUser)
-        // .then(() => {
-        //     getUser()
-        //     .then((res) => {
-        //         navigation.navigate('App', {appUserId: res.body.userId});
-        //     })
-        // }).catch(err => {
-        //     return toast.show({
-        //         title: 'Login failed',
-        //         placement: 'top'
-        //     })
-        // })
+        login(loginUser)
+        .then((res) => {
+            navigation.navigate('App', {appUserId: res.golfer_id});
+        }).catch(err => {
+            return toast.show({
+                title: 'Login failed',
+                placement: 'top'
+            })
+        })
     }
+
     return (
         <KeyboardAvoidingView 
             behavior={Platform.OS === "ios" ? "padding" : "height"}

@@ -9,7 +9,7 @@ import LottieView from 'lottie-react-native';
 import { AsyncLoad, City, Filters, SwipeItem, UploadButton } from '../../components';
 import { demoMatches } from '../../demoData';
 import { IMatch } from '../../interfaces';
-import { fakeAPICall } from '../../middleware';
+import { fakeAPICall, getMatches } from '../../middleware';
 import { white } from '../../options.json';
 
 export function SwipePage({ route, navigation }: any) {
@@ -24,9 +24,9 @@ export function SwipePage({ route, navigation }: any) {
 	}, []);
 
 	function loadSwipes() {
-		fakeAPICall()
-		.then(() => {
-			setMatches(demoMatches);
+		getMatches(appUserId)
+		.then(res => {
+			setMatches(res);
 			setShowAsync(false);
 		})
 	}
@@ -80,9 +80,6 @@ export function SwipePage({ route, navigation }: any) {
 						loop={false}
 						verticalSwipe={false}
 						renderNoMoreCards={() => null}
-						// onSwipedAll={async () => {
-						// 	return null
-						// }}
 						ref={swiper => { swiperRef = swiper }}
 					>
 					{matches.map((item, index) => (

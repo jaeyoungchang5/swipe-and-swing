@@ -21,7 +21,7 @@ export function SearchNav({ route } : any ) {
             <Stack.Screen
                 name='Profile Search Screen'
                 component={ProfilePage}
-                initialParams={{appUserId: appUserId}}
+                initialParams={{appUserId: appUserId, profileStatus: 1}}
                 options={{headerShown: false}}
             />
         </Stack.Navigator>

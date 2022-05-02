@@ -1,20 +1,22 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
-import { Ionicons, AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons'; 
+import { Entypo, Ionicons, AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 import { alternate_color, dark_grey, grey, primary_color, white, black } from '../options.json';
 import { IProfile } from '../interfaces';
 
 interface ProfilePageProps {
-    golfer: IProfile
+    golfer: IProfile,
+    profileStatus: number,
 }
 
-export function ProfileItem({ golfer }: ProfilePageProps ) {
+export function ProfileItem({ golfer, profileStatus }: ProfilePageProps ) {
+
     return (
         <View style={styles.containerProfileItem}>
             <Image source={golfer.image} style={styles.imageStyle} />
             
-            {(golfer.profileStatus != 0) &&
+            {(profileStatus != 0 && golfer.profileStatus != 0) &&
                 <View style={styles.matchesProfileItem}>
                     <Text style={styles.matchesTextProfileItem}>
                         {golfer.compatibility}% Match!
@@ -22,10 +24,21 @@ export function ProfileItem({ golfer }: ProfilePageProps ) {
                 </View>
             }
             <View style={styles.info}>
-                <Text style={styles.iconProfile}>
-                    <AntDesign name="user" size={25} color="black" />
-                </Text>
                 <Text style={styles.name}>{golfer.firstName} {golfer.lastName}, {golfer.age}</Text>
+            </View>
+
+            <View style={styles.info}>
+                <Text style={styles.iconProfile}>
+                    <AntDesign name="user" size={15} color="black" />
+                </Text>
+                <Text style={styles.username}>{golfer.username}</Text>
+            </View>
+
+            <View style={styles.info}>
+                <Text style={styles.iconProfile}>
+                    <Entypo name="location-pin" size={15} color="black" />
+                </Text>
+                <Text style={styles.infoContent}>{golfer.latitude}</Text>
             </View>
 
             <View style={styles.info}>
@@ -35,31 +48,34 @@ export function ProfileItem({ golfer }: ProfilePageProps ) {
                 <Text style={styles.infoContent}>{golfer.handicap} Handicap</Text>
             </View>
 
-            <View style={styles.info}>
-                <Text style={styles.iconProfile}>
-                    <FontAwesome5 name="beer" size={15} color="black" />
-                </Text>
-                <Text style={styles.infoContent}>{golfer.isDrinking ? "Drinking" : "No drinking"}</Text>
-            </View>
-
-            <View style={styles.info}>
-                <Text style={styles.iconProfile}>
-                    {golfer.transport == 'Carting' ?
-                        <MaterialCommunityIcons name="golf-cart" size={15} color="black" />
-                    :
-                        <FontAwesome5 name="walking" size={15} color="black" />
-                    }
-                </Text>
-                <Text style={styles.infoContent}>{golfer.transport}</Text>
-            </View>
-
-            <View style={styles.info}>
-                <Text style={styles.iconProfile}>
-                    <Ionicons name="people-sharp" size={15} color="black" />
-                </Text>
-                <Text style={styles.infoContent}>{golfer.numPeople} People</Text>
-            </View>
-
+            {profileStatus == 1 && 
+                <View style={styles.info}>
+                    <Text style={styles.iconProfile}>
+                        <FontAwesome5 name="beer" size={15} color="black" />
+                    </Text>
+                    <Text style={styles.infoContent}>{golfer.isDrinking ? "Drinking" : "No drinking"}</Text>
+                </View>
+            }
+            {profileStatus == 1 && 
+                <View style={styles.info}>
+                    <Text style={styles.iconProfile}>
+                        {golfer.transport == 'Carting' ?
+                            <MaterialCommunityIcons name="golf-cart" size={15} color="black" />
+                        :
+                            <FontAwesome5 name="walking" size={15} color="black" />
+                        }
+                    </Text>
+                    <Text style={styles.infoContent}>{golfer.transport}</Text>
+                </View>
+            }
+            {profileStatus == 1 && 
+                <View style={styles.info}>
+                    <Text style={styles.iconProfile}>
+                        <Ionicons name="people-sharp" size={15} color="black" />
+                    </Text>
+                    <Text style={styles.infoContent}>{golfer.numPeople} People</Text>
+                </View>
+            }
         </View>
     );
 };
@@ -121,7 +137,12 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 10
 	},
 	infoContent: {
-		color: grey,
+		color: 'black',
 		fontSize: 13
 	},
+    username: {
+        color: 'black',
+        fontStyle: 'italic',
+        // fontWeight: 'bold'
+    }
 })

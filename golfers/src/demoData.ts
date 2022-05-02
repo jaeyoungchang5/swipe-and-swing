@@ -300,7 +300,7 @@ export const demoCourses: ICourse[] = [
 
 export const demoGolferSearchResults: IProfile[] = [
 	{
-		golfer_id: 0,
+		golfer_id: 4,
 		firstName: "Ramzi",
 		lastName: "Bualuan",
         username: 'ramzib',

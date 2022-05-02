@@ -3,7 +3,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // internal import
-import { MatchesPage, ProfilePage } from '../../pages';
+import { MatchesPage, MatchProfile, ProfilePage } from '../../pages';
 
 export function MatchNav({route}: any) {
     const appUserId: number = route.params.appUserId;
@@ -20,7 +20,7 @@ export function MatchNav({route}: any) {
             />
             <Stack.Screen
                 name='Profile Screen'
-                component={ProfilePage}
+                component={MatchProfile}
                 initialParams={{appUserId: appUserId}}
                 options={{headerShown: false}}
             />

@@ -7,14 +7,18 @@ export interface IProfile {
     phoneNum: string,
     handicap: number,
     // location: string,
-    transport: string,
-    isDrinking: boolean,
-    numHoles: number,
-    numPeople: number,
+    latitude?: number,
+    longitude?: number,
+    transport?: string,
+    isDrinking?: boolean,
+    isBetting?: boolean,
+    isMusic?: boolean,
+    numHoles?: number,
+    numPeople?: number,
     profileStatus: number, // 0 - app user, 1 - potential match, 2 - random find
     compatibility?: number,
     matchStatus?: number,
-    image: any,
+    image?: any,
 }
 
 export interface IMatch {

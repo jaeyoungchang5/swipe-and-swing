@@ -62,7 +62,7 @@ export function PendingMatches({ appUserId, navigation, setIndex }: any) {
                     }
                     renderItem={({ item }) => (
                         <TouchableOpacity
-                            onPress={() => navigation.push('Profile Screen', {golfer_id: item.golfer_id})}
+                            onPress={() => navigation.push('Profile Screen', {appUserId: appUserId, match: item})}
                         >
                             <SwipeItem
                                 image={item.image}

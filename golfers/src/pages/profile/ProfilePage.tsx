@@ -15,10 +15,10 @@ import {
 	like_actions,
 	dislike_actions
 } from '../../options.json';
-import { AsyncLoad, ProfileItem } from '../../components';
+import { AsyncLoad, ProfileItem, SwipeItem } from '../../components';
 import { IProfile } from '../../interfaces'; 
 import { demoProfiles } from '../../demoData';
-import { fakeAPICall } from '../../middleware';
+import { fakeAPICall, getGolferInfo } from '../../middleware';
 
 export function ProfilePage({route, navigation}: any) {
 	const golfer_id: number = route.params.golfer_id;
@@ -37,9 +37,9 @@ export function ProfilePage({route, navigation}: any) {
 	}, [service]);
 
 	function loadProfile() {
-		fakeAPICall()
-		.then(() => {
-			setGolfer(demoProfiles[golfer_id]);
+		getGolferInfo(golfer_id, profileStatus)
+		.then((res) => {
+			setGolfer(res);
 		})
 	}
 
@@ -66,7 +66,7 @@ export function ProfilePage({route, navigation}: any) {
         >
             <SafeAreaView style={styles.container}>
 				<View style={styles.top}>
-					{golfer_id == appUserId && profileStatus == 0 ?
+					{profileStatus == 0 ?
 						
 						<Text style={styles.title}>Profile</Text>
 					:
@@ -92,13 +92,31 @@ export function ProfilePage({route, navigation}: any) {
 				</View>
 
 				<ScrollView>
-					{golfer &&
+					{golfer && profileStatus !=1 &&
 						<ProfileItem
 							golfer={golfer}
+							profileStatus={profileStatus}
 						/>
 					}
+{/* 
+					{golfer && profileStatus == 1 &&
+						<SwipeItem
+							firstName={golfer.firstName}
+							lastName={golfer.lastName}
+							age={golfer.age}
+							compatibility={golfer.compatibility}
+							handicap={golfer.handicap}
+							transport={golfer.transport}
+							isDrinking={golfer.isDrinking}
+							isBetting={golfer.isBetting}
+							isMusic={golfer.isMusic}
+							numHoles={golfer.numHoles}
+							numPeople={golfer.numPeople}
+							image={golfer.image}
+						/>
+					} */}
 					
-					{profileStatus != 2 && golfer?.matchStatus &&
+					{/* {profileStatus != 2 && golfer?.matchStatus &&
 						<View style={styles.actionsProfile}>
 							{golfer.matchStatus == 3 &&
 								<View style={styles.actionsCardItem}>
@@ -152,8 +170,8 @@ export function ProfilePage({route, navigation}: any) {
 							}
 							
 						</View>	
-					}
-					{golfer && profileStatus == 2 &&
+					} */}
+					{golfer && profileStatus == 2 && golfer_id != appUserId &&
 						<View style={styles.actionsCardItem}>
 							<TouchableOpacity 
 								onPress={() => {
@@ -168,6 +186,21 @@ export function ProfilePage({route, navigation}: any) {
 							</TouchableOpacity>
 						</View>
 					}
+					{/* {golfer && appUserId == golfer.golfer_id &&
+						<View style={styles.actionsCardItem}>
+							<TouchableOpacity 
+								onPress={() => {
+									Linking.openURL(`sms:+1${golfer.phoneNum}`)
+								}}
+								style={styles.roundedButton}
+							>
+								<Text style={styles.iconButton}>
+									<Entypo name="message" size={24} color="white" />
+								</Text>
+								<Text style={styles.textButton}>View matches</Text>
+							</TouchableOpacity>
+						</View>
+					} */}
 				</ScrollView>
             </SafeAreaView>
         </ImageBackground>

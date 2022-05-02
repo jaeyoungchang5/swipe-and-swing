@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity, ImageBackground } from 'react-native';
-import { Ionicons, AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome5, Ionicons, AntDesign } from '@expo/vector-icons';
 
-import { alternate_color, like_actions, dislike_actions, white, dark_grey } from '../options.json';
+import { black, alternate_color, like_actions, dislike_actions, white, dark_grey } from '../options.json';
 
 export function SwipeItem({
 	match_id,
@@ -22,7 +22,8 @@ export function SwipeItem({
 	onPressLeft,
 	onPressRight,
 	actions,
-	variant
+	variant,
+	profileView
 }: any) {
 
     // Custom styling
@@ -64,47 +65,78 @@ export function SwipeItem({
 
 			<Text style={nameStyle}>{firstName} {lastName}{age && `, ${age}`}</Text>
 
-			{/* {caption &&
-				<Text style={styles.descriptionCardItem}>{caption}</Text>
-			} */}
+			{!profileView ? 
+				<View style={styles.settings}>
+					{handicap ?
+						<View style={styles.settingItem}>
+							<Text>{handicap} H'Cap</Text>
+						</View> : null
+					}
+					{transport?
+						<View style={styles.settingItem}>
+							<Text>{transport}</Text>
+						</View> : null
+					}
+					{isDrinking ?
+						<View style={styles.settingItem}>
+							<Text>Drinking</Text>
+						</View> : null
+					}
+					{isBetting ?
+						<View style={styles.settingItem}>
+							<Text>Betting</Text>
+						</View> : null
+					}
+					{isMusic ?
+						<View style={styles.settingItem}>
+							<Text>Music</Text>
+						</View> : null
+					}
+					{numHoles ?
+						<View style={styles.settingItem}>
+							<Text>{numHoles} Holes</Text>
+						</View> : null
+					}
+					{numPeople ?
+						<View style={styles.settingItem}>
+							<Text>{numPeople} People</Text>
+						</View> : null
+					}
+				</View>
+			:
+				<View style={styles.containerProfileItem}>
 
-			<View style={styles.settings}>
-				{handicap &&
-					<View style={styles.settingItem}>
-						<Text>{handicap} H'Cap</Text>
+					<View style={styles.info}>
+						<Text style={styles.iconProfile}>
+							<FontAwesome5 name="golf-ball" size={15} color="black" />
+						</Text>
+						<Text style={styles.infoContent}>{handicap} Handicap</Text>
 					</View>
-				}
-				{transport &&
-					<View style={styles.settingItem}>
-						<Text>{transport}</Text>
+
+					<View style={styles.info}>
+						<Text style={styles.iconProfile}>
+							<FontAwesome5 name="beer" size={15} color="black" />
+						</Text>
+						<Text style={styles.infoContent}>{isDrinking ? "Drinking" : "No drinking"}</Text>
 					</View>
-				}
-				{isDrinking && 
-					<View style={styles.settingItem}>
-						<Text>Drinking</Text>
+					<View style={styles.info}>
+						<Text style={styles.iconProfile}>
+							{transport == 'Carting' ?
+								<MaterialCommunityIcons name="golf-cart" size={15} color="black" />
+							:
+								<FontAwesome5 name="walking" size={15} color="black" />
+							}
+						</Text>
+						<Text style={styles.infoContent}>{transport}</Text>
 					</View>
-				}
-				{isBetting && 
-					<View style={styles.settingItem}>
-						<Text>Betting</Text>
+					<View style={styles.info}>
+						<Text style={styles.iconProfile}>
+							<Ionicons name="people-sharp" size={15} color="black" />
+						</Text>
+						<Text style={styles.infoContent}>{numPeople} People</Text>
 					</View>
-				}
-				{isMusic && 
-					<View style={styles.settingItem}>
-						<Text>Music</Text>
-					</View>
-				}
-				{numHoles && 
-					<View style={styles.settingItem}>
-						<Text>{numHoles} Holes</Text>
-					</View>
-				}
-				{numPeople && 
-					<View style={styles.settingItem}>
-						<Text>{numPeople} People</Text>
-					</View>
-				}
-			</View>
+				</View>
+			}
 
 			{actions &&
 				<View style={styles.actionsCardItem}>
@@ -197,5 +229,43 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		flexDirection: "row",
 		flexWrap: "wrap"
-	}
+	},
+	info: {
+		paddingVertical: 8,
+		flexDirection: "row",
+        // paddingLeft: 15,
+		alignItems: "center",
+        justifyContent: "center",
+	},
+	iconProfile: {
+		fontSize: 12,
+		color: dark_grey,
+		paddingHorizontal: 10
+	},
+	infoContent: {
+		color: 'black',
+		fontSize: 13
+	},
+    username: {
+        color: 'black',
+        fontStyle: 'italic',
+        // fontWeight: 'bold'
+    },
+	containerProfileItem: {
+        flex: 1, 
+		// backgroundColor: '',
+		paddingBottom: 25,
+		margin: 10,
+        alignItems: "center",
+		borderRadius: 8,
+		shadowOpacity: 0.05,
+		shadowRadius: 10,
+		shadowColor: black,
+		shadowOffset: { height: 0, width: 0 }
+	},
+	name: {
+		color: dark_grey,
+		fontSize: 25,
+		textAlign: "center"
+	},
 })
