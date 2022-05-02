@@ -38,21 +38,27 @@ def getTeetimes():
 def uploadTeetime():
     if request.method == 'POST':
         course_id = request.form["course_id"]
-        teetime = request.form["date"]
+        tt_time = request.form["tt_time"]
+        tt_date = request.form["tt_date"]
         db = get_db()
         cursor = db.cursor()
 
+        data = dict(cid=course_id, tim=tt_time, dat=tt_date)
         query = """
-            INSERT INTO teetime
-
+            INSERT INTO teetime (course_id, tt_time, tt_date)
+            VALUES (:cid, :tim, :dat)
         """
 
-        res = cursor.execute(
-            query
-        ).fetchall()
+        try:
+            cursor.execute(
+                query,
+                data
+            )
+            db.commit()
+            print("Committed")
+            return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
-        if res is not None:
-            print(res)
-            return res
-        else:
-            return 'Invalid'
+        except Exception as e:
+            print("Failed to insert")
+            print(str(e))
+            return json.dumps({'success':False, 'message':'Failed to insert teetime'}), 400, {'ContentType':'application/json'}
