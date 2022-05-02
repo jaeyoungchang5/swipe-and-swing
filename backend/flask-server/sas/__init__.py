@@ -46,8 +46,8 @@ def create_app(test_config=None):
     from . import swipe
     app.register_blueprint(swipe.bp)
 
-    # from . import blog
-    # app.register_blueprint(blog.bp)
-    # app.add_url_rule('/', endpoint='index')
+    from . import match
+    app.register_blueprint(match.bp)
+    
 
     return app

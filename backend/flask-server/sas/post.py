@@ -44,7 +44,7 @@ def uploadPost():
             )
             db.commit()
             print("Committed")
-            return json.dumps({'success':True}), 400, {'ContentType':'application/json'}
+            return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
         except Exception as e:
             print("Failed to insert")
@@ -52,4 +52,4 @@ def uploadPost():
             return json.dumps({'success':False, 'message':'Failed to Insert'}), 200, {'ContentType':'application/json'}
 
         # TODO: create match rows for all users in system
-        
+

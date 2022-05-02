@@ -35,11 +35,8 @@ def getMatches():
             print("no matches")
             return json.dumps({'success':False, 'message':'No matches for user'}), 200, {'ContentType':'application/json'}
 
-        # convert response to 
+        # iterate over the rows
         rowdata = []
-
-        
-        # iterate over the matches
         column_names = [i[0] for i in cursor.description]
         for row in res:
             #print(row)
@@ -56,12 +53,59 @@ def getMatches():
         
         return returnjson
 
-            # query for the post data
+@bp.route('/right', methods=('GET', 'POST'))
+def right():
+    if request.method == 'POST':
+        db = get_db()
+        cursor = db.cursor()
 
-        
+        data = dict(mid=request.form["match_id"])
 
-        if res is not None:
-            #print(res)
-            return 'valid'
-        else:
-            return 'Invalid'
+        query = """
+        UPDATE match
+        SET status = 3
+        WHERE match_id = :mid
+        """
+
+        try:
+            cursor.execute(
+                query,
+                data
+            )
+            db.commit()
+            print("Committed")
+            return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
+        except Exception as e:
+            print("Failed to insert")
+            print(str(e))
+            return json.dumps({'success':False, 'message':'Failed to update status'}), 400, {'ContentType':'application/json'}
+
+
+@bp.route('/left', methods=('GET', 'POST'))
+def left():
+    if request.method == 'POST':
+        db = get_db()
+        cursor = db.cursor()
+
+        data = dict(mid=request.form["match_id"])
+
+        query = """
+        UPDATE match
+        SET status = 2
+        WHERE match_id = :mid
+        """
+
+        try:
+            cursor.execute(
+                query,
+                data
+            )
+            db.commit()
+            print("Committed")
+            return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
+        except Exception as e:
+            print("Failed to insert")
+            print(str(e))
+            return json.dumps({'success':False, 'message':'Failed to update status'}), 400, {'ContentType':'application/json'}
