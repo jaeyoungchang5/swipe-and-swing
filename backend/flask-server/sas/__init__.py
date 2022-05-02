@@ -1,11 +1,13 @@
 import os
 
 from flask import Flask
+from flask_cors import CORS
 
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
     app.config.from_mapping(
         SECRET_KEY='dev',
         # DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
@@ -44,8 +46,10 @@ def create_app(test_config=None):
     from . import swipe
     app.register_blueprint(swipe.bp)
 
-    # from . import blog
-    # app.register_blueprint(blog.bp)
-    # app.add_url_rule('/', endpoint='index')
+    from . import match
+    app.register_blueprint(match.bp)
+    
+    from . import teetime
+    app.register_blueprint(teetime.bp)
 
     return app

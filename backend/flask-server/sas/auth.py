@@ -76,7 +76,7 @@ def loginGolfer():
         cursor = db.cursor()
 
         # 
-        query = """SELECT password FROM golfer WHERE username = :usr"""
+        query = """SELECT password, golfer_id FROM golfer WHERE username = :usr"""
         data = dict(usr=username)
         user = cursor.execute(
             query,
@@ -92,7 +92,7 @@ def loginGolfer():
             return json.dumps({'success':False, 'message':'Password is incorrect'}), 200, {'ContentType':'application/json'}
         else:
             print("passwords match, successful login")
-            return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+            return json.dumps({'success':True, 'golfer_id' : user[1]}), 200, {'ContentType':'application/json'}
 
         
 
@@ -167,7 +167,7 @@ def loginCourse():
         cursor = db.cursor()
         error = None
 
-        query = """SELECT password FROM courseadmin WHERE username = :usr"""
+        query = """SELECT password, courseadmin_id FROM courseadmin WHERE username = :usr"""
         data = dict(usr=username)
         user = cursor.execute(
             query,
@@ -182,10 +182,9 @@ def loginCourse():
             return json.dumps({'success':False}), 200, {'ContentType':'application/json'}
         else:
             print("passwords match, successful login")
-            return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+            return json.dumps({'success':True, 'courseadmin_id' : user[1]}), 200, {'ContentType':'application/json'}
 
-
+    return 'error'
         
-        flash(error)
 
     
