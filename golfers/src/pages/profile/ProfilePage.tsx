@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, TouchableOpacity, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SimpleLineIcons, Entypo, Ionicons } from '@expo/vector-icons';
-import { Select } from 'native-base';
+import { Select, Modal, Input } from 'native-base';
 import * as Linking from 'expo-linking';
 
 // internal imports
@@ -12,12 +12,12 @@ import {
 	primary_color,
 	alternate_color,
 	white,
-	like_actions,
-	dislike_actions
+	grey,
+	offline_status,
 } from '../../options.json';
 import { ProfileItem } from '../../components';
 import { IProfile } from '../../interfaces'; 
-import { getGolferInfo } from '../../middleware';
+import { editGolferInfo, getGolferInfo } from '../../middleware';
 
 export function ProfilePage({route, navigation}: any) {
 	const golfer_id: number = route.params.golfer_id;
@@ -25,37 +25,54 @@ export function ProfilePage({route, navigation}: any) {
 	const profileStatus: number = route.params.profileStatus;
 
 	const [golfer, setGolfer] = useState<IProfile>();
-	const [service, setService] = useState<string>();
+	const [editGolfer, setEditGolfer] = useState<IProfile>();
+	const [service, setService] = useState<string>('none');
+
+	// modals
+	const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
+	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+	const [showEditModal, setShowEditModal] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (service == 'logout') {
-			console.log('logging out');
-			navigation.replace('Auth');
+			setShowLogoutModal(true);
+			setService('none');
+		} else if (service == 'deleteAccount') {
+			setShowDeleteModal(true);
+			setService('none');
+		} else if (service == 'editProfile') {
+			setShowEditModal(true);
+			setService('none');
 		}
 		loadProfile();
 	}, [service]);
+
+	function handleLogout() {
+		console.log('logging out');
+		navigation.replace('Auth');
+	}
+
+	function handleEdit() {
+		if (!editGolfer) return;
+		editGolferInfo(editGolfer)
+		.then(res => {
+			if (res.success == true) {
+				setGolfer(editGolfer);
+				setShowEditModal(false);
+			}
+		})
+	}
 
 	function loadProfile() {
 		getGolferInfo(golfer_id, profileStatus)
 		.then((res) => {
 			setGolfer(res);
+			setEditGolfer(res);
 		})
 	}
 
 	function handleRoutingBack() {
 		navigation.pop(1);
-	}
-
-	function onReject() {
-
-	}
-
-	function onAccept() {
-
-	}
-
-	function onRemove() {
-
 	}
 
     return (
@@ -79,7 +96,7 @@ export function ProfilePage({route, navigation}: any) {
 					{golfer_id == appUserId ?
 						<Select onValueChange={(value) => setService(value)} borderWidth={0} dropdownIcon={<Ionicons name="ios-settings" size={24} color="black" />}>
 							<Select.Item label='Edit profile' value='editProfile' />
-							<Select.Item label='Change password' value='changePassword' />
+							{/* <Select.Item label='Change password' value='changePassword' /> */}
 							<Select.Item label='Log out' value='logout' />
 							<Select.Item label='Delete account' value='deleteAccount' />
 						</Select>
@@ -91,116 +108,182 @@ export function ProfilePage({route, navigation}: any) {
 				</View>
 
 				<ScrollView>
-					{golfer && profileStatus !=1 &&
+					{golfer && profileStatus !=1 ?
 						<ProfileItem
 							golfer={golfer}
 							profileStatus={profileStatus}
-						/>
+						/> : null
 					}
-{/* 
-					{golfer && profileStatus == 1 &&
-						<SwipeItem
-							firstName={golfer.firstName}
-							lastName={golfer.lastName}
-							age={golfer.age}
-							compatibility={golfer.compatibility}
-							handicap={golfer.handicap}
-							transport={golfer.transport}
-							isDrinking={golfer.isDrinking}
-							isBetting={golfer.isBetting}
-							isMusic={golfer.isMusic}
-							numHoles={golfer.numHoles}
-							numPeople={golfer.numPeople}
-							image={golfer.image}
-						/>
-					} */}
-					
-					{/* {profileStatus != 2 && golfer?.matchStatus &&
-						<View style={styles.actionsProfile}>
-							{golfer.matchStatus == 3 &&
-								<View style={styles.actionsCardItem}>
-									<TouchableOpacity
-										style={styles.like_button}
-										onPress={() => onAccept()}
-									>
-										<Text style={styles.iconButton}>
-											<Entypo name="add-user" size={20} color={'white'} />
-										</Text>
-										<Text style={styles.textButton}>Accept</Text>
-									</TouchableOpacity>
-
-									<TouchableOpacity
-										style={styles.dislike_button}
-										onPress={() => onReject()}
-									>
-										<Text style={styles.iconButton}>
-											<Entypo name="remove-user" size={20} color={'white'} />
-										</Text>
-										<Text style={styles.textButton}>Reject</Text>
-									</TouchableOpacity>
-
-								</View>
-							}
-
-							{golfer.matchStatus == 4 &&
-								<View style={styles.actionsCardItem}>
-									<TouchableOpacity 
-										onPress={() => {
-											Linking.openURL(`sms:+1${golfer.phoneNum}`)
-										}}
-										style={styles.roundedButton}
-									>
-										<Text style={styles.iconButton}>
-											<Entypo name="message" size={24} color="white" />
-										</Text>
-										<Text style={styles.textButton}>Message</Text>
-									</TouchableOpacity>
-									<TouchableOpacity
-										style={styles.dislike_button}
-										onPress={() => onRemove()}
-									>
-										<Text style={styles.iconButton}>
-											<Entypo name="remove-user" size={20} color={'white'} />
-										</Text>
-										<Text style={styles.textButton}>Remove</Text>
-									</TouchableOpacity>
-								</View>
-								
-							}
-							
-						</View>	
-					} */}
-					{golfer && profileStatus == 2 && golfer_id != appUserId &&
+					{golfer && profileStatus == 2 && golfer_id != appUserId ?
 						<View style={styles.actionsCardItem}>
 							<TouchableOpacity 
 								onPress={() => {
 									Linking.openURL(`sms:+1${golfer.phoneNum}`)
 								}}
-								style={styles.roundedButton}
+								style={styles.outlineButton}
 							>
 								<Text style={styles.iconButton}>
 									<Entypo name="message" size={24} color="white" />
 								</Text>
 								<Text style={styles.textButton}>Message</Text>
 							</TouchableOpacity>
-						</View>
+						</View> : null
 					}
-					{/* {golfer && appUserId == golfer.golfer_id &&
-						<View style={styles.actionsCardItem}>
-							<TouchableOpacity 
-								onPress={() => {
-									Linking.openURL(`sms:+1${golfer.phoneNum}`)
-								}}
-								style={styles.roundedButton}
-							>
-								<Text style={styles.iconButton}>
-									<Entypo name="message" size={24} color="white" />
-								</Text>
-								<Text style={styles.textButton}>View matches</Text>
-							</TouchableOpacity>
-						</View>
-					} */}
 				</ScrollView>
+
+				<Modal size={'lg'} isOpen={showLogoutModal} onClose={() => setShowLogoutModal(false)}>
+					<Modal.Content>
+						<Modal.CloseButton />
+                        <Modal.Header>Log Out</Modal.Header>
+                        <Modal.Body>
+                            <Text>Are you sure you want to log out?</Text>
+                        </Modal.Body>
+                        <Modal.Footer style={styles.footer}>
+                            <TouchableOpacity 
+                                onPress={handleLogout} 
+                                style={styles.likeButton}
+                            >
+                                <Text style={styles.buttonText}>Logout</Text>
+                            </TouchableOpacity>
+							<TouchableOpacity 
+                                onPress={() => setShowLogoutModal(false)} 
+                                style={styles.cancelButton}
+                            >
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </TouchableOpacity>
+                        </Modal.Footer>
+					</Modal.Content>
+				</Modal>
+
+				<Modal size={'lg'} isOpen={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
+					<Modal.Content>
+						<Modal.CloseButton />
+                        <Modal.Header>Delete Account</Modal.Header>
+                        <Modal.Body>
+                            <Text>Are you sure you want to delete your account?</Text>
+                        </Modal.Body>
+                        <Modal.Footer style={styles.footer}>
+                            <TouchableOpacity 
+                                onPress={handleLogout} 
+                                style={styles.deleteButton}
+                            >
+                                <Text style={styles.buttonText}>Delete</Text>
+                            </TouchableOpacity>
+							<TouchableOpacity 
+                                onPress={() => setShowLogoutModal(false)} 
+                                style={styles.cancelButton}
+                            >
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </TouchableOpacity>
+                        </Modal.Footer>
+					</Modal.Content>
+				</Modal>
+
+				<Modal size={'xl'} isOpen={showEditModal} onClose={() => setShowEditModal(false)}>
+					<Modal.Content>
+						<Modal.CloseButton />
+                        <Modal.Header>Edit Profile</Modal.Header>
+                        <Modal.Body>
+							{editGolfer ?
+								<View>
+									<View style={styles.editOption}>
+										<Text style={styles.editOptionDescriptor}>First Name</Text>
+										<Input 
+											borderColor={primary_color} borderWidth={1.5} width={"35%"} variant="outline" 
+											placeholder="First name" value={editGolfer.firstName} 
+											onChangeText={(value) => {
+												setEditGolfer((prev: any) => {
+													return {
+														...prev,
+														'firstName': value
+													}
+												})
+											}}
+										/>
+									</View>
+									<View style={styles.editOption}>
+										<Text style={styles.editOptionDescriptor}>Last Name</Text>
+										<Input 
+											borderColor={primary_color} borderWidth={1.5} width={"35%"} variant="outline" 
+											placeholder="Last name" value={editGolfer.lastName} 
+											onChangeText={(value) => {
+												setEditGolfer((prev: any) => {
+													return {
+														...prev,
+														'lastName': value
+													}
+												})
+											}}
+										/>
+									</View>
+									<View style={styles.editOption}>
+										<Text style={styles.editOptionDescriptor}>Handicap</Text>
+										<Input 
+											borderColor={primary_color} borderWidth={1.5} width={"35%"} variant="outline" 
+											placeholder="Handicap" value={editGolfer.handicap.toString()} 
+											keyboardType='number-pad'
+											onChangeText={(value) => {
+												setEditGolfer((prev: any) => {
+													return {
+														...prev,
+														'handicap': Number(value)
+													}
+												})
+											}}
+										/>
+									</View>
+									<View style={styles.editOption}>
+										<Text style={styles.editOptionDescriptor}>Age</Text>
+										<Input 
+											borderColor={primary_color} borderWidth={1.5} width={"35%"} variant="outline" 
+											placeholder="Age" value={editGolfer.age.toString()} 
+											keyboardType='number-pad'
+											onChangeText={(value) => {
+												setEditGolfer((prev: any) => {
+													return {
+														...prev,
+														'age': Number(value)
+													}
+												})
+											}}
+										/>
+									</View>
+
+									<View style={styles.editOption}>
+										<Text style={styles.editOptionDescriptor}>Phone Number</Text>
+										<Input 
+											borderColor={primary_color} borderWidth={1.5} width={"35%"} variant="outline" 
+											placeholder="Phone number" value={editGolfer.phoneNum} 
+											keyboardType='number-pad'
+											onChangeText={(value) => {
+												setEditGolfer((prev: any) => {
+													return {
+														...prev,
+														'phoneNum': value
+													}
+												})
+											}}
+										/>
+									</View>
+								</View> : null
+							}
+                        </Modal.Body>
+                        <Modal.Footer style={styles.footer}>
+                            <TouchableOpacity 
+                                onPress={handleEdit} 
+                                style={styles.likeButton}
+                            >
+                                <Text style={styles.buttonText}>Edit</Text>
+                            </TouchableOpacity>
+							<TouchableOpacity 
+                                onPress={() => setShowLogoutModal(false)} 
+                                style={styles.cancelButton}
+                            >
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </TouchableOpacity>
+                        </Modal.Footer>
+					</Modal.Content>
+				</Modal>
             </SafeAreaView>
         </ImageBackground>
     );
@@ -231,27 +314,13 @@ const styles = StyleSheet.create({
 		color: dark_grey,
 		paddingRight: 10
 	},
-	actionsProfile: {
-		justifyContent: "center",
-		flexDirection: "row",
-		alignItems: "center"
-	},
 	iconButton: { fontSize: 20, color: white },
 	textButton: {
 		fontSize: 15,
 		color: white,
 		paddingLeft: 10
 	},
-	circledButton: {
-		width: 50,
-		height: 50,
-		borderRadius: 25,
-		backgroundColor: primary_color,
-		justifyContent: "center",
-		alignItems: "center",
-		marginRight: 10
-	},
-	roundedButton: {
+	outlineButton: {
 		justifyContent: "center",
 		flexDirection: "row",
 		alignItems: "center",
@@ -260,21 +329,6 @@ const styles = StyleSheet.create({
 		borderRadius: 25,
 		backgroundColor: alternate_color,
 		paddingHorizontal: 20
-	},
-	logoutButton: {
-		justifyContent: "center",
-		flexDirection: "row",
-		alignItems: "center",
-		marginLeft: 10,
-		height: 50,
-		borderRadius: 25,
-		backgroundColor: alternate_color,
-		paddingHorizontal: 20
-	},
-	topIconLeft: {
-		fontSize: 20,
-		paddingLeft: 20,
-		marginTop: -20
 	},
 	actionsCardItem: {
 		flexDirection: "row",
@@ -282,34 +336,36 @@ const styles = StyleSheet.create({
 		paddingVertical: 30,
 		justifyContent: 'center'
 	},
-	like_button: {
-		justifyContent: "center",
-		flexDirection: "row",
-		alignItems: "center",
-		marginLeft: 10,
-		height: 50,
-		borderRadius: 25,
-		backgroundColor: like_actions,
-		paddingHorizontal: 20
+    buttonText: {
+        textAlign: 'center',
+        fontSize: 13,
+        color: '#fff',
+    },
+    likeButton: {
+        backgroundColor: primary_color,
+        padding: 10,
+        borderRadius: 10,
+		marginRight: 10,
+    },
+	deleteButton: {
+        backgroundColor: offline_status,
+        padding: 10,
+        borderRadius: 10,
+		marginRight: 10,
 	},
-	dislike_button: {
-		justifyContent: "center",
-		flexDirection: "row",
-		alignItems: "center",
-		marginLeft: 10,
-		height: 50,
-		borderRadius: 25,
-		backgroundColor: dislike_actions,
-		paddingHorizontal: 20
+	cancelButton: {
+        backgroundColor: grey,
+        padding: 10,
+        borderRadius: 10,
+		marginRight: 10,
 	},
-	like: {
-		// fontSize: 2,
-		padding: 10,
-		color: 'white'
+	footer: {
+		justifyContent: 'flex-start'
 	},
-	dislike: {
-		padding: 10,	
-		color: 'white',
-		// fontSize: 25,
+	editOption: {
+		marginBottom: 5,
 	},
+	editOptionDescriptor: {
+		fontStyle: 'italic'
+	}
 });

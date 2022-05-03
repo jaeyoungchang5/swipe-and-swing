@@ -1,5 +1,5 @@
-import { ILoginCredentials, IMatch, IProfile, ISignupCredentials } from '../interfaces';
-const server: string = 'http://100.24.89.174:5000'
+import { IMatch } from '../interfaces';
+import { server } from './server.middleware';
 import { golferImageMapping } from './golfer.middleware';
 
 export function getPotentialMatches(appUserId: number) {
@@ -14,6 +14,9 @@ export function getPotentialMatches(appUserId: number) {
         return res.json();
     })
     .then(res => {
+        if (res.success == false) {
+            return;
+        }
         let matchInfo: IMatch[] = [];
         for (let i = 0; i < res.potentialMatchGolferInfo.length; i++) {
             let rawmatch = res.potentialMatchGolferInfo[i];
@@ -54,12 +57,15 @@ export function getAcceptedMatches(appUserId: number) {
         return res.json();
     })
     .then(res => {
+        if (res.success == false) {
+            return;
+        }
         let matchInfo: IMatch[] = [];
         for (let i = 0; i < res.potentialMatchGolferInfo.length; i++) {
             let rawmatch = res.potentialMatchGolferInfo[i];
             let match: IMatch = {
                 match_id: rawmatch.MATCH_ID,
-                matchStatus: 3,
+                matchStatus: 4,
                 golfer_id:  rawmatch.GOLFER_ID,
                 firstName: rawmatch.FIRST_NAME,
                 lastName: rawmatch.LAST_NAME,
@@ -84,7 +90,7 @@ export function getAcceptedMatches(appUserId: number) {
 
 export function acceptMatch(match_id: number) {
     let formData = new FormData();
-    formData.append('golfer_id', match_id.toString());
+    formData.append('match_id', match_id.toString());
     return fetch(server + '/match/acceptMatch', {
         method: 'POST',
         headers: {'Content-Type': 'multipart/form-data'},
@@ -101,8 +107,8 @@ export function acceptMatch(match_id: number) {
 
 export function rejectMatch(match_id: number) {
     let formData = new FormData();
-    formData.append('golfer_id', match_id.toString());
-    return fetch(server + '/match/rejectMatch', {
+    formData.append('match_id', match_id.toString());
+    return fetch(server + '/match/declineMatch', {
         method: 'POST',
         headers: {'Content-Type': 'multipart/form-data'},
         body: formData

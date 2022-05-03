@@ -25,8 +25,6 @@ export function LoginPage({navigation}: any) {
             })
         }
 
-        // navigation.navigate('App', {appUserId: 3});
-
         login(loginUser)
         .then((res) => {
             navigation.navigate('App', {appUserId: res.golfer_id});

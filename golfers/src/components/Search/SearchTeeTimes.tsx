@@ -33,7 +33,7 @@ export function SearchTeeTimes({ teeTimeResults } : any) {
                     <Modal.Content>
                         <Modal.CloseButton />
                         <Modal.Header>
-                            {`${teeTime.time}\n@ ${teeTime.courseName}`}
+                            {`${teeTime.date} ${teeTime.time}\n@ ${teeTime.courseName}`}
                         </Modal.Header>
                         <Modal.Body>
                             <Text>{teeTime.courseDescription}</Text>

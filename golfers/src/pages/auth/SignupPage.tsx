@@ -4,13 +4,12 @@ import { Platform, View, Text, StyleSheet, TextInput, TouchableOpacity, Keyboard
 import { useToast } from 'native-base';
 
 // internal imports
-// import { signup } from '../../middleware';
-// import { getUser } from '../../utils';
 import {
 	primary_color,
 	white,
 } from '../../options.json';
 import { ISignupCredentials } from '../../interfaces';
+import { signup } from '../../middleware';
 
 export function SignupPage({navigation}: any) {
     const [signupUser, setSignupUser] = useState<ISignupCredentials>({
@@ -36,21 +35,16 @@ export function SignupPage({navigation}: any) {
             })
         }
 
-        navigation.navigate('App', {appUserId: 0});
-
-        // signup(signupUser)
-        // .then(() => {
-        //     getUser()
-        //     .then((res) => {
-        //         navigation.navigate('App', {appUserId: res.body.userId});
-        //     })
-        // }).catch(err => {
-        //     return toast.show({
-        //         title: 'Signup failed',
-        //         description: 'Username already taken.',
-        //         placement: 'top'
-        //     })
-        // })
+        signup(signupUser)
+        .then(res => {
+            if (res.success) navigation.navigate('Login Page');
+        }).catch(err => {
+            return toast.show({
+                title: 'Signup failed',
+                description: 'Username already taken.',
+                placement: 'top'
+            })
+        })
     }
 
     return (

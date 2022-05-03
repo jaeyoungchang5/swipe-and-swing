@@ -15,42 +15,33 @@ import {
 	dislike_actions
 } from '../../options.json';
 import { SwipeItem } from '../../components';
-import { IMatch, IProfile } from '../../interfaces'; 
+import { IMatch } from '../../interfaces'; 
+import { acceptMatch, rejectMatch } from '../../middleware';
 
 export function MatchProfile({route, navigation}: any) {
 
 	const [golfer, setGolfer] = useState<IMatch>(route.params.match);
-	const [service, setService] = useState<string>();
 
 	useEffect(() => {
-		if (service == 'logout') {
-			console.log('logging out');
-			navigation.replace('Auth');
-		}
 		// loadProfile();
-	}, [service]);
-
-	// function loadProfile() {
-	// 	getGolferInfo(golfer_id, profileStatus)
-	// 	.then((res) => {
-	// 		setGolfer(res);
-	// 	})
-	// }
+	}, []);
 
 	function handleRoutingBack() {
 		navigation.pop(1);
 	}
 
-	function onReject() {
-
-	}
-
 	function onAccept() {
-
+		acceptMatch(golfer.match_id)
+		.then(res => {
+			navigation.pop(1);
+		})
 	}
 
-	function onRemove() {
-
+	function onReject() {
+		rejectMatch(golfer.match_id)
+		.then(res => {
+			navigation.pop(1);
+		})
 	}
 
     return (
@@ -129,7 +120,7 @@ export function MatchProfile({route, navigation}: any) {
 									</TouchableOpacity>
 									<TouchableOpacity
 										style={styles.dislike_button}
-										onPress={() => onRemove()}
+										onPress={() => onReject()}
 									>
 										<Text style={styles.iconButton}>
 											<Entypo name="remove-user" size={20} color={'white'} />

@@ -1,9 +1,10 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, Dimensions } from 'react-native';
 import { Entypo, Ionicons, AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons'; 
 
-import { alternate_color, dark_grey, grey, primary_color, white, black } from '../options.json';
+import { alternate_color, dark_grey, grey, white, black } from '../options.json';
 import { IProfile } from '../interfaces';
+import { reverseGeocode } from '../utils/location';
 
 interface ProfilePageProps {
     golfer: IProfile,
@@ -11,17 +12,25 @@ interface ProfilePageProps {
 }
 
 export function ProfileItem({ golfer, profileStatus }: ProfilePageProps ) {
+    const [city, setCity] = useState<string>();
+
+    useEffect(() => {
+        reverseGeocode(Number(golfer.latitude), Number(golfer.longitude))
+        .then(res => {
+            setCity(res);
+        })
+    }, []);
 
     return (
         <View style={styles.containerProfileItem}>
             <Image source={golfer.image} style={styles.imageStyle} />
             
-            {(profileStatus != 0 && golfer.profileStatus != 0) &&
+            {(profileStatus != 0 && golfer.profileStatus != 0) ?
                 <View style={styles.matchesProfileItem}>
                     <Text style={styles.matchesTextProfileItem}>
-                        {golfer.compatibility}% Match!
+                        {Math.floor(Math.random() * (99 - 70 + 1) + 70)}% Match!
                     </Text>
-                </View>
+                </View> : null
             }
             <View style={styles.info}>
                 <Text style={styles.name}>{golfer.firstName} {golfer.lastName}, {golfer.age}</Text>
@@ -34,12 +43,14 @@ export function ProfileItem({ golfer, profileStatus }: ProfilePageProps ) {
                 <Text style={styles.username}>{golfer.username}</Text>
             </View>
 
-            <View style={styles.info}>
-                <Text style={styles.iconProfile}>
-                    <Entypo name="location-pin" size={15} color="black" />
-                </Text>
-                <Text style={styles.infoContent}>{golfer.latitude}</Text>
-            </View>
+            {city ?
+                <View style={styles.info}>
+                    <Text style={styles.iconProfile}>
+                        <Entypo name="location-pin" size={15} color="black" />
+                    </Text>
+                    <Text style={styles.infoContent}>{city}</Text>
+                </View> : null
+            }
 
             <View style={styles.info}>
                 <Text style={styles.iconProfile}>
@@ -48,15 +59,15 @@ export function ProfileItem({ golfer, profileStatus }: ProfilePageProps ) {
                 <Text style={styles.infoContent}>{golfer.handicap} Handicap</Text>
             </View>
 
-            {profileStatus == 1 && 
+            {profileStatus == 1 ? 
                 <View style={styles.info}>
                     <Text style={styles.iconProfile}>
                         <FontAwesome5 name="beer" size={15} color="black" />
                     </Text>
                     <Text style={styles.infoContent}>{golfer.isDrinking ? "Drinking" : "No drinking"}</Text>
-                </View>
+                </View> : null
             }
-            {profileStatus == 1 && 
+            {profileStatus == 1 ? 
                 <View style={styles.info}>
                     <Text style={styles.iconProfile}>
                         {golfer.transport == 'Carting' ?
@@ -66,15 +77,15 @@ export function ProfileItem({ golfer, profileStatus }: ProfilePageProps ) {
                         }
                     </Text>
                     <Text style={styles.infoContent}>{golfer.transport}</Text>
-                </View>
+                </View> : null
             }
-            {profileStatus == 1 && 
+            {profileStatus == 1 ? 
                 <View style={styles.info}>
                     <Text style={styles.iconProfile}>
                         <Ionicons name="people-sharp" size={15} color="black" />
                     </Text>
                     <Text style={styles.infoContent}>{golfer.numPeople} People</Text>
-                </View>
+                </View> : null
             }
         </View>
     );

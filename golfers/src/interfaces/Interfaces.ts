@@ -52,7 +52,6 @@ export interface IPostDefault {
 }
 
 export interface INewPostDefault {
-    handicap: string,
     carting: boolean,
     walking: boolean,
     isDrinking: boolean,
@@ -71,7 +70,7 @@ export interface ICourse {
     phoneNum: string,
     longitude: number,
     latitude: number,
-    difficulty: number,
+    difficulty: string,
 }
 
 export interface ILoginCredentials {
@@ -119,6 +118,6 @@ export interface ITeeTime {
     courseDescription: string,
     courseWebsite: string,
     coursePhoneNum: string,
-    numGolfers: number,
     time: string,
+    date: string,
 }

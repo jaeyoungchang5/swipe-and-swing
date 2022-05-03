@@ -4,30 +4,31 @@ import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-na
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { Select } from 'native-base';
 import { useRoute } from '@react-navigation/native';
+import { useToast } from 'native-base';
 
 // internal imports
 import { Upload } from '../../components';
 import { dark_grey, primary_color, white } from '../../options.json';
-import { demoPostDefaults } from '../../demoData';
 import { INewPostDefault } from '../../interfaces';
+import { uploadPost } from '../../middleware';
 
 export function UploadPage({route, navigation}: any) {
     const appUserId: number = route.params.appUserId;
 
 	const [service, setService] = useState<string>();
     const [options, setOptions] = useState<INewPostDefault>({
-        handicap: '',
         carting: false,
         walking: false,
         isDrinking: false,
         isBetting: false,
         isMusic: false,
-        numPeople: '',
-        numHoles: '',
-        duration: '',
+        numPeople: '2',
+        numHoles: '9',
+        duration: '5',
     });
 
     const navRoute = useRoute();
+    const toast = useToast();
 
     useEffect(() => {   
         configureDefaults();
@@ -39,23 +40,34 @@ export function UploadPage({route, navigation}: any) {
 
     function configureDefaults() {
         // get request
-        let data = demoPostDefaults;
         setOptions((prev:INewPostDefault) => { return {
             ...prev,
-            handicap: data.handicap.toString(),
-            carting: data.transport == 'Carting' ? true : false,
-            walking: data.transport == 'Walking' ? true : false,
-            isDrinking: data.isDrinking,
-            isBetting: data.isBetting,
-            isMusic: data.isMusic,
-            numPeople: data.numPeople.toString(),
-            numHoles: data.numHoles.toString(),
-            duration: ''
+            carting: true,
+            walking: false,
+            isDrinking: false,
+            isBetting: false,
+            isMusic: false,
+            numPeople: '2',
+            numHoles: '9',
+            duration: '5'
         }});
     }
 
     function handleUpload() {
-        console.log(options);
+        uploadPost(appUserId, options)
+        .then(res => {
+            if (res.success == true) {
+                return toast.show({
+                    title: 'Upload successful!',
+                    placement: 'top'
+                })
+            } else {
+                return toast.show({
+                    title: 'Upload unsuccessful. Please try again!',
+                    placement: 'top'
+                })
+            }
+        })
     }
 
     return (

@@ -1,19 +1,10 @@
 // external imports
-import React, { useEffect, useRef, useState } from 'react';
-import { ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { AntDesign, MaterialIcons, SimpleLineIcons, Entypo, Ionicons } from '@expo/vector-icons';
-import { Input, Select, Switch } from 'native-base';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import React, { useEffect } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Input, Switch } from 'native-base';
 
 // internal imports
-import {
-    dark_grey,
-	primary_color,
-	alternate_color,
-	white,
-	like_actions,
-	dislike_actions
-} from '../options.json';
+import { primary_color } from '../options.json';
 import { IDefaults } from '../interfaces';
 
 export function Upload({options, setOptions}: any) {
@@ -26,10 +17,6 @@ export function Upload({options, setOptions}: any) {
 
         <ScrollView style={styles.scroll}>
             <View style={styles.options}>
-                <View style={styles.optionItem}>
-                    <Text>Handicap</Text>
-                    <Input borderColor={primary_color} borderWidth={1.5} value={options.handicap} onChangeText={(value) => setOptions((prev: IDefaults) => {return {...prev, 'handicap': value}})} width={"35%"} keyboardType='number-pad' variant="rounded" placeholder="H'Cap" />
-                </View>
                 <View style={styles.optionItem}>
                     <Text>Carting</Text>
                     <Switch isChecked={options.carting} value={options.carting} onValueChange={(value) => {

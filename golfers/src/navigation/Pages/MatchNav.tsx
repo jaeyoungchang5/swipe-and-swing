@@ -3,7 +3,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // internal import
-import { MatchesPage, MatchProfile, ProfilePage } from '../../pages';
+import { MatchesPage, MatchProfile } from '../../pages';
 
 export function MatchNav({route}: any) {
     const appUserId: number = route.params.appUserId;

@@ -1,5 +1,5 @@
-import { ILoginCredentials, IMatch, IProfile, ISignupCredentials } from '../interfaces';
-const server: string = 'http://100.24.89.174:5000'
+import { IMatch} from '../interfaces';
+import { server } from './server.middleware';
 import { golferImageMapping } from './golfer.middleware';
 
 export function getMatches(appUserId: number) {
@@ -35,8 +35,12 @@ export function getMatches(appUserId: number) {
                 image: golferImageMapping[res.matches[i].GOLFER_ID]
             }
             matchInfo.push(match);
+            // get matches 5 at a time
+            if (i == 4) {
+                break;
+            }
         }
-        if (matchInfo.length == 0) return null;
+        if (matchInfo.length == 0) return undefined;
         return matchInfo;
     })
 }
@@ -44,7 +48,7 @@ export function getMatches(appUserId: number) {
 export function swipeLeft(match_id: number) {
     let formData = new FormData();
     formData.append('match_id', match_id.toString());
-    console.log(formData);
+    // console.log(formData);
     return fetch(server + '/swipe/left', {
         method: 'POST',
         headers: {'Content-Type': 'multipart/form-data'},
@@ -62,7 +66,7 @@ export function swipeLeft(match_id: number) {
 export function swipeRight(match_id: number) {
     let formData = new FormData();
     formData.append('match_id', match_id.toString());
-    console.log(formData);
+    // console.log(formData);
     return fetch(server + '/swipe/right', {
         method: 'POST',
         headers: {'Content-Type': 'multipart/form-data'},

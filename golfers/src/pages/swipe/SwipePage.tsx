@@ -34,6 +34,9 @@ export function SwipePage({ route, navigation }: any) {
 			if (res) {
 				setMatches(res);
 				setShowAsync(false);
+			} else {
+				setMatches(undefined);
+				setShowAsync(true);
 			}
 		})
 	}
@@ -59,20 +62,26 @@ export function SwipePage({ route, navigation }: any) {
 	function swipedLeft(match_id: number) {
 		incrementCounter();
 
-		swipeLeft(match_id);
-		if (matches && matchCounter >= matches.length) {
-			setShowAsync(true);
-			loadSwipes();
-		}
+		swipeLeft(match_id)
+		.then(() => {
+			if (matches && matchCounter >= matches.length) {
+				setShowAsync(true);
+				loadSwipes();
+			}
+		})
+		
 	}
 
 	function swipedRight(match_id: number) {
 		incrementCounter();
-		swipeRight(match_id);
-		if (matches && matchCounter >= matches.length) {
-			setShowAsync(true);
-			loadSwipes();
-		}
+		swipeRight(match_id)
+		.then(() => {
+			if (matches && matchCounter >= matches.length) {
+				setShowAsync(true);
+				loadSwipes();
+			}	
+		})
+		
 	}
 
     return (

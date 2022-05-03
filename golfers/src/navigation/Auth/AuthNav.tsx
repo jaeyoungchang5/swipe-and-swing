@@ -1,11 +1,9 @@
 // external imports
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // internal imports
 import { LoginPage, SignupPage } from '../../pages';
-import { primary_color, dark_grey } from '../../options.json';
-import { SwipeNav, MatchNav } from '../Pages';
 
 export function AuthNav() {
     const AuthStack = createNativeStackNavigator();

@@ -2,15 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 
-import { alternate_color, white, black, dark_grey } from '../../options.json';
-import { getCurrentLocation } from '../../utils';
+import { alternate_color, white, black } from '../../options.json';
+import { reverseGeocode } from '../../utils';
+import { getGolferInfo } from '../../middleware';
 
 export function City({appUserId}: any) {
+	const [city, setCity] = useState<string>('');
 
 	useEffect(() => {
-		getCurrentLocation()
+		getGolferInfo(appUserId, 0)
 		.then(res => {
-			// use location to get current city
+			reverseGeocode(Number(res.latitude), Number(res.longitude))
+			.then((res: string) => {
+				setCity(res);
+			})
 		})
 	}, []);
 
@@ -18,7 +23,7 @@ export function City({appUserId}: any) {
         <TouchableOpacity style={styles.city}>
             <Entypo name="location-pin" size={20} color={white} />
             <Text style={styles.cityText}>
-                South Bend
+                {city}
             </Text>
         </TouchableOpacity>
     );
@@ -38,6 +43,7 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		shadowOpacity: 0.05,
 		shadowRadius: 10,
+		minWidth: '20%',
 		shadowColor: black,
 		shadowOffset: { height: 0, width: 0 },
 	},

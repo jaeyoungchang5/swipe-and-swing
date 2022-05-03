@@ -58,7 +58,7 @@ export function SwipeItem({
 			{compatibility &&
 				<View style={styles.matchesCardItem}>
 					<Text style={styles.matchesTextCardItem}>
-						{compatibility}% Match!
+						{Math.floor(Math.random() * (99 - 70 + 1) + 70)}% Match!
 					</Text>
 				</View>
 			}

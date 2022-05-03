@@ -9,8 +9,6 @@ import { AsyncLoad } from '../../components';
 export function AppLoadingPage ({navigation}: any) {
 
     async function loadUser() {
-		// const res = await getUser();
-        // const res = {body: {userId: 0}};
         let res: any;
 		if (res) {
 			navigation.navigate('App', {appUserId: res.body.userId});

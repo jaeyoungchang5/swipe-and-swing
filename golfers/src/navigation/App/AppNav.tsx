@@ -11,6 +11,22 @@ import { SwipeNav, MatchNav, SearchNav } from '../Pages';
 
 export function AppNav({route}: any) {
     const appUserId: string = route.params.appUserId;
+    // const [location, setLocation] = useState<ICoordinates>({
+    //         latitude: 41.70305557912704,
+    //         longitude: -86.23898580997654
+    //     });
+
+    // useEffect(() => {
+    //     getCurrentLocation()
+    //     .then(res => {
+    //         if (res) {
+    //             setLocation({
+    //                 latitude: res.latitude,
+    //                 longitude: res.longitude
+    //             });
+    //         }
+    //     })
+    // }, []);
     
 	const Tab = createBottomTabNavigator(); 
     

@@ -1,11 +1,11 @@
 // external imports
 import React, { useEffect, useState } from 'react';
-import { FlatList, TouchableOpacity, ImageBackground, StyleSheet, Text, View, RefreshControl } from 'react-native';
+import { ScrollView, FlatList, TouchableOpacity, StyleSheet, Text, View, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // internal imports
-import { SwipeItem } from '../../components';
+import { AsyncLoad, SwipeItem } from '../../components';
 import { dark_grey } from '../../options.json';
 import { IMatch } from '../../interfaces';
 import { getPotentialMatches } from '../../middleware';
@@ -22,6 +22,7 @@ export function PendingMatches({ appUserId, navigation, setIndex }: any) {
         getPotentialMatches(appUserId)
         .then(res => {
             if (res) setpendingMatches(res);
+            else setpendingMatches(undefined);
         })
     }
 
@@ -35,10 +36,6 @@ export function PendingMatches({ appUserId, navigation, setIndex }: any) {
 	}
 
     return (
-        <ImageBackground
-            source={require('../../../assets/bg.png')}
-            style={styles.bg}
-        >
             <SafeAreaView style={styles.container}>
             <View style={styles.containerMatches}>
                 <View style={styles.top}>
@@ -49,34 +46,47 @@ export function PendingMatches({ appUserId, navigation, setIndex }: any) {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <FlatList
-                    numColumns={2}
-                    data={pendingMatches}
-                    keyExtractor={(item, index) => index.toString()}
-                    refreshing={refreshing}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh}
-                        />
-                    }
-                    renderItem={({ item }) => (
-                        <TouchableOpacity
-                            onPress={() => navigation.push('Profile Screen', {appUserId: appUserId, match: item})}
-                        >
-                            <SwipeItem
-                                image={item.image}
-                                firstName={item.firstName}
-                                lastName={item.lastName}
-                                actions={false}
-                                variant={true}
+                {pendingMatches ? 
+                    <FlatList
+                        numColumns={2}
+                        data={pendingMatches}
+                        keyExtractor={(item, index) => index.toString()}
+                        refreshing={refreshing}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
                             />
-                        </TouchableOpacity>
-                    )}
-                />
+                        }
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                onPress={() => navigation.push('Profile Screen', {appUserId: appUserId, match: item})}
+                            >
+                                <SwipeItem
+                                    image={item.image}
+                                    firstName={item.firstName}
+                                    lastName={item.lastName}
+                                    actions={false}
+                                    variant={true}
+                                />
+                            </TouchableOpacity>
+                        )}
+                    />
+                :
+                    <ScrollView
+                        style={styles.scroll}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                            />
+                        }
+                    >
+                        <AsyncLoad />
+                    </ScrollView>
+                }
             </View>
             </SafeAreaView>
-        </ImageBackground>
     );
 };
 
@@ -87,7 +97,8 @@ const styles = StyleSheet.create({
 		resizeMode: "cover"
 	},
 	container: {
-		flex: 1
+		flex: 1,
+        backgroundColor: 'white'
 	},
     // CONTAINER - MATCHES
 	containerMatches: {
@@ -108,4 +119,7 @@ const styles = StyleSheet.create({
 		color: dark_grey,
 		paddingRight: 10
 	},
+    scroll: {
+        flex: 1
+    }
 });

@@ -244,7 +244,7 @@ export const demoCourses: ICourse[] = [
         phoneNum: '(574) 631-6425',
         latitude: 41.6992406021,
         longitude: -86.2442565867,
-        difficulty: 3,
+        difficulty: '3',
     },
     {
         course_id: 1,
@@ -254,7 +254,7 @@ export const demoCourses: ICourse[] = [
         phoneNum: '(574) 631-4653',
         latitude: 41.7094940875, 
         longitude: -86.2224572846,
-        difficulty: 5,
+        difficulty: '5',
     },
     {
         course_id: 2,
@@ -264,7 +264,7 @@ export const demoCourses: ICourse[] = [
         phoneNum: '(574) 233-9474',
         latitude: 41.680988624195244,  
         longitude: -86.21221530759207,
-        difficulty: 4,
+        difficulty: '4',
     },
     {
         course_id: 3,
@@ -274,7 +274,7 @@ export const demoCourses: ICourse[] = [
         phoneNum: '(574) 287-6634',
         latitude: 41.65424782221799, 
         longitude: -86.24038255514074,
-        difficulty: 4,
+        difficulty: '4',
     },
     {
         course_id: 4,
@@ -284,7 +284,7 @@ export const demoCourses: ICourse[] = [
         phoneNum: '(574) 232-4653',
         latitude: 41.72112940301731, 
         longitude: -86.33372964621513,
-        difficulty: 4,
+        difficulty: '4',
     },
     {
         course_id: 5,
@@ -294,7 +294,7 @@ export const demoCourses: ICourse[] = [
         phoneNum: '(574) 277-4653',
         latitude: 41.72097255681638, 
         longitude: -86.15397680210216,
-        difficulty: 4,
+        difficulty: '4',
     }
 ]
 

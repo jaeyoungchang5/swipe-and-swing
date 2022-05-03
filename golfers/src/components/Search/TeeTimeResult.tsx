@@ -13,7 +13,7 @@ export function TeeTimeResult( { teeTimeResult, setShowModal, setTeeTime } : any
             setTeeTime(teeTimeResult);
         }}>
             <View>
-                <Text style={styles.name}>{teeTimeResult.time}</Text>
+                <Text style={styles.name}>{teeTimeResult.date} {teeTimeResult.time}</Text>
                 <Text style={styles.username}>@{teeTimeResult.courseName}</Text>
             </View>
         </TouchableOpacity>

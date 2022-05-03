@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { white, alternate_color, black, dark_grey } from '../../options.json';
+import { white, alternate_color, black } from '../../options.json';
 
 export function Filters({refresh} : any) {
 	return (

@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 // internal imports
 import { AcceptedMatches } from './AcceptedMatches';
 import { PendingMatches } from './PendingMatches';
-import { grey } from '../../options.json';
+import { grey, white } from '../../options.json';
 
 export function MatchesPage({ route, navigation }: any) {
     const appUserId: number = route.params.appUserId;
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
 	},
     container: {
         flex: 1,
+        backgroundColor: white
     },
     tab: {
         backgroundColor: grey,

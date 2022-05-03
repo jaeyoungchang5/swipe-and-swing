@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
         backgroundColor: primary_color,
         padding: 5,
         margin: 5,
+        maxWidth: '46%',
         borderRadius: 8,
     },
     name: {
