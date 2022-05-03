@@ -75,7 +75,7 @@ def uploadTeetime():
                 data
             )
             db.commit()
-            print("Committed")
+            #print("Committed")
             return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
         except Exception as e:
@@ -103,7 +103,7 @@ def deleteTeetime():
                 data
             )
             db.commit()
-            print("Committed")
+            #print("Committed")
             return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
         except Exception as e:
@@ -157,18 +157,13 @@ def getNames():
         cursor = db.cursor()
         ids = request.form["ids"]
         ids = ids.strip('[]')
-        print(ids)
         ids = ids.split(",")
-        print(ids)
 
         returnjson = {}
-        
         names_list = []
         for id in ids:
-            print(id)
             if id != 'None':
                 data = dict(idbv=id)
-                print(data)
                 query = """
                     select first_name, last_name 
                     from golfer 
@@ -186,7 +181,6 @@ def getNames():
                 first_name = res[0]
                 last_name = res[1]
                 name = first_name + ' ' + last_name
-                print(name)
                 names_list.append(name)
     
             else:
