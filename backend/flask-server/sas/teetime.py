@@ -111,3 +111,40 @@ def deleteTeetime():
             print(str(e))
             return json.dumps({'success':False, 'message':'Failed to delete teetime'}), 400, {'ContentType':'application/json'}
 
+
+@bp.route('/getTeetimesAll', methods=('GET', 'POST'))
+def getTeetimesAll():
+    if request.method == 'POST':
+        db = get_db()
+        cursor = db.cursor()
+
+        query = """
+            select t.teetime_id, t.course_id, t.tt_time, t.tt_date, c.course_name, c.course_description, c.phone_num, c.website 
+            from teetime t, course c 
+            where t.course_id = c.course_id
+            order by tt_date
+        """
+
+        res = cursor.execute(
+            query
+        ).fetchall()
+
+        
+        # iterate over teetimes from result of query
+        rowdata = []
+        for row in res:
+            data = {}
+            column_names = [i[0] for i in cursor.description]
+            for i in range(len(column_names)):
+                data.update({str(column_names[i]) : row[i]})
+            rowdata.append(data)
+
+        returnjson = {}
+        returnjson.update({'teetimes' : rowdata})
+
+        if res is not None:
+            returnjson.update({'success' : True})
+            return returnjson
+        else:
+            returnjson.update({'success' : False, 'message' : 'no teetimes found'})
+            return returnjson
