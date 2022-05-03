@@ -23,6 +23,10 @@ def registerGolfer():
         last_name = request.form['last_name']
         age = request.form['age']
         phone_num = request.form['phone_num']
+        latitude = 41.70305558
+        longitude = -86.23898581
+        handicap = 18
+
         db = get_db()
         cursor = db.cursor()
         
@@ -45,8 +49,8 @@ def registerGolfer():
         # TODO: check if username is unique 
 
         # insert the user into db if valid
-        query = """INSERT INTO golfer (first_name,last_name,age,username,password,phone_num) VALUES (:fn,:ln,:ag,:usr,:pwd,:pn)"""
-        data = dict(fn=first_name, ln=last_name, ag=age, usr=username, pwd=password, pn=phone_num)
+        query = """INSERT INTO golfer (first_name,last_name,age,username,password,phone_num,latitude,longitude,handicap) VALUES (:fn,:ln,:ag,:usr,:pwd,:pn,:lat,:lon,:han)"""
+        data = dict(fn=first_name, ln=last_name, ag=age, usr=username, pwd=password, pn=phone_num, lat=latitude, lon=longitude, han=handicap)
         
         if insert is True:
             try:
