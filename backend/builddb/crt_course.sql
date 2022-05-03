@@ -1,8 +1,8 @@
 create table course
  (course_id number(4) PRIMARY KEY,
-  course_name varchar(20),
-  --course_description varchar(300),
+  course_name varchar(30),
   website varchar(50),
+  course_description varchar(300),
   phone_num varchar(15),
   latitude varchar(30),
   longitude varchar(30),
