@@ -56,7 +56,6 @@ def courses():
             query, data
             ).fetchone()
 
-            print(res)
             if res is not None:
                 column_names = [i[0] for i in cursor.description]
                 for i in range(len(column_names)):
@@ -115,7 +114,6 @@ def golfers():
             query, data
             ).fetchone()
 
-            print(res)
             if res is not None:
                 column_names = [i[0] for i in cursor.description]
                 for i in range(len(column_names)):
