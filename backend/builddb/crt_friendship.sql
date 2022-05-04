@@ -7,3 +7,16 @@ create table friendship
   FOREIGN KEY(requester_id) REFERENCES GOLFER(golfer_id),
   FOREIGN KEY(requestee_id) REFERENCES GOLFER(golfer_id)
  );
+
+drop sequence friendship_sequence;
+create sequence friendship_sequence;
+
+create or replace trigger friendship_on_insert
+  before insert on friendship
+  for each row
+  begin
+    select friendship_sequence.nextval
+    into :new.friendship_id
+    from dual;
+  end;
+/

@@ -2,6 +2,7 @@ drop table friendship;
 drop table match;
 drop table post;
 drop table teetime;
+drop table courseadmin;
 drop table message;
 drop table course;
 drop table golfer;
@@ -9,6 +10,7 @@ drop table golfer;
 @crt_course.sql
 @crt_teetime.sql
 @crt_post.sql
+@crt_courseadmin.sql
 @crt_match.sql
 @crt_message.sql
 @crt_friendship.sql
